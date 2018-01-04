@@ -1,0 +1,30 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: Label
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: Catch., font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: label_1
+  layout_properties: {grid_position: 'HIIVUA,LMAWEO'}
+- type: TextBox
+  properties: {role: null, width: default, align: left, hide_text: false, placeholder: Phone number to play with,
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: telephone, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: recipient
+  layout_properties: {grid_position: 'IBTEFI,TXQZQF'}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: true, text: Play catch!, font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: button_1
+  layout_properties: {grid_position: 'IBTEFI,SYDSHO'}
+  event_bindings: {click: button_1_click}
+- type: Label
+  properties: {}
+  name: game_status
+  layout_properties: {grid_position: 'VLGPNP,QVUKWC'}
