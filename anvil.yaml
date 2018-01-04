@@ -1,0 +1,5 @@
+name: Default2
+services: []
+startup_form: Form1
+runtime_options: {server_version: python2-sandbox}
+package_name: Default2
