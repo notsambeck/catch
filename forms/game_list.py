@@ -14,5 +14,5 @@ class game_list (game_listTemplate):
 
   def button_1_click (self, **event_args):
     # This method is called when the button is clicked
-    self.game_status.text = "Playing catch: " + self.recipient.text + " & " + anvil.users.get_user()
+    self.game_status.text = "Playing catch: " + self.recipient.text + " & " + anvil.users.get_user()['name']
     anvil.server.call('start_game', int(self.recipient.text))

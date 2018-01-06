@@ -13,15 +13,15 @@ import anvil.server
 @anvil.server.callable
 def start_game(recipient):
       app_tables.games.add_row(initiator=anvil.users.get_user(),
-                             recipient=recipient,
-                             initiator_has_ball=False)
+                               recipient=recipient,
+                               initiator_has_ball=False)
 
 @anvil.server.callable
 def do_login(phone, password):
   me = app_tables.users.get(phone_number=int(phone))
   if me:
     if password == me['password']:
-      anvil.server.session['user_id'] = me
+      anvil.users.force_login(me)
       print("success")
       print(anvil.users.get_user())
       return True
