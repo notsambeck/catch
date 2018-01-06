@@ -4,9 +4,9 @@ container:
 components:
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
-    visible: true, text: Catch., font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
+    visible: true, text: CATCH, font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: large, italic: false, background: '', bold: true, underline: false,
+    icon: ''}
   name: label_1
   layout_properties: {grid_position: 'HIIVUA,LMAWEO'}
 - type: TextBox
@@ -28,3 +28,7 @@ components:
   properties: {}
   name: game_status
   layout_properties: {grid_position: 'VLGPNP,QVUKWC'}
+- type: RepeatingPanel
+  properties: {item_template: ItemTemplate1}
+  name: repeating_panel_1
+  layout_properties: {grid_position: 'LRDFHI,SAVRKB'}
