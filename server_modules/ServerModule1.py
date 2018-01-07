@@ -79,4 +79,6 @@ def get_connections():
   '''get all the connections with current user as initiator as a client_readable table view'''
   me = anvil.users.get_user()
   if me:
-    return app_tables.connections.client_readable(initiator=my_id)
+    return app_tables.connections.client_readable(initiator=me).search()
+  else:
+    return None

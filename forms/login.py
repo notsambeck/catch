@@ -57,14 +57,7 @@ class login (loginTemplate):
                                          self.user_name.text,)
         if user_created:
           open_form('add_contacts')
-          return True
     else:    # login
       success = anvil.server.call('do_login', self.phone.text, self.password.text)
       if success:
-        conns = anvil.server.call('get_connections')
-        open_form('game_list', {'conns': conns.search()})
-        return True
-
-        
-
-
+        open_form('game_list')

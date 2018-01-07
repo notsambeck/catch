@@ -63,10 +63,11 @@ components:
   layout_properties: {grid_position: 'KYOGWU,WGMSYO'}
 - type: RepeatingPanel
   properties: {role: null, width: default, border: '', foreground: '', items: null,
-    visible: true, spacing_above: medium, spacing_below: medium, item_template: contacts_template,
+    visible: true, spacing_above: medium, spacing_below: medium, item_template: ItemTemplate1,
     background: ''}
   name: repeating_panel_1
-  layout_properties: {grid_position: 'AZDYMY,QXWVMG'}
+  layout_properties: {grid_position: 'AZDYMY,RQCFDO'}
+  data_bindings: []
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: '', foreground: '', visible: true,
