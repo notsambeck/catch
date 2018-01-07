@@ -48,7 +48,7 @@ class AddContacts (AddContactsTemplate):
       else:  # finally
         with Notification('Adding connection to:', other_id):
           new_conn = anvil.server.call('add_connection', other_id)
-          self.game_panel.add_component(GameTemplate(new_conn))
+          self.game_panel.add_component(GameGrid(new_conn.get_id()))
     else:
       alert('that user does not seem to exist')
 
@@ -64,6 +64,6 @@ class AddContacts (AddContactsTemplate):
     self,self.game_panel.clear()
     self.conns = anvil.server.call('get_connections')
     for conn in self.conns.search():
-      self.game_panel.add_component(GameGrid(conn))
+      self.game_panel.add_component(GameGrid(conn.get_id()))
     
  

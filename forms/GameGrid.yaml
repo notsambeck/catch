@@ -24,10 +24,9 @@ components:
   - {property: bold, code: 'self.item[''game_ongoing'']'}
 - type: Label
   properties: {}
-  name: recipient_label
+  name: friend_label
   layout_properties: {grid_position: 'CLYICX,DIYUTB'}
-  data_bindings:
-  - {property: text, code: 'self.item[''recipient''][''name'']'}
+  data_bindings: []
 - type: RadioButton
   properties: {role: null, selected: false, width: default, align: left, border: '',
     enabled: false, foreground: '', value: '', visible: true, text: You have ball,
@@ -57,5 +56,5 @@ components:
 - type: Spacer
   properties: {height: 36}
   name: spacer_1
-  layout_properties: {grid_position: 'GGUSQR,XITPMS'}
+  layout_properties: {grid_position: 'GGUSQR,WZLBYF'}
 item_type: {table_id: 7128}

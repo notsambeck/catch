@@ -21,7 +21,7 @@ class GameList (GameListTemplate):
     self,self.game_panel.clear()
     self.conns = anvil.server.call('get_connections')
     for conn in self.conns.search():
-      self.game_panel.add_component(GameGrid(conn))
+      self.game_panel.add_component(GameGrid(conn.get_id()))
 
   def add_contacts_click (self, **event_args):
     # This method is called when the button is clicked
