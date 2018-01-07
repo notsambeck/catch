@@ -1,6 +1,6 @@
 package_name: Catch
 name: Catch
-startup_form: Login
+startup_form: PlayCatch
 renamed: true
 runtime_options: {server_version: python2-sandbox}
 services:
