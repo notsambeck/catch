@@ -1,7 +1,7 @@
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: 'True', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: mobile, spacing_above: small, col_widths: '{"VYFOJZ":5,"ZIBOSR":12,"DIYUTB":43}',
+    row_spacing: 10, wrap_on: mobile, spacing_above: small, col_widths: '{"VYFOJZ":10,"ZIBOSR":10,"DIYUTB":25,"EBHLET":15}',
     spacing_below: small, background: ''}
 components:
 - type: Label
@@ -27,6 +27,14 @@ components:
   name: friend_label
   layout_properties: {grid_position: 'CLYICX,DIYUTB'}
   data_bindings: []
+- type: Button
+  properties: {role: null, width: default, align: right, border: '', enabled: true,
+    foreground: '', visible: true, text: Have a catch, font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '#92bf89',
+    bold: true, underline: false, icon: ''}
+  name: play_button
+  layout_properties: {grid_position: 'CLYICX,EBHLET'}
+  event_bindings: {click: play_button_click}
 - type: RadioButton
   properties: {role: null, selected: false, width: default, align: left, border: '',
     enabled: false, foreground: '', value: '', visible: true, text: You have ball,
@@ -36,6 +44,7 @@ components:
   layout_properties: {grid_position: 'RUFVXB,SZECZQ'}
   data_bindings:
   - {property: selected, code: 'self.item[''initiator_has_ball'']'}
+  - {property: bold, code: 'self.item[''initiator_has_ball'']'}
 - type: RadioButton
   properties: {role: null, selected: false, width: default, align: right, border: '',
     enabled: false, foreground: '', value: '', visible: true, text: Friend has ball,
@@ -45,16 +54,8 @@ components:
   layout_properties: {grid_position: 'RUFVXB,PUTLJR'}
   data_bindings:
   - {property: selected, code: 'self.item[''dual''][''initiator_has_ball'']'}
-- type: Button
-  properties: {role: null, width: default, align: left, border: '', enabled: true,
-    foreground: '', visible: true, text: Have a catch, font_size: null, font: '',
-    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '#92bf89',
-    bold: true, underline: false, icon: ''}
-  name: play_button
-  layout_properties: {grid_position: 'NYJMBB,OUHFTT'}
-  event_bindings: {click: play_button_click}
 - type: Spacer
-  properties: {height: 36}
+  properties: {height: 30}
   name: spacer_1
   layout_properties: {grid_position: 'GGUSQR,WZLBYF'}
 item_type: {table_id: 7128}

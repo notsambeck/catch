@@ -102,8 +102,9 @@ def throw(game_id):
   game['initiator_has_ball'] = False
   game['dual']['initiator_has_ball'] = True
   
-
+'''
 @anvil.server.callable
 def some_connection():
   do_login('5555555555', '5')
   return get_connections().search()[0].get_id()
+'''

@@ -20,12 +20,17 @@ class GameGrid(GameGridTemplate):
       self.label_ongoing.visible = True
       self.friend_ball.selected = not self.game['initiator_has_ball']
       self.player_ball.selected = self.game['initiator_has_ball']
+      if self.game['initiator_has_ball']:
+        self.play_button.background = '#92bf89'
+      else:
+        self.play_button.background = '#CCCCCC'
       
     else:
       self.play_button.text = 'Start new game'
       self.label_ongoing.visible = False
       self.friend_ball.visible = False
       self.player_ball.visible = False
+      self.play_button.background = '#92bf89'
 
 
   def play_button_click(self, **event_args):
