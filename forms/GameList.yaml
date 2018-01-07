@@ -1,0 +1,26 @@
+components:
+- type: ColumnPanel
+  properties: {}
+  name: title_panel
+  layout_properties: {grid_position: 'AUYPPR,MXGLPQ'}
+- type: Spacer
+  properties: {height: 48}
+  name: spacer_1
+  layout_properties: {grid_position: 'HXCDBG,ZMJWAN'}
+- type: ColumnPanel
+  properties: {}
+  name: game_panel
+  layout_properties: {grid_position: 'TWGCNQ,FIMOZF'}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: true, text: Add contacts, font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: false, underline: false, icon: ''}
+  name: add_contacts
+  layout_properties: {grid_position: 'AJEGYS,GMOYRZ'}
+  event_bindings: {click: add_contacts_click}
+container:
+  type: ColumnPanel
+  properties: {role: null, width: default, border: '', foreground: '', visible: true,
+    row_spacing: 10, wrap_on: mobile, spacing_above: medium, col_widths: '{}', spacing_below: small,
+    background: ''}

@@ -4,13 +4,15 @@ import anvil.users
 import tables
 from tables import app_tables
 from validators import is_valid_number
+from Title import Title
 
-class login (loginTemplate):
+class Login (LoginTemplate):
   def __init__(self, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
 
     # Any code you write here will run when the form opens.
+    self.title_panel.add_component(Title())
 
   def new_account_change(self, **args):
     # show or hide confirm password and user_name
@@ -21,9 +23,9 @@ class login (loginTemplate):
     self.user_name.visible = new_account
     self.explain_phone_button.visible = new_account
     if new_account:
-      self.go_button.text = 'Make new account'
+      self.go_button.text = "Make new account"
     else:
-      self.go_button.text = 'Log in'
+      self.go_button.text = "Log in"
 
   def explain_phone(self, **event_args):
     # This method is called when the why_phone button is clicked
@@ -56,8 +58,20 @@ class login (loginTemplate):
                                          self.password.text,
                                          self.user_name.text,)
         if user_created:
-          open_form('add_contacts')
+          Notification("You would get a confirmation text message here...").show()
+          open_form('AddContacts')
     else:    # login
       success = anvil.server.call('do_login', self.phone.text, self.password.text)
       if success:
-        open_form('game_list')
+        self.go_button.visible = False
+        self.button_1.visible = True
+        print('logged in as: ', anvil.users.get_user())
+        open_form('AddContacts')
+
+  def button_1_click (self, **event_args):
+    # This method is called when the button is clicked
+    open_form('game_list')
+
+
+
+    

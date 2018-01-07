@@ -1,11 +1,8 @@
 components:
-- type: Label
-  properties: {role: null, width: default, align: left, border: '', foreground: '',
-    visible: true, text: CATCH, font_size: null, font: '', spacing_above: small, icon_align: left,
-    spacing_below: large, italic: false, background: '', bold: true, underline: false,
-    icon: ''}
-  name: title
-  layout_properties: {grid_position: 'YPSJMW,XTMKIV'}
+- type: ColumnPanel
+  properties: {}
+  name: title_panel
+  layout_properties: {grid_position: 'AUYPPR,MXGLPQ'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: 'Placeholder for importing contacts from phone
@@ -22,14 +19,14 @@ components:
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
   name: label_phone
-  layout_properties: {grid_position: 'POHKFA,HZRNRF'}
+  layout_properties: {grid_position: 'POHKFA,HZRNRF SJFJRO,LYGERS'}
 - type: Button
-  properties: {role: null, width: default, align: center, border: '', enabled: true,
+  properties: {role: null, width: default, align: left, border: '', enabled: true,
     foreground: '', visible: true, text: 'Why do you need this?', font_size: 10, font: '',
-    spacing_above: small, icon_align: left, spacing_below: small, italic: true, background: '',
+    spacing_above: small, icon_align: left, spacing_below: medium, italic: true, background: '',
     bold: false, underline: false, icon: ''}
   name: why_phone
-  layout_properties: {grid_position: 'POHKFA,FUODXR'}
+  layout_properties: {grid_position: 'POHKFA,HZRNRF ARIZFO,YSQFPJ'}
   event_bindings: {click: why_phone_click}
 - type: TextBox
   properties: {role: null, width: default, align: left, hide_text: false, placeholder: '1234567890',
@@ -37,23 +34,19 @@ components:
     font: '', spacing_above: small, type: telephone, spacing_below: small, italic: false,
     background: '', bold: false, underline: false}
   name: phone
-  layout_properties: {grid_position: 'POHKFA,CESBNI'}
+  layout_properties: {grid_position: 'POHKFA,GVXPJM'}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: Add Contact, font_size: null, font: '', spacing_above: medium,
-    icon_align: left, spacing_below: medium, italic: false, background: '', bold: true,
+    foreground: '', visible: true, text: Add Contact, font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
     underline: false, icon: ''}
   name: go_button
-  layout_properties: {grid_position: 'POHKFA,GGZEYG', row_background: ''}
+  layout_properties: {grid_position: 'POHKFA,PHDVEA', row_background: ''}
   event_bindings: {click: add_connection}
-- type: Button
-  properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: Play!, font_size: null, font: '', spacing_above: medium,
-    icon_align: left, spacing_below: medium, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
-  name: button_1
-  layout_properties: {grid_position: 'PNQLOH,TDPREY', row_background: green}
-  event_bindings: {click: button_1_click}
+- type: Spacer
+  properties: {height: 77}
+  name: spacer_1
+  layout_properties: {grid_position: 'CCWNOV,UPTLIF'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: 'Existing contacts:', font_size: null, font: '', spacing_above: large,
@@ -61,13 +54,10 @@ components:
     underline: false, icon: ''}
   name: existing_contacts
   layout_properties: {grid_position: 'KYOGWU,WGMSYO'}
-- type: RepeatingPanel
-  properties: {role: null, width: default, border: '', foreground: '', items: null,
-    visible: true, spacing_above: medium, spacing_below: medium, item_template: ItemTemplate1,
-    background: ''}
-  name: repeating_panel_1
-  layout_properties: {grid_position: 'AZDYMY,RQCFDO'}
-  data_bindings: []
+- type: ColumnPanel
+  properties: {}
+  name: game_panel
+  layout_properties: {grid_position: 'TWGCNQ,FIMOZF'}
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: '', foreground: '', visible: true,

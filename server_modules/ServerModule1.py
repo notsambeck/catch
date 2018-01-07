@@ -25,7 +25,7 @@ def do_login(phone, password):
 
  
 @anvil.server.callable
-def make_new_user(phone, password, username):
+def make_new_user(phone, password, user):
   '''
   Create a new user.
   
@@ -41,7 +41,7 @@ def make_new_user(phone, password, username):
                              # signed_up='12/25/2017',
                              password=password,
                              phone_number=int(phone),
-                             name=username,)
+                             username=username,)
     do_login(phone, password)
     return True
 
@@ -72,6 +72,7 @@ def add_connection(other_id):
                                         recipient=anvil.users.get_user(),
                                         dual=row1,)
   row1['dual'] = row2
+  return row1
 
   
 @anvil.server.callable
@@ -79,4 +80,24 @@ def get_connections():
   '''get all the connections with current user as initiator as a client_readable table view'''
   me = anvil.users.get_user()
   if me:
-    return app_tables.connections.search(initiator=me)
+    return app_tables.connections.client_readable(initiator=me)
+
+
+@anvil.server.callable
+def get_game_status(connection_id):
+  '''get the status of a connection from perspective of logged in user; 
+  start game if not happening
+  return True if I have ball, else False'''
+  game = app_tables.connections.get_by_id(connection_id)
+  if not game['game_ongoing']:
+    game.update(game_ongoing=True, initiator_has_ball=True)
+    game['dual'].update(game_ongoing=True, initiator_has_ball=False)
+  
+  return game
+
+
+@anvil.server.callable
+def throw(game_id):
+  game = app_tables.connections.get_by_id(game_id)
+  game['initiator_has_ball'] = False
+  game['dual']['initiator_has_ball'] = True
