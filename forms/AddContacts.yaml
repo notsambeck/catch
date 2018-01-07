@@ -43,21 +43,22 @@ components:
     background: '', bold: false, underline: false}
   name: phone
   layout_properties: {grid_position: 'POHKFA,GVXPJM'}
+  event_bindings: {pressed_enter: phone_pressed_enter}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
     foreground: '', visible: true, text: Add Contact, font_size: null, font: '', spacing_above: none,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
   name: go_button
   layout_properties: {grid_position: 'POHKFA,PHDVEA', row_background: ''}
   event_bindings: {click: add_connection}
 - type: Spacer
-  properties: {height: 62}
+  properties: {height: 29}
   name: spacer_1
   layout_properties: {grid_position: 'CCWNOV,UPTLIF'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
-    visible: true, text: 'Existing contacts:', font_size: null, font: '', spacing_above: large,
+    visible: true, text: 'Your friends:', font_size: null, font: '', spacing_above: large,
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
   name: existing_contacts

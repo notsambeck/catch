@@ -77,6 +77,11 @@ class AddContacts (AddContactsTemplate):
     # This method is called Every [interval] seconds
     self.update_connections()
 
+  def phone_pressed_enter (self, **event_args):
+    # This method is called when the user presses Enter in this text box
+    self.add_connection()
+
+
 
     
  

@@ -18,8 +18,7 @@ class GameGrid(GameGridTemplate):
     assert self.game['initiator']
     
     if self.game['game_ongoing']:
-      self.play_button.text = 'Return to game'
-      self.label_ongoing.visible = True
+      self.play_button.text = 'Go to game'
       self.friend_ball.selected = not self.game['initiator_has_ball']
       self.player_ball.selected = self.game['initiator_has_ball']
       if self.game['initiator_has_ball']:
@@ -29,7 +28,6 @@ class GameGrid(GameGridTemplate):
       
     else:
       self.play_button.text = 'Start new game'
-      self.label_ongoing.visible = False
       self.friend_ball.visible = False
       self.player_ball.visible = False
       self.play_button.background = '#92bf89'

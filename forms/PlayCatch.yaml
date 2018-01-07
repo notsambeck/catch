@@ -1,6 +1,6 @@
 container:
   type: ColumnPanel
-  properties: {col_widths: '{"YCVTBJ":30,"WPCPWG":30,"GSDEYM":30,"INQLXG":30}'}
+  properties: {col_widths: '{"DOPAKG":30,"YCVTBJ":15,"WPCPWG":15}'}
 components:
 - type: Canvas
   properties: {role: null, width: default, height: 479, border: '', foreground: '',
@@ -8,23 +8,26 @@ components:
   name: canvas_1
   layout_properties: {grid_position: 'GUCCQN,ZIPJKT'}
 - type: Label
-  properties: {}
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: small, italic: false, background: '', bold: true, underline: false,
+    icon: ''}
   name: player_name
-  layout_properties: {grid_position: 'YORWFX,GSDEYM'}
+  layout_properties: {grid_position: 'FDTRQJ,YRAZOJ', full_width_row: false}
 - type: Label
   properties: {role: null, width: default, align: right, border: '', foreground: '',
     visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
-    spacing_below: small, italic: false, background: '', bold: false, underline: false,
+    spacing_below: small, italic: false, background: '', bold: true, underline: false,
     icon: ''}
   name: friend_name
-  layout_properties: {grid_position: 'YORWFX,INQLXG'}
+  layout_properties: {grid_position: 'FDTRQJ,CTMSFR', full_width_row: false}
 - type: RadioButton
   properties: {role: null, selected: false, width: default, align: left, border: '',
     enabled: false, foreground: '', value: '', visible: true, text: you have ball,
     font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
     background: '', bold: false, group_name: radioGroup1, underline: false}
   name: player_ball
-  layout_properties: {grid_position: 'FDTRQJ,YGIICK'}
+  layout_properties: {grid_position: 'JQGELU,EPEAGM', full_width_row: false}
   data_bindings:
   - {property: text, code: 'self.item['''']'}
 - type: RadioButton
@@ -33,7 +36,7 @@ components:
     font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
     background: '', bold: false, group_name: radioGroup1, underline: false}
   name: friend_ball
-  layout_properties: {grid_position: 'FDTRQJ,LNCTZR'}
+  layout_properties: {grid_position: 'JQGELU,HSYPGK', full_width_row: false}
 - type: Button
   properties: {role: null, width: default, align: left, border: '', enabled: true,
     foreground: '', visible: true, text: throw, font_size: null, font: '', spacing_above: small,
@@ -43,9 +46,13 @@ components:
   layout_properties: {grid_position: 'HHOARY,KADODM'}
   event_bindings: {click: throw_button_click}
 - type: Spacer
-  properties: {height: 63}
+  properties: {height: 32}
+  name: spacer_2
+  layout_properties: {grid_position: 'HHOARY,WARSYW'}
+- type: Spacer
+  properties: {height: 40}
   name: spacer_1
-  layout_properties: {grid_position: 'MSCFVT,WKPRTS'}
+  layout_properties: {grid_position: 'WRNSTQ,DOPAKG'}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
     foreground: '', visible: true, text: back to list, font_size: null, font: '',
