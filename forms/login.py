@@ -3,6 +3,7 @@ import anvil.server
 import anvil.users
 import tables
 from tables import app_tables
+from validators import is_valid_number
 
 class login (loginTemplate):
   def __init__(self, **properties):
@@ -31,12 +32,11 @@ class login (loginTemplate):
           We will never share your number with anyone.''', title='Why we need your phone number:')
 
   def go(self, **event_args):
-    # This method is called when the submit button is clicked
-    fail = False
-    for char in self.phone.text:
-      if char not in '0123456789':
-        fail = True
-    if not len(self.phone.text) == 10 or fail:
+    '''This method is called when the submit button is clicked
+    Returns True on successful exit, else False'''
+    number = is_valid_number(self.phone.text)
+  
+    if not number:
       alert('Please enter 10-digit numeric phone number with area code.')
       return False
 
@@ -56,11 +56,13 @@ class login (loginTemplate):
                                          self.password.text,
                                          self.user_name.text,)
         if user_created:
-          open_form('game_list')
+          open_form('add_contacts')
+          return True
     else:    # login
       success = anvil.server.call('do_login', self.phone.text, self.password.text)
       if success:
         open_form('game_list')
+        return True
 
         
 

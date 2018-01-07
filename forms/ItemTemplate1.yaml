@@ -6,4 +6,5 @@ components:
   properties: {}
   name: linear_panel_1
   layout_properties: {grid_position: 'DFKKVH,RQYLZK'}
+  data_bindings: []
 item_type: {table_id: 7129}

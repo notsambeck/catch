@@ -1,0 +1,53 @@
+components:
+- type: Label
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: CATCH, font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: large, italic: false, background: '', bold: true, underline: false,
+    icon: ''}
+  name: title
+  layout_properties: {grid_position: 'YPSJMW,XTMKIV'}
+- type: Label
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: 'Placeholder for importing contacts from phone
+
+
+      Add contact:', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: medium, italic: false, background: '', bold: false, underline: false,
+    icon: ''}
+  name: label_get_contacts
+  layout_properties: {grid_position: 'OROBJO,IIIIBY'}
+- type: Label
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: 'Phone number:', font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: label_phone
+  layout_properties: {grid_position: 'POHKFA,HZRNRF'}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: true, text: 'Why do you need this?', font_size: 10, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: true, background: '',
+    bold: false, underline: false, icon: ''}
+  name: why_phone
+  layout_properties: {grid_position: 'POHKFA,FUODXR'}
+  event_bindings: {click: why_phone_click}
+- type: TextBox
+  properties: {role: null, width: default, align: left, hide_text: false, placeholder: '1234567890',
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: telephone, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: phone
+  layout_properties: {grid_position: 'POHKFA,CESBNI'}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: true, text: Add, font_size: null, font: '', spacing_above: medium,
+    icon_align: left, spacing_below: medium, italic: false, background: '', bold: true,
+    underline: false, icon: ''}
+  name: go_button
+  layout_properties: {grid_position: 'NUNROS,WATBUW', row_background: green}
+  event_bindings: {click: go}
+container:
+  type: ColumnPanel
+  properties: {role: null, width: default, border: '', foreground: '', visible: true,
+    row_spacing: 10, wrap_on: mobile, spacing_above: none, col_widths: '{"HZRNRF":20,"CESBNI":36,"FUODXR":20}',
+    spacing_below: small, background: ''}

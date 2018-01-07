@@ -5,19 +5,10 @@ import anvil.server
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
-#
-# To allow anvil.server.call() to call functions here, we mark
-# them with @anvil.server.callable.
-# Here is an example - you can replace it with your own:
-#
-@anvil.server.callable
-def start_game(recipient):
-      app_tables.games.add_row(initiator=anvil.users.get_user(),
-                               recipient=recipient,
-                               initiator_has_ball=False)
 
 @anvil.server.callable
 def do_login(phone, password):
+  '''set anvil.session['user'] to the user with phone number'''
   me = app_tables.users.get(phone_number=int(phone))
   if me:
     if password == me['password']:
@@ -32,20 +23,55 @@ def do_login(phone, password):
     print("this account does not exist")
     return False
 
-  
+ 
 @anvil.server.callable
 def make_new_user(phone, password, username):
-  me = app_tables.users.get(phone_number=int(phone))
-  if me:
-    print("user already exists")
+  '''
+  Create a new user.
+  
+  args: phone, password, username
+    
+  returns: True if success; False if user already exists
+  '''
+  if check_user_exists(phone):
     return False
   else:
-    # enabled should be false until user confirms phone number (twilio)
+    # TODO: enabled should be false until user confirms phone number (twilio) but this is not set up yet
     app_tables.users.add_row(enabled=True,
                              # signed_up='12/25/2017',
-                             # last_login='12/25/17',
                              password=password,
                              phone_number=int(phone),
                              name=username,)
     do_login(phone, password)
     return True
+
+
+@anvil.server.callable
+def check_user_exists(phone):
+  '''return user ID for a phone number, or false if it does not exist'''
+  u = app_tables.users.get(phone_number=int(phone))
+  if u:
+    return u.get_id()
+  else:
+    return False
+
+
+@anvil.server.callable
+def add_connection(other_user):
+  '''adds a connection initiated by current user to other_user and vice versa'''
+  row1 = app_tables.connections.add_row(game_ongoing=False,
+                                        initiator=anvil.users.get_user(),
+                                        recipient=other_user,)
+  row2 = app_tables.connections.add_row(game_ongoing=False,
+                                        initiator=anvil.users.get_user(),
+                                        recipient=other_user,
+                                        dual=row1,)
+  row1.dual = row2
+
+  
+@anvil.server.callable
+def get_connections():
+  '''get all the connections with current user as initiator as a client_readable table view'''
+  my_id = anvil.users.get_user()
+  conns = app_tables.connections.client_readable(initiator=my_id)
+  return conns

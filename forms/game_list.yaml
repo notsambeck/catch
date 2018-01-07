@@ -32,3 +32,11 @@ components:
   properties: {item_template: ItemTemplate1}
   name: repeating_panel_1
   layout_properties: {grid_position: 'LRDFHI,SAVRKB'}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: true, text: add contacts, font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: false, underline: false, icon: ''}
+  name: add_contacts
+  layout_properties: {grid_position: 'JTSYFW,YRHDOQ'}
+  event_bindings: {click: add_contacts_click}

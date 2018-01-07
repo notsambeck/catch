@@ -1,7 +1,7 @@
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: '', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: mobile, spacing_above: none, col_widths: '{"IIPDMH":21,"NBYFWL":39}',
+    row_spacing: 10, wrap_on: mobile, spacing_above: none, col_widths: '{"HZRNRF":20,"CESBNI":36,"FUODXR":20}',
     spacing_below: small, background: ''}
 components:
 - type: Label
@@ -10,12 +10,12 @@ components:
     spacing_below: large, italic: false, background: '', bold: true, underline: false,
     icon: ''}
   name: title
-  layout_properties: {grid_position: 'YPSJMW,UZBLBX'}
+  layout_properties: {grid_position: 'YPSJMW,XTMKIV'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
-    visible: true, text: 'Login:', font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
+    visible: true, text: 'Login (or create account):', font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: false, underline: false, icon: ''}
   name: label_login_screen
   layout_properties: {grid_position: 'KWIYLI,SKHXQD'}
 - type: Label
