@@ -50,6 +50,8 @@ class PlayCatch (PlayCatchTemplate):
   def throw_button_click(self, **event_args):
     # tell server that ball has been thrown immediately
     anvil.server.call('throw', self.game.get_id())
+    self.ball_y = .76
+    self.ball_vy = .06
     
     # change indicators
     self.player_ball.selected = False
@@ -70,6 +72,9 @@ class PlayCatch (PlayCatchTemplate):
       self.player_ball.selected = True
       self.friend_ball.selected = False
       self.throw_button.visible = True
+      
+    # reverse direction
+    self.l_to_r = not self.l_to_r
 
       
   def draw(self, **event_args):
@@ -150,20 +155,26 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_style = '#FFFFFF'
     if self.ball_moving:
       self.ball_steps += 1
-      self.ball_x += self.ball_vx
+      
+      # direction
+      if self.l_to_r:
+        self.ball_x += self.ball_vx
+      else:
+        self.ball_x -= self.ball_vx
+        
       self.ball_y -= self.ball_vy
-      self.ball_vy -= .0062
+      self.ball_vy -= .0064
       if self.ball_steps == 19:
         self.ball_arrived()
     c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
         
-    if self.counter % 20 == 19 and not self.ball_moving and not self.l_to_r:
-      old = self.game
-      new = anvil.server.call('make_game_active', self.game.get_id())
-      if old != new:
-        self.throw_button_click()
-        
-
+    if self.counter % 30 == 29 and not self.ball_moving:
+      updated = anvil.server.call('check_update', self.game.get_id())
+      if updated:
+        self.game = updated
+        self.ball_moving = True
+        self.ball_steps = 0
+        self.ball_vy = .06
 
     
 

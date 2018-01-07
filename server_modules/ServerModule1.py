@@ -101,17 +101,30 @@ def make_game_active(connection_id):
           'vs', game['dual']['recipient']['username'], 
           'ongoing to:', game['dual']['game_ongoing'])
   else:
-    print('internal: make_game_active: game already active')
+    print('internal: make_game_active: game is already active')
   return game
 
 
 @anvil.server.callable
 def throw(game_id):
+  '''user pressed throw. Move ball pointer in both games'''
   game = app_tables.connections.get_by_id(game_id)
   game['initiator_has_ball'] = False
   game['dual']['initiator_has_ball'] = True
+  game['dual']['updated'] = True
   return game
-  
+
+
+@anvil.server.callable
+def check_update(game_id):
+  '''Check whether game_id has been updated by other player.'''
+  game = app_tables.connections.get_by_id(game_id)
+  if game['updated']:
+    game['updated'] = False
+    return game
+  else:
+    return False
+
 '''
 @anvil.server.callable
 def some_connection():

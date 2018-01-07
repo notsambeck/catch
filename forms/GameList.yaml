@@ -19,6 +19,10 @@ components:
   name: add_contacts
   layout_properties: {grid_position: 'AJEGYS,GMOYRZ'}
   event_bindings: {click: add_contacts_click}
+- type: Timer
+  properties: {interval: 10}
+  name: timer_1
+  event_bindings: {tick: timer_1_tick}
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: '', foreground: '', visible: true,

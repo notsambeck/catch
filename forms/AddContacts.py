@@ -73,5 +73,10 @@ class AddContacts (AddContactsTemplate):
     # This method is called when the button is clicked
     open_form('GameList')
 
+  def timer_1_tick (self, **event_args):
+    # This method is called Every [interval] seconds
+    self.update_connections()
+
+
     
  
