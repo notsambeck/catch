@@ -24,8 +24,8 @@ class GameGrid(GameGridTemplate):
     else:
       self.play_button.text = 'Start new game'
       self.label_ongoing.visible = False
-      self.friend_ball.selected = False
-      self.player_ball.selected = False
+      self.friend_ball.visible = False
+      self.player_ball.visible = False
 
 
   def play_button_click(self, **event_args):

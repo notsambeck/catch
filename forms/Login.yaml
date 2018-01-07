@@ -1,8 +1,8 @@
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: '', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: mobile, spacing_above: none, col_widths: '{"HZRNRF":20,"CESBNI":36}',
-    spacing_below: small, background: ''}
+    row_spacing: 10, wrap_on: mobile, spacing_above: none, col_widths: '{}', spacing_below: small,
+    background: ''}
 components:
 - type: ColumnPanel
   properties: {}
@@ -14,40 +14,40 @@ components:
     spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
     bold: false, underline: false, icon: ''}
   name: label_login_screen
-  layout_properties: {grid_position: 'KWIYLI,SKHXQD'}
+  layout_properties: {grid_position: 'UMRMIX,NJKWNK'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: 'Phone number:', font_size: null, font: '', spacing_above: small,
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
   name: label_phone
-  layout_properties: {grid_position: 'POHKFA,HZRNRF MJBENV,IIPDMH'}
+  layout_properties: {grid_position: 'KWIYLI,GYJDOA VMFRGE,RRFAQX'}
 - type: Button
   properties: {role: null, width: default, align: left, border: '', enabled: true,
     foreground: '', visible: false, text: '(why do we need this?)', font_size: 10,
     font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: true,
     background: '', bold: false, underline: false, icon: ''}
   name: explain_phone_button
-  layout_properties: {grid_position: 'POHKFA,HZRNRF MJBENV,NBYFWL'}
+  layout_properties: {grid_position: 'KWIYLI,GYJDOA CHETKC,UYTZAL'}
   event_bindings: {click: explain_phone}
-- type: Label
-  properties: {role: null, width: default, align: left, border: '', foreground: '',
-    visible: true, text: 'Password:', font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
-  name: label_password
-  layout_properties: {grid_position: 'POHKFA,HZRNRF XILHOL,TSJGPV'}
 - type: TextBox
   properties: {role: null, width: default, align: left, hide_text: false, placeholder: '1234567890',
     border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
     font: '', spacing_above: small, type: telephone, spacing_below: small, italic: false,
     background: '', bold: false, underline: false}
   name: phone
-  layout_properties: {grid_position: 'POHKFA,CESBNI KGNSCO,REKIQS'}
+  layout_properties: {grid_position: 'KWIYLI,OXHEKA'}
+- type: Label
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: 'Password:', font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: label_password
+  layout_properties: {grid_position: 'POHKFA,HZRNRF'}
 - type: TextBox
   properties: {}
   name: password
-  layout_properties: {grid_position: 'POHKFA,CESBNI ZFSTLY,EBWOWZ'}
+  layout_properties: {grid_position: 'POHKFA,CFTXOE'}
   event_bindings: {pressed_enter: text_box_2_pressed_enter}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
@@ -55,28 +55,28 @@ components:
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
   name: label_confirm_password
-  layout_properties: {grid_position: 'JGAOTL,DODZNS'}
+  layout_properties: {grid_position: 'JPNESE,VQCIOJ'}
 - type: TextBox
   properties: {role: null, width: default, align: left, hide_text: false, placeholder: '',
     border: '', enabled: true, foreground: '', visible: false, text: '', font_size: null,
     font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
     background: '', bold: false, underline: false}
   name: confirm_password
-  layout_properties: {grid_position: 'JGAOTL,TOMIKB'}
+  layout_properties: {grid_position: 'JPNESE,SVDRMQ'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: false, text: 'Name (what your friends will see):', font_size: null, font: '',
     spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
     bold: false, underline: false, icon: ''}
   name: label_name
-  layout_properties: {grid_position: 'JFZGKW,QMMPTT'}
+  layout_properties: {grid_position: 'WAOBWA,NDSLXX'}
 - type: TextBox
   properties: {role: null, width: default, align: left, hide_text: false, placeholder: '',
     border: '', enabled: true, foreground: '', visible: false, text: '', font_size: null,
     font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
     background: '', bold: false, underline: false}
   name: user_name
-  layout_properties: {grid_position: 'JFZGKW,AAUQMW'}
+  layout_properties: {grid_position: 'WAOBWA,QDVUDW'}
 - type: CheckBox
   properties: {role: null, width: default, align: left, border: '', enabled: true,
     foreground: '', visible: true, text: 'Make a new account?', font_size: null, font: '',

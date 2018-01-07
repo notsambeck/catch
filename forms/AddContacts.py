@@ -50,7 +50,8 @@ class AddContacts (AddContactsTemplate):
           new_conn = anvil.server.call('add_connection', other_id)
           self.game_panel.add_component(GameGrid(new_conn.get_id()))
     else:
-      alert('that user does not seem to exist')
+      alert('''that user does not exist, please invite them to join at: 
+            https://fzcmbv5jk6jlbkev.anvilapp.net/6FZXPZAN57OVOFH6M5E73C6V''')
 
 
   def why_phone_click (self, **event_args):

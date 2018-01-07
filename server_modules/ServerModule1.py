@@ -25,7 +25,7 @@ def do_login(phone, password):
 
  
 @anvil.server.callable
-def make_new_user(phone, password, user):
+def make_new_user(phone, password, username):
   '''
   Create a new user.
   
