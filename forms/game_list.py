@@ -23,6 +23,11 @@ class game_list (game_listTemplate):
     # This method is called when the button is clicked
     open_form('add_contacts')
 
+  def recipient_pressed_enter (self, **event_args):
+    # This method is called when the user presses Enter in this text box
+    pass
+
+
 
 
 

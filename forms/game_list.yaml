@@ -9,34 +9,27 @@ components:
     icon: ''}
   name: label_1
   layout_properties: {grid_position: 'HIIVUA,LMAWEO'}
-- type: TextBox
-  properties: {role: null, width: default, align: left, hide_text: false, placeholder: Phone number to play with,
-    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-    font: '', spacing_above: small, type: telephone, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false}
-  name: recipient
-  layout_properties: {grid_position: 'IBTEFI,TXQZQF'}
-- type: Button
-  properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: Play catch!, font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
-  name: button_1
-  layout_properties: {grid_position: 'IBTEFI,SYDSHO'}
-  event_bindings: {click: button_1_click}
-- type: Label
+- type: DropDown
   properties: {}
-  name: game_status
-  layout_properties: {grid_position: 'VLGPNP,QVUKWC'}
-- type: RepeatingPanel
-  properties: {item_template: ItemTemplate1}
-  name: repeating_panel_1
-  layout_properties: {grid_position: 'LRDFHI,SAVRKB'}
+  name: drop_down_1
+  layout_properties: {grid_position: 'FTSUIW,YZWUTG'}
+  data_bindings:
+  - {property: selected_value, code: 'self.item[''recipient'']', writeback: true}
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: column_panel_1
+  layout_properties: {grid_position: 'QLKEOQ,FWFAFV'}
+  components:
+  - type: RepeatingPanel
+    properties: {item_template: ItemTemplate1}
+    name: repeating_panel_1
+    layout_properties: {grid_position: 'DPKUFA,XJQIDP'}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
     foreground: '', visible: true, text: add contacts, font_size: null, font: '',
-    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    spacing_above: large, icon_align: left, spacing_below: small, italic: false, background: '',
     bold: false, underline: false, icon: ''}
   name: add_contacts
   layout_properties: {grid_position: 'JTSYFW,YRHDOQ'}
   event_bindings: {click: add_contacts_click}
+item_type: {table_id: 7128}

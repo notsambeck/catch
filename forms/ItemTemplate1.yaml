@@ -2,9 +2,17 @@ container:
   type: ColumnPanel
   properties: {col_widths: '{}'}
 components:
-- type: LinearPanel
+- type: Label
   properties: {}
-  name: linear_panel_1
-  layout_properties: {grid_position: 'DFKKVH,RQYLZK'}
-  data_bindings: []
-item_type: {table_id: 7129}
+  name: label_1
+  layout_properties: {grid_position: 'CLYICX,ZDMDNE'}
+  data_bindings:
+  - {property: text, code: 'self.item[''recipient'']'}
+- type: CheckBox
+  properties: {text: check_box_1}
+  name: check_box_1
+  layout_properties: {grid_position: 'CLYICX,EJUWKU'}
+  data_bindings:
+  - {property: checked, code: 'self.item[''game_ongoing'']', writeback: false}
+  - {property: text, code: 'self.item[''initiator'']'}
+item_type: {table_id: 7128}

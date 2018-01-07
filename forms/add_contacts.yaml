@@ -11,11 +11,11 @@ components:
     visible: true, text: 'Placeholder for importing contacts from phone
 
 
-      Add contact:', font_size: null, font: '', spacing_above: small, icon_align: left,
-    spacing_below: medium, italic: false, background: '', bold: false, underline: false,
+      Add a contact:', font_size: null, font: '', spacing_above: large, icon_align: left,
+    spacing_below: large, italic: false, background: '', bold: false, underline: false,
     icon: ''}
   name: label_get_contacts
-  layout_properties: {grid_position: 'OROBJO,IIIIBY'}
+  layout_properties: {grid_position: 'OROBJO,FQBFZF'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: 'Phone number:', font_size: null, font: '', spacing_above: small,
@@ -40,14 +40,35 @@ components:
   layout_properties: {grid_position: 'POHKFA,CESBNI'}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: Add, font_size: null, font: '', spacing_above: medium,
+    foreground: '', visible: true, text: Add Contact, font_size: null, font: '', spacing_above: medium,
     icon_align: left, spacing_below: medium, italic: false, background: '', bold: true,
     underline: false, icon: ''}
   name: go_button
-  layout_properties: {grid_position: 'NUNROS,WATBUW', row_background: green}
-  event_bindings: {click: go}
+  layout_properties: {grid_position: 'POHKFA,GGZEYG', row_background: ''}
+  event_bindings: {click: add_connection}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: true, text: Play!, font_size: null, font: '', spacing_above: medium,
+    icon_align: left, spacing_below: medium, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: button_1
+  layout_properties: {grid_position: 'PNQLOH,TDPREY', row_background: green}
+  event_bindings: {click: button_1_click}
+- type: Label
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: 'Existing contacts:', font_size: null, font: '', spacing_above: large,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: existing_contacts
+  layout_properties: {grid_position: 'KYOGWU,WGMSYO'}
+- type: RepeatingPanel
+  properties: {role: null, width: default, border: '', foreground: '', items: null,
+    visible: true, spacing_above: medium, spacing_below: medium, item_template: contacts_template,
+    background: ''}
+  name: repeating_panel_1
+  layout_properties: {grid_position: 'AZDYMY,QXWVMG'}
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: '', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: mobile, spacing_above: none, col_widths: '{"HZRNRF":20,"CESBNI":36,"FUODXR":20}',
-    spacing_below: small, background: ''}
+    row_spacing: 10, wrap_on: mobile, spacing_above: medium, col_widths: '{}', spacing_below: small,
+    background: ''}

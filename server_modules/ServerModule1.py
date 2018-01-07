@@ -57,16 +57,21 @@ def check_user_exists(phone):
 
 
 @anvil.server.callable
-def add_connection(other_user):
-  '''adds a connection initiated by current user to other_user and vice versa'''
+def add_connection(other_id):
+  '''adds a connection initiated by current user to other_user and vice versa.
+  args:
+    other_user: row from table
+  '''
+  print('adding connection')
+  other_user = app_tables.users.get_by_id(other_id)
   row1 = app_tables.connections.add_row(game_ongoing=False,
                                         initiator=anvil.users.get_user(),
                                         recipient=other_user,)
   row2 = app_tables.connections.add_row(game_ongoing=False,
-                                        initiator=anvil.users.get_user(),
-                                        recipient=other_user,
+                                        initiator=other_user,
+                                        recipient=anvil.users.get_user(),
                                         dual=row1,)
-  row1.dual = row2
+  row1['dual'] = row2
 
   
 @anvil.server.callable
