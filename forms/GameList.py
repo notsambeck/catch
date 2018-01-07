@@ -15,13 +15,14 @@ class GameList (GameListTemplate):
 
     # Any code you write here will run when the form opens.
     self.title_panel.add_component(Title())
-    self.update_connections()
+    self.conns = self.update_connections()
 
   def update_connections(self):
-    self,self.game_panel.clear()
-    self.conns = anvil.server.call('get_connections')
-    for conn in self.conns.search():
-      self.game_panel.add_component(GameGrid(conn.get_id()))
+    self.game_panel.clear()
+    conns = anvil.server.call('get_connections')
+    for conn in conns:
+      self.game_panel.add_component(GameGrid(conn))
+    return conns
 
   def add_contacts_click (self, **event_args):
     # This method is called when the button is clicked

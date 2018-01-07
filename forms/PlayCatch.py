@@ -8,48 +8,55 @@ from tables import app_tables
 # random_id = anvil.server.call('some_connection')
 
 class PlayCatch (PlayCatchTemplate):
-  def __init__(self, connection_id, **properties):
+  def __init__(self, game, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
-    self.connection_id = connection_id
 
-    game = anvil.server.call('get_game_status', connection_id)
+    self.game = game
+    if not self.game['game_ongoing']:
+      anvil.server.call('make_game_active', self.game.get_id())
 
-    self.l_to_r = game['initiator_has_ball']
+    self.l_to_r = self.game['initiator_has_ball']
+    print('l to r set to:', self.l_to_r)
     self.friend_ball.selected = not self.l_to_r
     self.player_ball.selected = self.l_to_r
     self.throw_button.visible = self.l_to_r
     
-    self.friend_name.text = game['recipient']['username']
-    self.player_name.text = game['initiator']['username']
+    self.friend_name.text = self.game['recipient']['username']
+    print('friend =', self.friend_name.text)
+    self.player_name.text = self.game['initiator']['username']
     
     self.counter = 0
     self.ball_moving = False
     if self.l_to_r:
       self.ball_x = .12
-      self.ball_vx = .02
+      self.ball_vx = .04
     else:
       self.ball_x = .88
-      self.ball_vx = .02
+      self.ball_vx = .04
     self.ball_y = .76
-    self.ball_vy = .03
+    self.ball_vy = .06
 
   # navigation    
 
-  def button_2_click (self, **event_args):
+  def button_2_click(self, **event_args):
     # This method is called when the button is clicked
     open_form('GameList')
 
-  def add_contacts_click (self, **event_args):
+  def add_contacts_click(self, **event_args):
     # This method is called when the button is clicked
     open_form('AddContacts')
 
-  def throw_button_click (self, **event_args):
-    # This method is called when the button is clicked
-    anvil.server.call('throw', self.connection_id)
+  def throw_button_click(self, **event_args):
+    # tell server that ball has been thrown immediately
+    anvil.server.call('throw', self.game.get_id())
+    
+    # change indicators
     self.player_ball.selected = False
     self.friend_ball.selected = False
     self.throw_button.visible = False
+
+    # change ball status so it starts moving
     self.ball_moving = True
     self.ball_steps = 0
     
@@ -65,7 +72,7 @@ class PlayCatch (PlayCatchTemplate):
       self.throw_button.visible = True
 
       
-  def draw (self, **event_args):
+  def draw(self, **event_args):
     self.counter += 1
     self.counter = self.counter % 500
     
@@ -145,11 +152,18 @@ class PlayCatch (PlayCatchTemplate):
       self.ball_steps += 1
       self.ball_x += self.ball_vx
       self.ball_y -= self.ball_vy
-      self.ball_vy -= .0015
-      if self.ball_steps == 39:
+      self.ball_vy -= .0062
+      if self.ball_steps == 19:
         self.ball_arrived()
     c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
         
+    if self.counter % 20 == 19 and not self.ball_moving and not self.l_to_r:
+      old = self.game
+      new = anvil.server.call('make_game_active', self.game.get_id())
+      if old != new:
+        self.throw_button_click()
+        
+
 
     
 

@@ -6,15 +6,17 @@ from tables import app_tables
 
     
 class GameGrid(GameGridTemplate):
-  def __init__(self, connection_id, **properties):
+  '''Game grid renders an entire row (connection) as a status grid entry'''
+  def __init__(self, connection, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
-    self.connection_id = connection_id
+    
+    # connection is ENTIRE ROW!
+    self.game = connection
 
-    self.game = anvil.server.call('get_game_status', connection_id)
     self.friend_label.text = self.game['recipient']['username']
-
-        
+    assert self.game['initiator']
+    
     if self.game['game_ongoing']:
       self.play_button.text = 'Return to game'
       self.label_ongoing.visible = True
@@ -35,7 +37,9 @@ class GameGrid(GameGridTemplate):
 
   def play_button_click(self, **event_args):
     # This method is called when the button is clicked
-    open_form('PlayCatch', self.connection_id)
-
-
-
+    if not self.game['game_ongoing']:
+      with Notification('starting game', timeout=1):
+        self.game = anvil.server.call('make_game_active', self.game.get_id())
+      
+    # regardless, send self.game to PlayCatch
+    open_form('PlayCatch', self.game)

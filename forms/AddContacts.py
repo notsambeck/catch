@@ -15,7 +15,7 @@ class AddContacts (AddContactsTemplate):
 
     # Any code you write here will run when the form opens.
     self.title_panel.add_component(Title())
-    self.update_connections()
+    self.conns = self.update_connections()
 
   def explain_phone(self, **event_args):
     # This method is called when the why_phone button is clicked
@@ -36,22 +36,23 @@ class AddContacts (AddContactsTemplate):
       return False
     
     # valid phone number: check if user exists
-    other_id = anvil.server.call('check_user_exists', number)
+    # either returns False, or row from user table
+    other = anvil.server.call('get_user_by_phone', number)
 
-    if other_id:
+    if other:
       # check if connection between users already exists
-      for conn in self.conns.search():
-        if conn['recipient'] == other_id:
+      for conn in self.conns:
+        if conn['recipient'] == other:
           # TODO: this is probably an unneccessary warning
           Notification('you are already connected to this user').show()
           return True
       else:  # finally
-        with Notification('Adding connection to:', other_id):
-          new_conn = anvil.server.call('add_connection', other_id)
-          self.game_panel.add_component(GameGrid(new_conn.get_id()))
+        with Notification(''.join(['Adding connection to:', other['username']])):
+          new_conn = anvil.server.call('add_connection', other.get_id())
+          self.game_panel.add_component(GameGrid(new_conn))
     else:
       alert('''that user does not exist, please invite them to join at: 
-            https://fzcmbv5jk6jlbkev.anvilapp.net/6FZXPZAN57OVOFH6M5E73C6V''')
+            fzcmbv5jk6jlbkev.anvilapp.net/6FZXPZAN57OVOFH6M5E73C6V''')
 
 
   def why_phone_click (self, **event_args):
@@ -62,9 +63,15 @@ class AddContacts (AddContactsTemplate):
           We will never share this phone number with anyone.''', title='Why we need a phone number:')
 
   def update_connections(self):
-    self,self.game_panel.clear()
-    self.conns = anvil.server.call('get_connections')
-    for conn in self.conns.search():
-      self.game_panel.add_component(GameGrid(conn.get_id()))
+    self.game_panel.clear()
+    conns = anvil.server.call('get_connections')
+    for conn in conns:
+      self.game_panel.add_component(GameGrid(conn))
+    return conns
+
+  def button_1_click (self, **event_args):
+    # This method is called when the button is clicked
+    open_form('GameList')
+
     
  

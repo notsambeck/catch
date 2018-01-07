@@ -65,7 +65,6 @@ class Login (LoginTemplate):
       if success:
         self.go_button.visible = False
         self.button_1.visible = True
-        print('logged in as: ', anvil.users.get_user())
         open_form('AddContacts')
 
   def button_1_click (self, **event_args):
