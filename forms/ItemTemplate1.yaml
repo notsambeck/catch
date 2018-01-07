@@ -7,7 +7,7 @@ components:
   name: recipient
   layout_properties: {grid_position: 'CLYICX,DIYUTB'}
   data_bindings:
-  - {property: text, code: 'self.item[''recipient'']'}
+  - {property: text, code: 'self.item[''recipient''][''name'']'}
 - type: CheckBox
   properties: {role: null, width: default, align: left, border: '', enabled: true,
     foreground: '', visible: true, text: 'Currently playing?', font_size: null, font: '',
@@ -29,4 +29,12 @@ components:
   event_bindings: {change: check_box_2_change}
   data_bindings:
   - {property: checked, code: 'self.item[''initiator_has_ball'']', writeback: true}
+- type: Button
+  properties: {role: null, width: default, align: left, border: '', enabled: true,
+    foreground: '', visible: true, text: Have a catch, font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: false, underline: false, icon: ''}
+  name: button_1
+  layout_properties: {grid_position: 'NYJMBB,OUHFTT'}
+  event_bindings: {click: button_1_click}
 item_type: {table_id: 7128}

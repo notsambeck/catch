@@ -37,7 +37,7 @@ class add_contacts (add_contactsTemplate):
 
     if other_id:
       # check if connection between users already exists
-      for conn in self.my_connections.search():
+      for conn in self.my_connections:
         if conn['recipient'] == other_id:
           # TODO: this is probably an unneccessary warning
           alert('you are already connected to this user')

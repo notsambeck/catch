@@ -12,8 +12,8 @@ class game_list (game_listTemplate):
 
     # Any code you write here will run when the form opens.
     self.conns = anvil.server.call('get_connections')
-    for thing in self.conns:
-      print(thing['recipient'])
+    self.repeating_panel_1.items = self.conns
+
     
   def add_contacts_click (self, **event_args):
     # This method is called when the button is clicked
