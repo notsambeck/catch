@@ -61,7 +61,8 @@ class login (loginTemplate):
     else:    # login
       success = anvil.server.call('do_login', self.phone.text, self.password.text)
       if success:
-        open_form('game_list')
+        conns = anvil.server.call('get_connections')
+        open_form('game_list', {'conns': conns.search()})
         return True
 
         
