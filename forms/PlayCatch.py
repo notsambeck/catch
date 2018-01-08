@@ -14,7 +14,7 @@ class PlayCatch (PlayCatchTemplate):
 
     self.game = game
     if not self.game['game_ongoing']:
-      anvil.server.call('make_game_active', self.game.get_id())
+      self.game = anvil.server.call('make_game_active', self.game.get_id())
 
     self.l_to_r = self.game['initiator_has_ball']
     print('l to r set to:', self.l_to_r)

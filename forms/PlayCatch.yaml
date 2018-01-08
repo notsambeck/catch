@@ -6,7 +6,7 @@ components:
   properties: {role: null, width: default, height: 479, border: '', foreground: '',
     visible: true, spacing_above: small, spacing_below: small, background: '#a5d3e3'}
   name: canvas_1
-  layout_properties: {grid_position: 'GUCCQN,ZIPJKT'}
+  layout_properties: {grid_position: 'OKBFUH,XXVEVG'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
