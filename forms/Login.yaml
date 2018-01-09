@@ -97,10 +97,6 @@ components:
   name: new_account
   layout_properties: {grid_position: 'WOJWGW,RSJQPH'}
   event_bindings: {change: new_account_change}
-- type: Spacer
-  properties: {height: 32}
-  name: spacer_1
-  layout_properties: {grid_position: 'PLFSLD,PDESDO'}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
     foreground: '', visible: false, text: Proceed to games, font_size: null, font: '',

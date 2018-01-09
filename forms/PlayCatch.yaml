@@ -28,15 +28,14 @@ components:
     background: '', bold: false, group_name: radioGroup1, underline: false}
   name: player_ball
   layout_properties: {grid_position: 'JQGELU,EPEAGM', full_width_row: false}
-  data_bindings:
-  - {property: text, code: 'self.item['''']'}
+  data_bindings: []
 - type: RadioButton
   properties: {role: null, selected: false, width: default, align: right, border: '',
     enabled: false, foreground: '', value: '', visible: true, text: friend has ball,
     font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
     background: '', bold: false, group_name: radioGroup1, underline: false}
   name: friend_ball
-  layout_properties: {grid_position: 'JQGELU,HSYPGK', full_width_row: false}
+  layout_properties: {grid_position: 'JQGELU,TMSDLM', full_width_row: false}
 - type: Button
   properties: {role: null, width: default, align: left, border: '', enabled: true,
     foreground: '', visible: true, text: throw, font_size: null, font: '', spacing_above: small,
