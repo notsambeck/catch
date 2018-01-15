@@ -34,6 +34,7 @@ def make_new_user(phone, password, username):
   returns: True if success; False if user already exists
   '''
   if get_user_by_phone(phone):
+    
     return False
   else:
     # TODO: enabled should be false until user confirms phone number (twilio) but this is not set up yet

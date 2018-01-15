@@ -17,12 +17,6 @@ class AddContacts (AddContactsTemplate):
     self.title_panel.add_component(Title())
     self.conns = self.update_connections()
 
-  def explain_phone(self, **event_args):
-    # This method is called when the why_phone button is clicked
-    alert('''Your phone number is your user ID, so your friends can find you and play catch. 
-          You will receive one SMS message to confirm this is your number, that's it!
-          We will never share your number with anyone.''', title='Why we need your phone number:')
-
   def add_connection(self, **event_args):
     # This method is called when the submit button is clicked
     number = is_valid_number(self.phone.text)
@@ -55,12 +49,14 @@ class AddContacts (AddContactsTemplate):
             fzcmbv5jk6jlbkev.anvilapp.net/6FZXPZAN57OVOFH6M5E73C6V''')
 
 
-  def why_phone_click (self, **event_args):
+  def why_phone_click(self, **event_args):
     # This method is called when the why_phone button is clicked
-    alert('''This phone number is your friend's user ID.
+    alert('''
+          This phone number is your friend's user ID.
           If your friend already has an account, this will connect you.
           If not, you will have the option to send a message to invite them to play Catch.
-          We will never share this phone number with anyone.''', title='Why we need a phone number:')
+          We will never share this phone number with anyone.''',
+          title='Why we need a phone number:')
 
   def update_connections(self):
     self.game_panel.clear()
@@ -69,19 +65,16 @@ class AddContacts (AddContactsTemplate):
       self.game_panel.add_component(GameGrid(conn))
     return conns
 
-  def button_1_click (self, **event_args):
+  def button_1_click(self, **event_args):
     # This method is called when the button is clicked
     open_form('GameList')
 
-  def timer_1_tick (self, **event_args):
+  def timer_1_tick(self, **event_args):
     # This method is called Every [interval] seconds
     self.update_connections()
 
-  def phone_pressed_enter (self, **event_args):
+  def phone_pressed_enter(self, **event_args):
     # This method is called when the user presses Enter in this text box
     self.add_connection()
 
-
-
-    
  
