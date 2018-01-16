@@ -30,11 +30,11 @@ def make_new_user(phone, password, username):
   Create a new user.
   
   args: phone, password, username
-    
+
   returns: True if success; False if user already exists
   '''
   if get_user_by_phone(phone):
-    
+    # 
     return False
   else:
     # TODO: enabled should be false until user confirms phone number (twilio) but this is not set up yet
@@ -44,14 +44,15 @@ def make_new_user(phone, password, username):
                                   phone_number=int(phone),
                                   username=username,)
     if do_login(phone, password):
-      return me
+      return meusers
     else:
       print('error logging in but user may have been created')
 
 
 @anvil.server.callable
 def get_user_by_phone(phone):
-  '''return users row for a phone number, or false if it does not exist'''
+  '''return users row for a phone number, or false if it does not exist
+  TODO: this is a hilarious security flaw; literally returns the password for any phone number (ha!)'''
   return app_tables.users.get(phone_number=int(phone))
 
 
