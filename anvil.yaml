@@ -2,7 +2,7 @@ package_name: Catch
 name: Catch
 startup_form: Login
 renamed: true
-runtime_options: {server_version: python2-sandbox}
+runtime_options: {server_version: python3-full}
 services:
 - source: /runtime/services/tables.yml
   client_config: {}
