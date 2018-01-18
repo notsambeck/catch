@@ -40,10 +40,10 @@ def do_login(phone, password):
   if not phone:
     return {'success': False, 'msg': 'invalid phone number'}
 
-  me = get_user_by_phone(phone)
-  print(me, '= me')
+  me = get_user_id_by_phone(phone)
+
   if me:
-    if bhash(password) == me['password_hash']:
+    if bcrypt(password.encode('utf-8'), me['password_hash']):
       anvil.users.force_login(me)
       return {'success': True, 'msg': anvil.users.get_user().get_id()}
     else:
@@ -74,9 +74,18 @@ def create_user(phone, password, handle):
   msg: string explains status
     }
   '''
-  assert isinstance(phone, str) and len(phone) == 10 and isinstance(handle, str)
+  assert isinstance(phone, str) 
+  assert isinstance(handle, str)
+  
+  phone = is_valid_number(phone)
 
-  if get_user_by_phone(phone):
+  if not phone:
+    return {
+      'success': False,
+      'msg': 'invalid phone number'
+    }
+
+  if get_user_id_by_phone(phone):
     return {
       'success': False,
       'msg': 'user already exists'
@@ -100,15 +109,15 @@ def create_user(phone, password, handle):
 
     return {'success': True, 'msg': rando}
 
-def get_user_by_phone(phone):
+def get_user_id_by_phone(phone):
   '''
   arg: 
     string: clean phone number
   
   returns:
-    user_id for a phone number
+    string: user_id
     or
-    None if it does not exist
+    None: if user does not exist
     '''
   u = app_tables.users.get(phone_hash=bhash(phone))
   if u:
