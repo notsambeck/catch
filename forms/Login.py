@@ -82,7 +82,7 @@ class Login(LoginTemplate):
           self.continue_button.visible = True
           open_form('AddContacts')
         else:
-          open_form('ConfirmAccount', '01234', status['user_id'])
+          open_form('ConfirmAccount', 'idunno', status['user_id'])
       else:
         Notification(status['msg']).show()
         

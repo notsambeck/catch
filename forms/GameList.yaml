@@ -19,6 +19,14 @@ components:
   name: add_contacts
   layout_properties: {grid_position: 'AJEGYS,GMOYRZ'}
   event_bindings: {click: add_contacts_click}
+- type: Button
+  properties: {role: null, width: default, align: right, border: '', enabled: true,
+    foreground: '', visible: true, text: log out, font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: log_out
+  layout_properties: {grid_position: 'SPRHZW,RCSHGQ'}
+  event_bindings: {click: logout}
 - type: Timer
   properties: {interval: 10}
   name: timer_1

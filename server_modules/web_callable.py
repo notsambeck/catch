@@ -3,17 +3,15 @@ import anvil.users
 import tables
 from tables import app_tables
 import anvil.server
+
 from validators import is_valid_number, hash_phone
+from twilio_auth import send_authorization_message
 
 from datetime import datetime
 import random
 
-import twilio
 import bcrypt
 from hashlib import blake2b
-
-
-twilio_test_sid = 'AC8c06108afa619c6f98486555b0d09d8c'
 
 
 def bhash(_string):
@@ -92,8 +90,9 @@ def create_user(phone, password, handle):
   
   else:                            # number is valid and account does not exist
     # TODO: enabled should be False until user confirms phone number (twilio)
-    rando = ''.join([str(random.randrange(10)) for _ in range(4)])
+    rando = ''.join([str(random.randrange(10)) for _ in range(5)])
     
+    send_authorization_message(rando)
 
     user = app_tables.users.add_row(
       enabled=False,
@@ -101,7 +100,7 @@ def create_user(phone, password, handle):
       phone_hash=hash_phone(phone),
       handle=handle,
       account_created=datetime.now(),
-      confirmations_sent=0,
+      confirmations_sent=1,
       twilio_code=rando,
     )
 

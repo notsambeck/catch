@@ -28,7 +28,12 @@ class ConfirmAccount (ConfirmAccountTemplate):
     
     confirmed = anvil.server.call('confirm_account', self.confirmation_code.text, self.user_id)
     if confirmed:
-      Notification('Code is correct.', title='Success!')
+      Notification('Account confirmed.', title='Success!')
       open_form('AddContacts')
     else:
       alert('INCORRECT CODE!')
+
+  def resend_button_click (self, **event_args):
+    # This method is called when the button is clicked
+    anvil.server.call('send_authorization_message', code=self.code)
+

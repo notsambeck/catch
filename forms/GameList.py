@@ -32,7 +32,7 @@ class GameList (GameListTemplate):
     # This method is called Every [interval] seconds
     self.update_connections()
 
-
-      
-    
- 
+  def logout (self, **event_args):
+    # This method is called when the button is clicked
+    anvil.users.logout()
+    open_form('Login')
