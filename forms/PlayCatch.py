@@ -13,22 +13,38 @@ class PlayCatch (PlayCatchTemplate):
     self.init_components(**properties)
 
     self.game = game
-    if not self.game['game_ongoing']:
-      self.game = anvil.server.call('make_game_active', self.game.get_id())
+    if not self.game['is_active']:
+      activate = anvil.server.call('make_game_active', self.game.get_id())
+      assert activate['success']
+      self.game = activate['game']
 
-    self.l_to_r = self.game['initiator_has_ball']
-    print('l to r set to:', self.l_to_r)
-    self.friend_ball.selected = not self.l_to_r
-    self.player_ball.selected = self.l_to_r
-    self.throw_button.visible = self.l_to_r
+    self.user_is_player_1 = self.game['player_1'] == anvil.users.get_user()
     
-    self.friend_name.text = self.game['recipient']['username']
-    print('friend =', self.friend_name.text)
-    self.player_name.text = self.game['initiator']['username']
+    if self.game['who_has_ball'] == 1:
+      self.player_1_ball.selected = True
+      self.player_2_ball.selected = False
+      if self.user_is_player_1:
+        self.player_1_throw.visible = True
+        self.player_2_throw.visible = False
+      else:
+        self.player_1_throw.visible = False
+        self.player_2_throw.visible = False
+    else: # 2 has ball
+      self.player_1_ball.selected = False
+      self.player_2_ball.selected = True
+      if self.user_is_player_1:
+        self.player_1_throw.visible = False
+        self.player_2_throw.visible = False
+      else:
+        self.player_1_throw.visible = False
+        self.player_2_throw.visible = True
+    
+    self.player_1_name.text = self.game['player_1']['handle']
+    self.player_2_name.text = self.game['player_2']['handle']
     
     self.counter = 0
     self.ball_moving = False
-    if self.l_to_r:
+    if self.game['who_has_ball'] == 1:
       self.ball_x = .12
       self.ball_vx = .04
     else:
@@ -49,14 +65,21 @@ class PlayCatch (PlayCatchTemplate):
 
   def throw_button_click(self, **event_args):
     # tell server that ball has been thrown immediately
-    anvil.server.call('throw', self.game.get_id())
+    throw_status = anvil.server.call('throw', self.game.get_id())
+    if not throw_status['success']:
+      print('Throw failed:', throw_status['msg'])
+    elif throw_status['game'] == self.game:
+      print('game state  unchanged... is it a pointer: {}'.format(throw_status['game'] is self.game))
+    else:
+      print('throw worked.')
     self.ball_y = .76
     self.ball_vy = .06
     
     # change indicators
-    self.player_ball.selected = False
-    self.friend_ball.selected = False
-    self.throw_button.visible = False
+    self.player_1_ball.selected = False
+    self.player_2_ball.selected = False
+    self.player_1_throw.visible = False
+    self.player_2_throw.visible = False
 
     # change ball status so it starts moving
     self.ball_moving = True
@@ -64,17 +87,16 @@ class PlayCatch (PlayCatchTemplate):
     
   def ball_arrived(self):
     self.ball_moving = False
-    if self.l_to_r:
-      self.player_ball.selected = False
-      self.friend_ball.selected = True
-      self.throw_button.visible = False
-    else:
-      self.player_ball.selected = True
-      self.friend_ball.selected = False
-      self.throw_button.visible = True
-      
-    # reverse direction
-    self.l_to_r = not self.l_to_r
+    if self.game['who_has_ball'] == 1:
+      self.player_2_ball.selected = True
+      if not self.user_is_player_1:
+        self.player_2_button.visible = True
+      self.game['who_has_ball'] == 2
+    else:  
+      self.player_1_ball.selected = True
+      if self.user_is_player_1:
+        self.player_1_button.visible = True
+      self.game['who_has_ball'] == 1
 
       
   def draw(self, **event_args):
@@ -157,7 +179,7 @@ class PlayCatch (PlayCatchTemplate):
       self.ball_steps += 1
       
       # direction
-      if self.l_to_r:
+      if self.game['who_has_ball'] == 1:
         self.ball_x += self.ball_vx
       else:
         self.ball_x -= self.ball_vx
@@ -169,9 +191,9 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
         
     if self.counter % 30 == 29 and not self.ball_moving:
-      updated = anvil.server.call('check_update', self.game.get_id())
-      if updated:
-        self.game = updated
+      new_game = anvil.server.call('get_game_status', self.game.get_id())
+      if new_game != self.game:
+        self.game = new_game
         self.ball_moving = True
         self.ball_steps = 0
         self.ball_vy = .06

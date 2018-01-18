@@ -174,7 +174,8 @@ def add_connection(other_user_id):
   row = app_tables.graph.add_row(connection_time=datetime.now(),
                                  is_active=False,
                                  player_1=anvil.users.get_user(),
-                                 player_2=other_user)
+                                 player_2=other_user,
+                                 player_2_active=other_user['enabled'])
   return row
 
   
@@ -188,31 +189,29 @@ def get_connections():
   if not user:
     return {'success': False, 'msg': 'Not logged in.'}
   
-  user_id = user.get_id()
-  
-  if user_id:
-    # list all the games user is in.
-    games = [game for game in app_tables.graph.search() if game['player_1'] == user_id or game['player_2'] == user_id]
-    
+  # list all the games user is in.
+  games = [game for game in app_tables.graph.search(tables.order_by('last_throw_time', ascending=False)) if game['player_1'] == user or game['player_2'] == user]
+
   return games
-  
-    
+
 
 @anvil.server.callable
 def make_game_active(connection_id):
-  '''get the status of a connection from perspective of logged in user; 
-  start game if not happening.
-  return game row if I have ball, else False'''
+  '''
+  get the status of a game from perspective of logged in user; 
+  start game if not already active.
+  return game row or False'''
   game = app_tables.graph.get_by_id(connection_id)
   if not game['is_active']:
     with tables.Transaction() as txn:
       game['is_active'] = True
       game['who_has_ball'] = 1
       game['game_start_time'] = datetime.now()
-    print('set game', game['player_1']['handle'], 'vs', game['player_2']['handle'], 'ongoing to:', game['is_active'])
+      game['throws'] = 0
+    print('set game', game['player_1']['handle'], 'vs', game['player_2']['handle'], '.is_active to:', game['is_active'])
   else:
-    print('internal: make_game_active: game is already active')
-  return game
+    return {'success': False, 'msg': 'make_game_active: game is already active'}
+  return {'success': True, 'game': game}
 
 
 @anvil.server.callable
@@ -222,31 +221,38 @@ def throw(game_id):
   move ball pointer in database;
   return game row.
   '''
+  print('throw called on {}'.format(game_id))
   game = app_tables.graph.get_by_id(game_id)
   
   if not game['is_active']:
-    return {'success': False, 'msg': 'Game not active to make a throw.'}
+    return {'success': False, 'msg': 'Must activate game before throwing.'}
   
-  has_ball = game['who_has_ball']
-  if game['player_{}'.format(str(has_ball))] == anvil.users.get_user().get_id():
-    if has_ball == 1:
-      game['who_has_ball'] == 2
+  print(game['who_has_ball'], ' has the ball, who is: ', game['player_{}'.format(game['who_has_ball'])])
+  print('versus this is user: ', anvil.users.get_user()) 
+
+  with tables.Transaction() as txn:
+    if game['player_1'] == anvil.users.get_user() and game['who_has_ball'] == 1:
+      print('changing ball: 1 to 2')
+      game['who_has_ball'] = 2
+    elif game['player_2'] == anvil.users.get_user() and game['who_has_ball'] == 2:
+      game['who_has_ball'] = 1
+      print('changing ball: 2 to 1')
     else:
-      game['who_has_ball'] == 1
-    game['throws'] = game['throws'] + 1
+      print('returning failure')
+      return {'success': False, 'msg': 'somehow you did not have the ball when you threw it'}
+
+    print('recording throw / throw time')
+    game['throws'] += 1
     game['last_throw_time'] = datetime.now()
-  return game
+
+  print('returning dict')
+  return {'success': True, 'game': game}
 
 
 @anvil.server.callable
-def check_update(game_id):
-  '''Check whether game_id has been updated by other player.'''
-  game = app_tables.connections.get_by_id(game_id)
-  if game['updated']:
-    game['updated'] = False
-    return game
-  else:
-    return False
+def get_game_status(game_id):
+  '''Get row for game_id'''
+  return app_tables.graph.get_by_id(game_id)
 
 '''
 @anvil.server.callable

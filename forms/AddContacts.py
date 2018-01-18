@@ -36,7 +36,7 @@ class AddContacts (AddContactsTemplate):
     if other_id:
       # check if connection between users already exists
       for conn in self.conns:
-        if conn['player_1'] == other or conn['player_2'] == other:
+        if conn['player_1'] == other_id or conn['player_2'] == other_id:
           # TODO: this is probably an unneccessary warning
           Notification('you are already connected to this user').show()
           return True
