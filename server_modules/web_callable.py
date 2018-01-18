@@ -3,6 +3,7 @@ import anvil.users
 import tables
 from tables import app_tables
 import anvil.server
+import bcrypt
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
@@ -25,7 +26,7 @@ def do_login(phone, password):
 
  
 @anvil.server.callable
-def make_new_user(phone, password, username):
+def create_user(phone, password, username):
   '''
   Create a new user.
   
@@ -49,7 +50,6 @@ def make_new_user(phone, password, username):
       print('error logging in but user may have been created')
 
 
-@anvil.server.callable
 def get_user_by_phone(phone):
   '''return users row for a phone number, or false if it does not exist
   TODO: this is a hilarious security flaw; literally returns the password for any phone number (ha!)'''
