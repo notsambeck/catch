@@ -4,21 +4,33 @@ import tables
 from tables import app_tables
 import anvil.server
 import bcrypt
+import datetime
+import twilio
 
-h = bcrypt.hashpw('a')
-print(h)
+twilio_test_sid = 'AC8c06108afa619c6f98486555b0d09d8c'
 
-# This is a server module. It runs on the Anvil server,
-# rather than in the user's browser.
+def bhash(_string):
+  '''returns: hash of string'''
+  return bcrypt.hashpw(_string.encode('utf-8'), bcrypt.gensalt(12))
 
 @anvil.server.callable
 def do_login(phone, password):
-  '''set anvil.session['user'] to the user with phone number'''
-  me = get_user_by_phone(phone)
+  '''set anvil.session['user'] to the user with phone number
+  args:
+    phone: string of phone number
+    password: string of password
+      
+  returns:
+    user_id: string
+      '''
+  assert isinstance(phone, str) and isinstance(password, str)
+
+  phone_hash = bhash(phone)
+  me = get_user_by_phone_hash(phone_hash)
   if me:
-    if password == me['password']:
+    if bhash(password) == me['password_hash']:
       anvil.users.force_login(me)
-      print("success")
+      print("login: success")
       return anvil.users.get_user()
     else:
       print("invalid password")
@@ -31,36 +43,48 @@ def do_login(phone, password):
 @anvil.server.callable
 def create_user(phone, password, handle):
   '''
-  Create a new user. Hashes password and phone number for storage.
+  Create a new user. 
+  Hashes password and phone number for storage.
+  user_id is a generated primary key
+  handle is string of user's display name
   
   args: 
       phone
       password
-      username
+      handle
 
   returns:
       bool: True if success; False if user exists
   '''
-  if get_user_by_phone(phone):
-    # 
+  assert isinstance(phone, str)
+  
+  phone_hash = bhash(phone)
+  if get_user_by_phone_hash(phone_hash):
+    anvil.alert(content='This account already exists, please log in.', title='User already exists')
     return False
+
   else:
     # TODO: enabled should be false until user confirms phone number (twilio) but this is not set up yet
-    me = app_tables.users.add_row(enabled=True,
-                                  # signed_up='12/25/2017',
-                                  password=password,
-                                  phone_number=int(phone),
-                                  username=username,)
+    me = app_tables.users.add_row(
+      enabled=False,
+      # signed_up='12/25/2017',
+      password_hash=bhash(password),
+      phone_hash=bhash(phone),
+      handle=handle,
+      account_created=datetime.now()
+      
+    )
+
     if do_login(phone, password):
       return meusers
     else:
       print('error logging in but user may have been created')
 
 
-def get_user_by_phone(phone):
+def get_user_by_phone_hash(phone_hash):
   '''return users row for a phone number, or false if it does not exist
   TODO: this is a hilarious security flaw; literally returns the password for any phone number (ha!)'''
-  return app_tables.users.get(phone_number=int(phone))
+  return app_tables.users.get(phone_hash=int(phone))
 
 
 @anvil.server.callable
