@@ -12,7 +12,12 @@
 #
 
 def is_valid_number(number):
-  '''take a phone number as a string, return an integer version if number is valid, else False'''
+  '''
+  Take a phone number as a string
+  
+  return clean string if number is valid, 
+  else False
+  '''
   print(number)
   
   number = [char for char in number if char not in '-_() ']
@@ -24,4 +29,4 @@ def is_valid_number(number):
     return False
 
   else:
-    return int(''.join(number))
+    return ''.join(number)

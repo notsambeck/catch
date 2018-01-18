@@ -1,12 +1,11 @@
 from anvil import *
 import anvil.server
 import anvil.users
-import tables
-from tables import app_tables
+
 from validators import is_valid_number
 from Title import Title
 
-class Login (LoginTemplate):
+class Login(LoginTemplate):
   def __init__(self, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
@@ -35,7 +34,12 @@ class Login (LoginTemplate):
           We will never share your number with anyone.''', title='Why we need your phone number:')
 
   def go(self, **event_args):
-    '''This method is called when the submit button is clicked
+    '''
+    LOGIN
+    or
+    CREATE_USER
+    
+    This method is called when the submit button is clicked.
     Returns True on successful exit, else False'''
     number = is_valid_number(self.phone.text)
   
@@ -44,8 +48,8 @@ class Login (LoginTemplate):
       return False
 
     if self.new_account.checked:
-      if len(self.password.text) < 6:
-        alert('Password must be at least 6 characters.')
+      if len(self.password.text) < 5:
+        alert('Come on, password must be at least 5 characters.')
         return False
       elif self.confirm_password.text != self.password.text:
         alert('Passwords do not match.')
@@ -54,7 +58,7 @@ class Login (LoginTemplate):
         alert('Please enter a user name.')
         return False
       else:
-        user_created = anvil.server.call('make_new_user',
+        user_created = anvil.server.call('create_user',
                                          self.phone.text,
                                          self.password.text,
                                          self.user_name.text,)
@@ -62,11 +66,19 @@ class Login (LoginTemplate):
           Notification("You would get a confirmation text message here...").show()
           open_form('AddContacts')
     else:    # login
-      success = anvil.server.call('do_login', self.phone.text, self.password.text)
+      print('# login')
+      success = anvil.server.call('do_login',
+                                  number,
+                                  self.password.text,)
+      print('login attempted')
       if success:
         self.go_button.visible = False
         self.button_1.visible = True
         open_form('AddContacts')
+        return False
+      else:
+        print('login failed')
+        return False
 
   def button_1_click (self, **event_args):
     # This method is called when the button is clicked

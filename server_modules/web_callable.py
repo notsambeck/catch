@@ -3,15 +3,18 @@ import anvil.users
 import tables
 from tables import app_tables
 import anvil.server
-import bcrypt
-import datetime
+
+from datetime import datetime
+import random
+
 import twilio
+import bcrypt
 
 twilio_test_sid = 'AC8c06108afa619c6f98486555b0d09d8c'
 
 def bhash(_string):
   '''returns: hash of string'''
-  return bcrypt.hashpw(_string.encode('utf-8'), bcrypt.gensalt(12))
+  return bcrypt.hashpw(_string.encode('utf-8'), bcrypt.gensalt(12)).decode()
 
 @anvil.server.callable
 def do_login(phone, password):
@@ -23,10 +26,17 @@ def do_login(phone, password):
   returns:
     user_id: string
       '''
-  assert isinstance(phone, str) and isinstance(password, str)
-
+  try:
+    assert isinstance(phone, str) and isinstance(password, str)
+    print('doing login...')
+  except:
+    print('do_login takes 2 strings!')
+    return
+    
   phone_hash = bhash(phone)
+  print(phone_hash, 'hashed')
   me = get_user_by_phone_hash(phone_hash)
+  print(me, '= me')
   if me:
     if bhash(password) == me['password_hash']:
       anvil.users.force_login(me)
@@ -49,9 +59,9 @@ def create_user(phone, password, handle):
   handle is string of user's display name
   
   args: 
-      phone
-      password
-      handle
+      phone: string
+      password: string
+      handle: string
 
   returns:
       bool: True if success; False if user exists
@@ -64,27 +74,36 @@ def create_user(phone, password, handle):
     return False
 
   else:
-    # TODO: enabled should be false until user confirms phone number (twilio) but this is not set up yet
+    # TODO: enabled should be false until user confirms phone number (twilio); this is not set up yet
+    rando = ''.join([str(random.randrange(10)) for _ in range(4)])
+
     me = app_tables.users.add_row(
-      enabled=False,
+      enabled=True,
       # signed_up='12/25/2017',
       password_hash=bhash(password),
       phone_hash=bhash(phone),
       handle=handle,
-      account_created=datetime.now()
-      
+      account_created=datetime.now(),
+      confirmations_sent=0,
+      twilio_code=rando
     )
+    
+    anvil.alert(content='Your confirmation code for Catch: '.format(rando), title='INCOMING SMS MESSAGE')
+    
+    return True
 
-    if do_login(phone, password):
-      return meusers
-    else:
-      print('error logging in but user may have been created')
-
-
+@anvil.server.callable
 def get_user_by_phone_hash(phone_hash):
-  '''return users row for a phone number, or false if it does not exist
-  TODO: this is a hilarious security flaw; literally returns the password for any phone number (ha!)'''
-  return app_tables.users.get(phone_hash=int(phone))
+  '''return users row for a phone number, or false if it does not exist'''
+  print('search users table')
+  u = app_tables.users.get(phone_hash=phone_hash)
+  print(u)
+  if u:
+    print('user found')
+    return u
+  else:
+    print('user does not exist')
+    return u
 
 
 @anvil.server.callable
