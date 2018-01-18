@@ -3,6 +3,7 @@ import anvil.users
 import tables
 from tables import app_tables
 import anvil.server
+from validators import is_valid_number
 
 from datetime import datetime
 import random
@@ -12,98 +13,106 @@ import bcrypt
 
 twilio_test_sid = 'AC8c06108afa619c6f98486555b0d09d8c'
 
+
 def bhash(_string):
   '''returns: hash of string'''
   return bcrypt.hashpw(_string.encode('utf-8'), bcrypt.gensalt(12)).decode()
 
+
 @anvil.server.callable
 def do_login(phone, password):
-  '''set anvil.session['user'] to the user with phone number
+  '''
+  set anvil.session['user'] to user with this phone number if password hash matches
+  
   args:
-    phone: string of phone number
-    password: string of password
+    phone: string: phone number
+    password: string: of password
       
   returns:
-    user_id: string
-      '''
-  try:
-    assert isinstance(phone, str) and isinstance(password, str)
-    print('doing login...')
-  except:
-    print('do_login takes 2 strings!')
-    return
-    
-  phone_hash = bhash(phone)
-  print(phone_hash, 'hashed')
-  me = get_user_by_phone_hash(phone_hash)
+    {
+    success: bool
+    msg: user_id string 
+         OR 
+         failure message
+    }
+  '''
+  phone = is_valid_number(phone)
+  if not phone:
+    return {'success': False, 'msg': 'invalid phone number'}
+
+  me = get_user_by_phone(phone)
   print(me, '= me')
   if me:
     if bhash(password) == me['password_hash']:
       anvil.users.force_login(me)
-      print("login: success")
-      return anvil.users.get_user()
+      return {'success': True, 'msg': anvil.users.get_user().get_id()}
     else:
-      print("invalid password")
-      return False
+      return {'success': False, 'msg': 'incorrect password'}
   else:
-    print("this account does not exist")
-    return False
+    return {'success': False, 'msg': "this account does not exist"}
 
  
 @anvil.server.callable
 def create_user(phone, password, handle):
   '''
-  Create a new user. 
+  Create a new user 
+  
+  Requires pre-validated inputs
+
   Hashes password and phone number for storage.
   user_id is a generated primary key
   handle is string of user's display name
   
   args: 
-      phone: string
-      password: string
-      handle: string
+    phone: string
+    password: string
+    handle: string
 
   returns:
-      bool: True if success; False if user exists
+    {
+  success: True if success; False if user exists,
+  msg: string explains status
+    }
   '''
-  assert isinstance(phone, str)
-  
-  phone_hash = bhash(phone)
-  if get_user_by_phone_hash(phone_hash):
-    anvil.alert(content='This account already exists, please log in.', title='User already exists')
-    return False
+  assert isinstance(phone, str) and len(phone) == 10 and isinstance(handle, str)
+
+  if get_user_by_phone(phone):
+    return {
+      'success': False,
+      'msg': 'user already exists'
+    }
 
   else:
-    # TODO: enabled should be false until user confirms phone number (twilio); this is not set up yet
+    # TODO: enabled should be False until user confirms phone number (twilio); this is not set up yet
+    
     rando = ''.join([str(random.randrange(10)) for _ in range(4)])
 
     me = app_tables.users.add_row(
       enabled=True,
-      # signed_up='12/25/2017',
+      
       password_hash=bhash(password),
       phone_hash=bhash(phone),
       handle=handle,
       account_created=datetime.now(),
       confirmations_sent=0,
-      twilio_code=rando
+      twilio_code=rando,
     )
-    
-    anvil.alert(content='Your confirmation code for Catch: '.format(rando), title='INCOMING SMS MESSAGE')
-    
-    return True
 
-@anvil.server.callable
-def get_user_by_phone_hash(phone_hash):
-  '''return users row for a phone number, or false if it does not exist'''
-  print('search users table')
-  u = app_tables.users.get(phone_hash=phone_hash)
-  print(u)
+    return {'success': True, 'msg': rando}
+
+def get_user_by_phone(phone):
+  '''
+  arg: 
+    string: clean phone number
+  
+  returns:
+    user_id for a phone number
+    or
+    None if it does not exist
+    '''
+  u = app_tables.users.get(phone_hash=bhash(phone))
   if u:
-    print('user found')
-    return u
-  else:
-    print('user does not exist')
-    return u
+    return u.get_id()
 
 
 @anvil.server.callable

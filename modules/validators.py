@@ -13,10 +13,12 @@
 
 def is_valid_number(number):
   '''
-  Take a phone number as a string
+  Args:
+    string: phone number as a string
   
-  return clean string if number is valid, 
-  else False
+  returns
+    string: cleaned number is valid, 
+    or None
   '''
   print(number)
   
@@ -26,7 +28,7 @@ def is_valid_number(number):
       return None
 
   if len(number) != 10:
-    return False
+    return None
 
   else:
     return ''.join(number)

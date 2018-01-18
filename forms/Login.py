@@ -41,15 +41,17 @@ class Login(LoginTemplate):
     
     This method is called when the submit button is clicked.
     Returns True on successful exit, else False'''
+
     number = is_valid_number(self.phone.text)
   
     if not number:
       alert('Please enter 10-digit numeric phone number with area code.')
       return False
 
+    # NEW ACCOUNT
     if self.new_account.checked:
       if len(self.password.text) < 5:
-        alert('Come on, password must be at least 5 characters.')
+        alert('Password too short.')
         return False
       elif self.confirm_password.text != self.password.text:
         alert('Passwords do not match.')
@@ -62,27 +64,33 @@ class Login(LoginTemplate):
                                          self.phone.text,
                                          self.password.text,
                                          self.user_name.text,)
-        if user_created:
-          Notification("You would get a confirmation text message here...").show()
-          open_form('AddContacts')
-    else:    # login
-      print('# login')
-      success = anvil.server.call('do_login',
+        if user_created['success']:
+          Notification('account created').show()
+          alert('Confirmation code: {}'.format(user_created['msg']),
+                title='SMS INCOMING')
+        else:
+          Notification(user_created['msg']).show()
+          
+        return True
+
+    # LOGIN
+    else:
+      status = anvil.server.call('do_login',
                                   number,
                                   self.password.text,)
-      print('login attempted')
-      if success:
+      if status['success']:
+        Notification("Login successful, msg: {}".format(status['msg'])).show()
         self.go_button.visible = False
         self.button_1.visible = True
         open_form('AddContacts')
-        return False
       else:
-        print('login failed')
-        return False
-
-  def button_1_click (self, **event_args):
+        Notification(status['msg']).show()
+        
+  def continue_button_click (self, **event_args):
     # This method is called when the button is clicked
     open_form('game_list')
+
+
 
 
 

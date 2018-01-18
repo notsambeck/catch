@@ -105,6 +105,6 @@ components:
     foreground: '', visible: false, text: Proceed to games, font_size: null, font: '',
     spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
     bold: true, underline: false, icon: ''}
-  name: button_1
-  layout_properties: {grid_position: 'WEWBFZ,GEKADR'}
-  event_bindings: {click: button_1_click}
+  name: continue_button
+  layout_properties: {grid_position: 'LZBQGR,IOBLXR'}
+  event_bindings: {click: continue_button_click}
