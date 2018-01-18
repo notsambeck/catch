@@ -57,7 +57,7 @@ class Login(LoginTemplate):
         alert('Passwords do not match.')
         return False
       elif not self.user_name.text:
-        alert('Please enter a user name.')
+        alert('Please enter a username (your friends will be able to see it).')
         return False
       else:
         user_created = anvil.server.call('create_user',

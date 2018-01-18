@@ -3,7 +3,7 @@ import anvil.server
 import anvil.users
 import tables
 from tables import app_tables
-from utils import is_valid_number, update_connections
+from utils import is_valid_number
 from Title import Title
 from GameGrid import GameGrid
 
@@ -12,15 +12,14 @@ class GameList (GameListTemplate):
   '''
   the list of games (each of which is an instance of GameGrid)
   
-  NO ADDITIONAL STUFF (see)
+  NO ADDITIONAL STUFF (see AddContacts)
   '''
   def __init__(self, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
 
     # Any code you write here will run when the form opens.
-    self.title_panel.add_component(Title())
-    self.conns = update_connections(self)
+    self.conns = self.update_connections()
     
   def update_connections(self):
     conns = anvil.server.call('get_connections')
@@ -29,15 +28,6 @@ class GameList (GameListTemplate):
       self.game_panel.add_component(GameGrid(conn))
     return conns
   
-  def add_contacts_click(self, **event_args):
-    # This method is called when the button is clicked
-    open_form('AddContacts')
-
   def timer_1_tick(self, **event_args):
     # This method is called Every [interval] seconds
-    self.conns = update_connections(self)
-
-  def logout(self, **event_args):
-    # This method is called when the button is clicked
-    anvil.users.logout()
-    open_form('Login')
+    self.conns = self.update_connections()

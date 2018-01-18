@@ -35,6 +35,10 @@ def send_authorization_message(phone):
     return {'success': False,
             'msg': '''We have sent {} confirmation messages.
             Please contact customer service.'''.format(user['confirmations_sent'])}
+  
+  elif user['dummy']:
+    return {'success': False,
+            'msg': "please use Create New Account to create a password and username"}
 
   else:
     message = client.api.account.messages.create(

@@ -90,15 +90,30 @@ def create_user(phone, password, handle):
       'success': False,
       'msg': 'invalid phone number'
     }
-  if app_tables.users.get(phone_hash=hash_phone(phone)):  # account exists
-    return {
-      'success': False,
-      'msg': 'user already exists'
-    }
+  existing = app_tables.users.get(phone_hash=hash_phone(phone))  # account exists
+  if existing:
+    if not existing['dummy']:
+      return {
+        'success': False,
+        'msg': 'user already exists',
+      }
+    
+    else:  # existing is a dummy
+      existing.update(
+        dummy=False,
+        enabled=False,
+        handle=handle,
+        password_hash=bhash(password),
+        twilio_code=generate_code(),
+        confirmations_sent=1,
+      )
+
+    return send_authorization_message(phone)
   
-  else:                            # number is valid and account does not exist
+  else:    # number is valid and account does not exist
     user = app_tables.users.add_row(
       enabled=False,
+      dummy=False,
       password_hash=bhash(password),
       phone_hash=hash_phone(phone),
       handle=handle,
@@ -108,6 +123,52 @@ def create_user(phone, password, handle):
     )
     
     return send_authorization_message(phone)
+
+
+@anvil.server.callable
+def create_dummy(phone):
+  '''
+  Create a new dummy user from phone number
+  Hashes phone number for storage.
+  
+  args: 
+    phone: string
+
+  returns:
+    {success: True if success; False if user exists,
+     msg: string explains status,
+  '''
+  assert isinstance(phone, str)
+
+  phone = is_valid_number(phone)
+  if not phone:                    # invalid number
+    return {
+      'success': False,
+      'msg': 'invalid phone number'
+    }
+  if app_tables.users.get(phone_hash=hash_phone(phone)):  # account exists
+    return {
+      'success': False,
+      'msg': 'user already exists'
+    }
+  
+  else:                            # number is valid and account does not exist
+    user = app_tables.users.add_row(
+      enabled=False,
+      dummy=True,
+      phone_hash=hash_phone(phone),
+      account_created=datetime.now(),
+      confirmations_sent=0,
+      twilio_code=generate_code(),
+    )
+    
+    if user:
+      return {'success': True,
+              'msg': 'Confirmation not sent because, spam.'}
+    
+    else:
+      return {'success': False,
+              'msg': 'unknown failure in create_dummy'}
 
 
 @anvil.server.callable
@@ -171,7 +232,7 @@ def confirm_account(code, phone):
 
 
 @anvil.server.callable
-def add_connection(other_user_id):
+def add_connection(phone):
   '''
   adds a connection to graph from current logged in to user with phone number
   
@@ -179,18 +240,48 @@ def add_connection(other_user_id):
     other_user_id: user_id
     
   returns:
-    row: new connection
+    {'success': bool,
+     'enabled': bool,
+     'msg': status,
+     'game_id': game id ,}
   '''
-  other_user = app_tables.users.get_by_id(other_user_id)
-  print('adding connection to', other_user['handle'])
-  row = app_tables.graph.add_row(connection_time=datetime.now(),
-                                 is_active=False,
-                                 player_1=anvil.users.get_user(),
-                                 player_2=other_user,
-                                 player_2_active=other_user['enabled'])
-  return row
-
+  if not anvil.users.get_user():
+    return {'success': False, 'msg': 'Not logged in.'}
   
+  other_user = app_tables.users.get(phone_hash=hash_phone(phone))
+  
+  if other_user:
+    print('try adding connection to', other_user['handle'])
+    existing = [game for game in app_tables.graph.search() \
+                if (game['player_1'] == other_user and game['player_2'] == anvil.users.get_user()) or \
+                    (game['player_2'] == other_user and game['player_1'] == anvil.users.get_user())]
+    if existing:
+      return {'success': True,  # misleading
+             'enabled': existing['player_2_enabled'],
+             'msg': 'game already existed',
+             'game_id': existing.get_id()}
+    else:
+      row = app_tables.graph.add_row(
+        connection_time=datetime.now(),
+        is_active=False,
+        player_1=anvil.users.get_user(),
+        player_2=other_user,
+        player_2_enabled=other_user['enabled'])
+      
+      return {'success': True,
+             'enabled': row['player_2_enabled'],
+             'msg': 'game created',
+             'game_id': row.get_id()}
+  else:
+    
+    return {
+      'success': False,
+      'enabled': False,
+      'msg': 'other player did not have an account',
+      'game_id': None
+           }
+  
+
 @anvil.server.callable
 def get_connections():
   '''
