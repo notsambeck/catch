@@ -5,7 +5,8 @@ from tables import app_tables
 import anvil.server
 import bcrypt
 
-bcrypt.
+h = bcrypt.hashpw('a')
+print(h)
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
