@@ -1,4 +1,11 @@
 package_name: Catch
+secrets:
+  twilio_test_auth:
+    value: {? '' : dvhLXGEE4bL35wjKjznCwljmfAfo/p6nIjdd0MCe35Zw1KiMxZlukTmdxlCFKT0Qzy7fPtoBiO13/FVFdPj89GEFk+8Am7JyMTBsOcXzZomz3uwkKtoX3jEao9RIgcVsQCVV13QvItfGICfydErk}
+    type: secret
+  my_key:
+    value: {? '' : Uch0Grc+7onveR5U8zADrBDjWIUNpYxyrlEpVbEBX9X5eINZeU8opvn2Dg0nwNEQBRnqS0Lrziet4A6RJjwOHBXXwoLFfPKdgUZR4ievqERCZU2mcinvx4/89YAiDI6bvKVrJiKXWf4=}
+    type: key
 name: Catch
 startup_form: Login
 renamed: true
@@ -8,6 +15,9 @@ services:
   client_config: {}
   server_config: {auto_create_missing_columns: true}
 - source: /runtime/services/anvil/users.yml
-  client_config: {allow_signup: true, enable_automatically: true, use_email: true,
+  client_config: {allow_signup: true, enable_automatically: false, use_email: false,
     confirm_email: false}
   server_config: {user_table: 7129}
+- source: /runtime/services/anvil/secrets.yml
+  client_config: {}
+  server_config: {}

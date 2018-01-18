@@ -1,3 +1,4 @@
+import anvil.secrets
 import anvil.users
 import tables
 from tables import app_tables
@@ -14,8 +15,7 @@ def do_login(phone, password):
     if password == me['password']:
       anvil.users.force_login(me)
       print("success")
-      print(anvil.users.get_user())
-      return True
+      return anvil.users.get_user()
     else:
       print("invalid password")
       return False
