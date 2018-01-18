@@ -5,6 +5,8 @@ from tables import app_tables
 import anvil.server
 import bcrypt
 
+bcrypt.
+
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
 
@@ -26,13 +28,17 @@ def do_login(phone, password):
 
  
 @anvil.server.callable
-def create_user(phone, password, username):
+def create_user(phone, password, handle):
   '''
-  Create a new user.
+  Create a new user. Hashes password and phone number for storage.
   
-  args: phone, password, username
+  args: 
+      phone
+      password
+      username
 
-  returns: True if success; False if user already exists
+  returns:
+      bool: True if success; False if user exists
   '''
   if get_user_by_phone(phone):
     # 
