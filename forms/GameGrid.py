@@ -7,8 +7,10 @@ from tables import app_tables
     
 class GameGrid(GameGridTemplate):
   '''
-  Game grid renders an entire row (connection) as a status grid entry
-  User on the left, opponent on the right!'''
+  Game grid renders an entire row (game) as a status grid entry
+  
+  1 game per game_grid instance
+  '''
   def __init__(self, game, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
@@ -41,11 +43,18 @@ class GameGrid(GameGridTemplate):
       else:
         self.play_button.background = '#CCCCCC'
       
-    else:  # game inactive
+    elif game['player_2_enabled']:  # game inactive but ready
       self.play_button.text = 'Start new game'
       self.friend_ball.visible = False
       self.player_ball.visible = False
       self.play_button.background = '#92bf89'
+      
+    else:   # player 2 not yet online
+      self.play_button.text = 'Friend has not confirmed account'
+      self.play_button.enabled = False
+      self.friend_ball.visible = False
+      self.player_ball.visible = False
+      self.play_button.background = '#CCCCCC'
 
 
   def play_button_click(self, **event_args):

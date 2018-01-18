@@ -2,14 +2,7 @@
 # import anvil.users
 # import tables
 # from tables import app_tables
-
-# This is a module.
-# You can define variables and functions here, and use them from any form. For example:
-#
-#    import Module1
-#
-#    Module1.say_hello()
-#
+import random
 
 def is_valid_number(number):
   '''
@@ -37,18 +30,25 @@ def is_valid_number(number):
 def hash_phone(phone):
   '''
   one-way but REPEATABLE hash for phone numbers.
+  
   args: 
     string: numeric phone number;
+ 
   returns:
     string: static hash
   '''
-  # one option:
-  
+  # does not run in browser:
   '''
   h = blake2b(digest_size=30)
   h.update(phone.encode('utf-8'))
   return h.hexdigest()
   '''
-  
-  # alternatively:
+  # does nothing:
   return phone
+
+
+def generate_code(length=5):
+  '''generate random string: numeric code of length __ (for Twilio)'''
+  code = ''.join([str(random.randrange(0, 10)) for _ in range(length)])
+  assert isinstance(code, str) and len(code) == length
+  return code

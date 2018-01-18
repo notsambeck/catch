@@ -4,7 +4,7 @@ import tables
 from tables import app_tables
 import anvil.server
 
-from validators import is_valid_number, hash_phone
+from utils import is_valid_number, hash_phone, generate_code
 from twilio_auth import send_authorization_message
 
 from datetime import datetime
@@ -41,23 +41,31 @@ def do_login(phone, password):
   '''
   phone = is_valid_number(phone)
   if not phone:
-    return {'success': False, 'msg': 'invalid phone number'}
+    return {'success': False,
+            'enabled': False,
+            'msg': 'invalid phone number',}
 
-  user_id = get_user_id_by_phone(phone)
-  user = app_tables.users.get_by_id(user_id)
+  user = app_tables.users.get(phone_hash=hash_phone(phone))
 
   if user:
     if bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
-      anvil.users.force_login(user)
-      return {'success': True,
-              'user_id': user_id,
-              'user_enabled': user['enabled']}
+      if user['enabled']:
+        anvil.users.force_login(user)
+        return {'success': True,
+                'enabled': True,}
+      else:
+        return {'success': True,
+                'enabled': False,}
     else:
-      return {'success': False, 'msg': 'incorrect password'}
+      return {'success': False,
+              'enabled': False,
+              'msg': 'incorrect password',}
   else:
-    return {'success': False, 'msg': "account {} does not exist".format(phone)}
+    return {'success': False, 
+            'enabled': False,
+            'msg': "account for {} does not exist".format(phone),}
 
- 
+
 @anvil.server.callable
 def create_user(phone, password, handle):
   '''
@@ -82,18 +90,13 @@ def create_user(phone, password, handle):
       'success': False,
       'msg': 'invalid phone number'
     }
-  if get_user_id_by_phone(phone):  # account exists
+  if app_tables.users.get(phone_hash=hash_phone(phone)):  # account exists
     return {
       'success': False,
       'msg': 'user already exists'
     }
   
   else:                            # number is valid and account does not exist
-    # TODO: enabled should be False until user confirms phone number (twilio)
-    rando = ''.join([str(random.randrange(10)) for _ in range(5)])
-    
-    send_authorization_message(rando)
-
     user = app_tables.users.add_row(
       enabled=False,
       password_hash=bhash(password),
@@ -101,18 +104,10 @@ def create_user(phone, password, handle):
       handle=handle,
       account_created=datetime.now(),
       confirmations_sent=1,
-      twilio_code=rando,
+      twilio_code=generate_code(),
     )
-
-    if not user:
-      # in case of insertion error
-      raise InsertionError(phone)
     
-    return {
-       'success': True,
-      'twilio_code': rando,           # TODO: this is fake!
-      'user_id': user.get_id(),
-    }
+    return send_authorization_message(phone)
 
 
 @anvil.server.callable
@@ -130,17 +125,23 @@ def get_user_id_by_phone(phone):
     or
     None: if user does not exist
     '''
-  phone_hash=hash_phone(phone)
-  u = app_tables.users.get(phone_hash=phone_hash)  # needs to be called with keyword arg for table column name
+  # only works with logged in users
+  if not anvil.users.get_user():
+    return 
+  
+  u = app_tables.users.get(phone_hash=hash_phone(phone))  # needs to be called with keyword arg for table column name
   if u:
     return u.get_id()
 
 
 @ anvil.server.callable
-def confirm_account(code, user_id):
+def confirm_account(code, phone):
   '''
   confirm a user has their twilio code
+
   changes user.enabled to True if success
+  AND
+  logs the user in
   
   args:
     user_id
@@ -148,13 +149,25 @@ def confirm_account(code, user_id):
   returns:
     bool: True or False
   '''
-  user = app_tables.users.get_by_id(user_id)
+  user = app_tables.users.get(phone_hash=hash_phone(phone))
+  
+  if not user:
+    return {'success': False,
+            'msg': 'account does not exist',}
+  
+  elif user['enabled']:
+    return {'success': False,
+            'msg': 'account already verified, just log in',}
+  
   if code == user['twilio_code']:
     user['enabled'] = True
     anvil.users.force_login(user)
-    return True
+    return {'success': True, 
+            'msg': 'authed',}
+  
   else:
-    return False
+    return {'success': False,
+            'msg': 'code incorrect',}
 
 
 @anvil.server.callable

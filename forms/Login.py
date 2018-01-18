@@ -2,7 +2,7 @@ from anvil import *
 import anvil.server
 import anvil.users
 
-from validators import is_valid_number
+from utils import is_valid_number
 from Title import Title
 
 class Login(LoginTemplate):
@@ -66,7 +66,7 @@ class Login(LoginTemplate):
                                          self.user_name.text,)
         if user_created['success']:
           Notification('account created').show()
-          open_form('ConfirmAccount', user_created['twilio_code'], user_created['user_id'])
+          open_form('ConfirmAccount', number)
         else:
           alert(user_created['msg'])
 
@@ -75,25 +75,24 @@ class Login(LoginTemplate):
       status = anvil.server.call('do_login',
                                   number,
                                   self.password.text,)
-      if status['success']:
-        Notification("Login successful, user_id: {}".format(status['user_id'])).show()
+      
+      # if we have full access, continue
+      if status['success'] and status['enabled']:
+        Notification("Login successful...").show()
         self.go_button.visible = False
-        if status['user_enabled']:
-          self.continue_button.visible = True
-          open_form('AddContacts')
-        else:
-          open_form('ConfirmAccount', 'idunno', status['user_id'])
+        self.continue_button.visible = True
+        open_form('AddContacts')
+
+      # if account not confirmed, go to confirmation
+      elif status['success'] and not status['enabled']:
+        Notification("Unverified account...").show()
+        open_form('ConfirmAccount', number)
+
+      # else: fail
       else:
+        print('unsuccessful login')
         Notification(status['msg']).show()
-        
+
   def continue_button_click (self, **event_args):
     # This method is called when the button is clicked
     open_form('game_list')
-
-
-  
-
-
-
-
-    

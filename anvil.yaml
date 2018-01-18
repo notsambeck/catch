@@ -1,11 +1,14 @@
 package_name: Catch
 secrets:
-  twilio_test_auth:
-    value: {? '' : dvhLXGEE4bL35wjKjznCwljmfAfo/p6nIjdd0MCe35Zw1KiMxZlukTmdxlCFKT0Qzy7fPtoBiO13/FVFdPj89GEFk+8Am7JyMTBsOcXzZomz3uwkKtoX3jEao9RIgcVsQCVV13QvItfGICfydErk}
-    type: secret
   my_key:
     value: {? '' : Uch0Grc+7onveR5U8zADrBDjWIUNpYxyrlEpVbEBX9X5eINZeU8opvn2Dg0nwNEQBRnqS0Lrziet4A6RJjwOHBXXwoLFfPKdgUZR4ievqERCZU2mcinvx4/89YAiDI6bvKVrJiKXWf4=}
     type: key
+  twilio_token:
+    value: {? '' : Al6Az5Onx9oZujii/nde/Clk8VnGIcenhzvN5DCOOPBll9VSi+LUz82yvd1LNPxGcajv/t2nT9o4nKPMj9NsG+frVLZpNi95QF58NWU54nlYUi2Fq+ZLfq4qggiyN/ueK9FW99G1GQgB/ZQLZi2d}
+    type: secret
+  twilio_sid:
+    value: {? '' : cqWdFNq3GjkC/bDxRH2nWcyujrSceJH0g1tSA+uML9h4aeNBmg5h5UJteqx8VT7AOVYvL9mNdOW7bt3cVDR6vQgbE0N5li7FqvbffjYtpzWsytC0zfgHb1EdLqEBDJu35TqPrpfhSay6WO+zNdc360o=}
+    type: secret
 name: Catch
 startup_form: Login
 renamed: true

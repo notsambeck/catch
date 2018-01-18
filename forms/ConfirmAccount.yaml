@@ -12,21 +12,28 @@ components:
   layout_properties: {grid_position: 'UMRMIX,XBYIIT'}
 - type: Button
   properties: {role: null, width: default, align: left, border: '', enabled: true,
-    foreground: '', visible: true, text: resend confirmation text, font_size: null,
-    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false, icon: ''}
+    foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
   name: resend_button
   layout_properties: {grid_position: 'EMOOSP,EIBTHE'}
   event_bindings: {click: resend_button_click}
+- type: Button
+  properties: {role: null, width: default, align: right, border: '', enabled: true,
+    foreground: '', visible: true, text: 'Not you? Log out!', font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: false, underline: false, icon: ''}
+  name: cancel
+  layout_properties: {grid_position: 'EMOOSP,RUCZNM'}
 - type: Spacer
   properties: {height: 32}
   name: spacer_1
   layout_properties: {grid_position: 'GTSZNP,MJYEBQ'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
-    visible: true, text: 'Confirmation code from SMS:', font_size: null, font: '',
-    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
-    bold: false, underline: false, icon: ''}
+    visible: true, text: 'Confirmation code:', font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
   name: label_name
   layout_properties: {grid_position: 'WAOBWA,NDSLXX'}
 - type: TextBox

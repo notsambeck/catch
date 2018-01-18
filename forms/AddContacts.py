@@ -3,7 +3,7 @@ import anvil.server
 import anvil.users
 import tables
 from tables import app_tables
-from validators import is_valid_number, hash_phone
+from utils import is_valid_number, hash_phone, update_connections
 from Title import Title
 from GameGrid import GameGrid
 
@@ -15,7 +15,7 @@ class AddContacts (AddContactsTemplate):
 
     # Any code you write here will run when the form opens.
     self.title_panel.add_component(Title())
-    self.conns = self.update_connections()
+    self.conns = update_connections(self)
 
   def add_connection(self, **event_args):
     # This method is called when the submit button is clicked
@@ -48,7 +48,6 @@ class AddContacts (AddContactsTemplate):
       alert('''that user does not exist, please invite them to join! 
             fzcmbv5jk6jlbkev.anvilapp.net/6FZXPZAN57OVOFH6M5E73C6V''')
 
-
   def why_phone_click(self, **event_args):
     # This method is called when the why_phone button is clicked
     alert('''
@@ -58,20 +57,13 @@ class AddContacts (AddContactsTemplate):
           We will never share this phone number with anyone.''',
           title='Why we need a phone number:')
 
-  def update_connections(self):
-    self.game_panel.clear()
-    conns = anvil.server.call('get_connections')
-    for conn in conns:
-      self.game_panel.add_component(GameGrid(conn))
-    return conns
-
   def button_1_click(self, **event_args):
     # This method is called when the button is clicked
     open_form('GameList')
 
   def timer_1_tick(self, **event_args):
     # This method is called Every [interval] seconds
-    self.update_connections()
+    self.conns = update_connections(self)
 
   def phone_pressed_enter(self, **event_args):
     # This method is called when the user presses Enter in this text box
