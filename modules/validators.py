@@ -20,9 +20,9 @@ def is_valid_number(number):
     string: cleaned number is valid, 
     or None
   '''
-  print(number)
+  # print('input number string to validate: ', number)
   
-  number = [char for char in number if char not in '-_() ']
+  number = [char for char in number if char not in '-_() .']
   for char in number:
     if char not in '0123456789':
       return None
@@ -32,3 +32,23 @@ def is_valid_number(number):
 
   else:
     return ''.join(number)
+  
+
+def hash_phone(phone):
+  '''
+  one-way but REPEATABLE hash for phone numbers.
+  args: 
+    string: numeric phone number;
+  returns:
+    string: static hash
+  '''
+  # one option:
+  
+  '''
+  h = blake2b(digest_size=30)
+  h.update(phone.encode('utf-8'))
+  return h.hexdigest()
+  '''
+  
+  # alternatively:
+  return phone

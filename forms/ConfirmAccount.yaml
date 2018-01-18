@@ -1,0 +1,47 @@
+components:
+- type: ColumnPanel
+  properties: {}
+  name: title_panel
+  layout_properties: {grid_position: 'JPNRLE,PNYQVO'}
+- type: Label
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: You will receive a text message with a confirmation code. Enter it here to finish setting up Catch.,
+    font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+    italic: false, background: '', bold: false, underline: false, icon: ''}
+  name: label_confirm_screen
+  layout_properties: {grid_position: 'UMRMIX,XBYIIT'}
+- type: Label
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: 'Confirmation code from SMS:', font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: false, underline: false, icon: ''}
+  name: label_name
+  layout_properties: {grid_position: 'WAOBWA,NDSLXX'}
+- type: TextBox
+  properties: {role: null, width: default, align: left, hide_text: false, placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: confirmation_code
+  layout_properties: {grid_position: 'WAOBWA,QDVUDW'}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: true, text: Confirm your account!, font_size: null, font: '',
+    spacing_above: medium, icon_align: left, spacing_below: medium, italic: false,
+    background: '', bold: true, underline: false, icon: ''}
+  name: go_button
+  layout_properties: {grid_position: 'ZBCZAB,VSBJRI', row_background: ''}
+  event_bindings: {click: go, hide: go_button_hide}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: false, text: Proceed to games, font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: true, underline: false, icon: ''}
+  name: continue_button
+  layout_properties: {grid_position: 'LZBQGR,IOBLXR'}
+  event_bindings: {click: continue_button_click}
+container:
+  type: ColumnPanel
+  properties: {role: null, width: default, border: '', foreground: '', visible: true,
+    row_spacing: 10, wrap_on: mobile, spacing_above: none, col_widths: '{}', spacing_below: small,
+    background: ''}

@@ -66,12 +66,9 @@ class Login(LoginTemplate):
                                          self.user_name.text,)
         if user_created['success']:
           Notification('account created').show()
-          alert('Confirmation code: {}'.format(user_created['msg']),
-                title='SMS INCOMING')
+          open_form('ConfirmAccount', user_created['twilio_code'], user_created['user_id'])
         else:
-          Notification(user_created['msg']).show()
-          
-        return True
+          alert(user_created['msg'])
 
     # LOGIN
     else:
@@ -79,10 +76,13 @@ class Login(LoginTemplate):
                                   number,
                                   self.password.text,)
       if status['success']:
-        Notification("Login successful, msg: {}".format(status['msg'])).show()
+        Notification("Login successful, user_id: {}".format(status['user_id'])).show()
         self.go_button.visible = False
-        self.button_1.visible = True
-        open_form('AddContacts')
+        if status['user_enabled']:
+          self.continue_button.visible = True
+          open_form('AddContacts')
+        else:
+          open_form('ConfirmAccount', '01234', status['user_id'])
       else:
         Notification(status['msg']).show()
         
@@ -90,6 +90,8 @@ class Login(LoginTemplate):
     # This method is called when the button is clicked
     open_form('game_list')
 
+
+  
 
 
 

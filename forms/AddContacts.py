@@ -3,7 +3,7 @@ import anvil.server
 import anvil.users
 import tables
 from tables import app_tables
-from validators import is_valid_number
+from validators import is_valid_number, hash_phone
 from Title import Title
 from GameGrid import GameGrid
 
@@ -25,27 +25,27 @@ class AddContacts (AddContactsTemplate):
       alert('Please enter 10-digit numeric phone number with area code.')
       return False
 
-    if anvil.users.get_user()['phone_number'] == number:
+    if anvil.users.get_user()['phone_hash'] == hash_phone(number):
       alert('That is your phone number; this does not make sense.')
       return False
     
     # valid phone number: check if user exists
     # either returns False, or row from user table
-    other = anvil.server.call('get_user_by_phone', number)
+    other_id = anvil.server.call('get_user_id_by_phone', number)
 
-    if other:
+    if other_id:
       # check if connection between users already exists
       for conn in self.conns:
-        if conn['recipient'] == other:
+        if conn['player_1'] == other or conn['player_2'] == other:
           # TODO: this is probably an unneccessary warning
           Notification('you are already connected to this user').show()
           return True
       else:  # finally
-        with Notification(''.join(['Adding connection to:', other['username']])):
-          new_conn = anvil.server.call('add_connection', other.get_id())
+        with Notification('Adding connection to: {}'.format(number)):
+          new_conn = anvil.server.call('add_connection', other_id)
           self.game_panel.add_component(GameGrid(new_conn))
     else:
-      alert('''that user does not exist, please invite them to join at: 
+      alert('''that user does not exist, please invite them to join! 
             fzcmbv5jk6jlbkev.anvilapp.net/6FZXPZAN57OVOFH6M5E73C6V''')
 
 
