@@ -4,6 +4,9 @@
 # from tables import app_tables
 import random
 
+def notathnig():
+  pass
+
 def is_valid_number(number):
   '''
   Args:
