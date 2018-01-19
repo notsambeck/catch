@@ -220,10 +220,12 @@ def confirm_account(code, phone):
   
   if not user:
     return {'success': False,
+            'goto_login': True,
             'msg': 'account does not exist',}
   
   elif user['enabled']:
     return {'success': False,
+            'goto_login': True,
             'msg': 'account already verified, just log in',}
   
   if code == user['twilio_code']:

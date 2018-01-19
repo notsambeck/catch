@@ -31,6 +31,8 @@ class ConfirmAccount (ConfirmAccountTemplate):
       open_form('AddContacts')
     else:
       alert(confirmed['msg'])
+      if confirmed['goto_login']:
+        open_form('Login')
 
   def resend_button_click (self, **event_args):
     # This method is called when the button is clicked
