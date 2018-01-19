@@ -312,13 +312,21 @@ def get_connections():
   '''
   get all the connections with current user as p_1 or p_2
   '''
-  user = anvil.users.get_user()
+  me = anvil.users.get_user()
   
-  if not user:
+  if not me:
     return {'success': False, 'msg': 'Not logged in.'}
   
   # list all the games user is in.
-  games = [game for game in app_tables.graph.search(tables.order_by('last_throw_time', ascending=False)) if game['player_1'] == user or game['player_2'] == user]
+  '''
+  games_1 = app_tables.graph.client_readable(player_1=me)
+  games_2 = app_tables.graph.client_readable(player_2=me)
+  games = games_1, games_2
+  print(games, type(games))
+  '''
+  
+  # the following works but the list is not a good structure
+  # games = [game for game in app_tables.graph.search(tables.order_by('last_throw_time', ascending=False)) if game['player_1'] == user or game['player_2'] == user]
 
   return games
 
