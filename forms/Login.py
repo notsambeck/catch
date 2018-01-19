@@ -22,6 +22,7 @@ class Login(LoginTemplate):
     self.confirm_password.visible = new_account
     self.user_name.visible = new_account
     self.explain_phone_button.visible = new_account
+    self.confirmation_text_warn.visible = new_account
     if new_account:
       self.go_button.text = "Make new account"
     else:

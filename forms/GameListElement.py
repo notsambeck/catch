@@ -5,11 +5,11 @@ import tables
 from tables import app_tables
 
     
-class GameGrid(GameGridTemplate):
+class GameListElement(GameListElementTemplate):
   '''
   Game grid renders an entire row (game) as a status grid entry
   
-  1 game per game_grid instance
+  1 game per gameListElement instance
   '''
   def __init__(self, game, **properties):
     # You must call self.init_components() before doing anything else in this function
@@ -49,8 +49,10 @@ class GameGrid(GameGridTemplate):
       self.player_ball.visible = False
       self.play_button.background = '#92bf89'
       
-    else:   # player 2 not yet online
-      self.play_button.text = 'Friend has not confirmed account'
+    else:   # player 2 not yet enabled
+      self.play_button.text = 'Account not activated'
+      self.friend_label.text = self.game['player_2']['phone_hash']
+
       self.play_button.enabled = False
       self.friend_ball.visible = False
       self.player_ball.visible = False

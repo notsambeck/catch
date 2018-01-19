@@ -16,7 +16,7 @@ auth_token = anvil.secrets.get_secret('twilio_token')
 
 client = Client(account_sid, auth_token)
 
-# TODO: this needs to not be callable
+# TODO: this needs to not be callable?
 @anvil.server.callable
 def send_authorization_message(phone):
   '''
@@ -29,7 +29,7 @@ def send_authorization_message(phone):
   
   elif user['enabled']:
     return {'success': False,
-            'msg': 'account already verified, please log in'}
+            'msg': 'account already verified, just log in'}
   
   elif user['confirmations_sent'] > 3:
     return {'success': False,
@@ -42,7 +42,7 @@ def send_authorization_message(phone):
 
   else:
     message = client.api.account.messages.create(
-      to="+15035053813",     # TODO: replace with phone once not callable
+      to="+1{}".format(phone),     # TODO: replace with phone once not callable
       from_="+15035582695",
       body="Your CATCH authentication code: {}".format(user['twilio_code'])
      )

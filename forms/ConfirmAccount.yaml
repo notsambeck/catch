@@ -43,6 +43,7 @@ components:
     background: '', bold: false, underline: false}
   name: confirmation_code
   layout_properties: {grid_position: 'WAOBWA,QDVUDW'}
+  event_bindings: {pressed_enter: go}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
     foreground: '', visible: true, text: Confirm your account!, font_size: null, font: '',

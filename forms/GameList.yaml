@@ -4,7 +4,7 @@ components:
   name: game_panel
   layout_properties: {grid_position: 'TWGCNQ,FIMOZF'}
 - type: Timer
-  properties: {interval: 10}
+  properties: {interval: 5}
   name: timer_1
   event_bindings: {tick: timer_1_tick}
 container:

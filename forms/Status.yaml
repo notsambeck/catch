@@ -1,0 +1,16 @@
+components:
+- type: Label
+  properties: {}
+  name: user_label
+  layout_properties: {grid_position: 'HWXZBV,DVXRAE'}
+- type: Button
+  properties: {role: null, width: default, align: right, border: '', enabled: true,
+    foreground: '', visible: true, text: logout, font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: logout_button
+  layout_properties: {grid_position: 'HWXZBV,TQVCNI'}
+  event_bindings: {click: logout_button_click}
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}

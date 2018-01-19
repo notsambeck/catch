@@ -6,6 +6,7 @@ from tables import app_tables
 from utils import is_valid_number, hash_phone
 from Title import Title
 from GameList import GameList
+from Status import Status
 
 
 class AddContacts (AddContactsTemplate):
@@ -15,6 +16,7 @@ class AddContacts (AddContactsTemplate):
 
     # Any code you write here will run when the form opens.
     self.title_panel.add_component(Title())
+    self.title_panel.add_component(Status())
     self.game_list_panel.add_component(GameList())
 
   def add_connection(self, **event_args):
@@ -33,19 +35,33 @@ class AddContacts (AddContactsTemplate):
     new_conn = anvil.server.call('add_connection', phone)
 
     if new_conn['success']:
-      Notification(new_conn['msg']).show()
+      if new_conn['enabled']:
+        Notification(new_conn['msg']).show()
+      else:
+        # new connection exists but not enabled. remind them to play
+        c = confirm("{} was already invited to play Catch, but hasn't tried it. Remind them?".format(phone))
+        if c:
+          alert('''Let's play Catch, it's mad popular!
+                https://playcatch.anvilapp.net''',
+                title='Copy and paste this message')
     else:
       c = confirm('{} does not have an account. Invite them to play Catch?'.format(phone))
       if c:
-        alert('''
-            Copy and paste this message!
-            
-            Let's play Catch. Hey... it's free.
-            https://playcatch.anvilapp.net
-            ''',
-            title='')
-        anvil.server.call('create_dummy', phone)
+        alert('''Let's play Catch. Hey... it's free.
+            https://playcatch.anvilapp.net''',
+            title='Copy and paste this message')
+        dummy = anvil.server.call('create_dummy', phone)
+        
+        if not dummy['success']:
+          alert(dummy['msg'])
+          return False
+        
         new_conn = anvil.server.call('add_connection', phone)
+        if not new_conn['success']:
+          alert(new_conn['msg'])
+          return False
+        
+        self.game_list_panel.get_components()[0].add_connection(new_conn['game'])
 
   def why_phone_click(self, **event_args):
     # This method is called when the why_phone button is clicked
@@ -58,7 +74,8 @@ class AddContacts (AddContactsTemplate):
 
   def button_1_click(self, **event_args):
     # This method is called when the button is clicked
-    open_form('GameList')
+    anvil.users.logout()
+    open_form('Login')
 
   def phone_pressed_enter(self, **event_args):
     # This method is called when the user presses Enter in this text box

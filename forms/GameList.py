@@ -5,10 +5,10 @@ import tables
 from tables import app_tables
 from utils import is_valid_number
 from Title import Title
-from GameGrid import GameGrid
+from GameListElement import GameListElement
 
 
-class GameList (GameListTemplate):
+class GameList(GameListTemplate):
   '''
   the list of games (each of which is an instance of GameGrid)
   
@@ -19,14 +19,19 @@ class GameList (GameListTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run when the form opens.
+    self.conns = None
     self.conns = self.update_connections()
+    
+  def add_connection(self, new_conn):
+   self.game_panel.add_component(GameListElement(new_conn))
     
   def update_connections(self):
     conns = anvil.server.call('get_connections')
-    self.game_panel.clear()
-    for conn in conns:
-      self.game_panel.add_component(GameGrid(conn))
-    return conns
+    if self.conns is None or conns != self.conns:
+      self.game_panel.clear()
+      for conn in conns:
+        self.game_panel.add_component(GameListElement(conn))
+      return conns
   
   def timer_1_tick(self, **event_args):
     # This method is called Every [interval] seconds

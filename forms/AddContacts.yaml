@@ -4,23 +4,12 @@ components:
   name: title_panel
   layout_properties: {grid_position: 'AUYPPR,MXGLPQ'}
 - type: Label
-  properties: {role: null, width: default, align: left, border: '', foreground: '',
-    visible: true, text: 'Placeholder for importing contacts from phone
-
-
-      Add a contact:', font_size: null, font: '', spacing_above: medium, icon_align: left,
-    spacing_below: large, italic: false, background: '', bold: false, underline: false,
-    icon: ''}
+  properties: {role: null, width: default, align: center, border: '', foreground: '',
+    visible: true, text: Add friends to play Catch!, font_size: null, font: '', spacing_above: medium,
+    icon_align: left, spacing_below: large, italic: false, background: '', bold: true,
+    underline: false, icon: ''}
   name: label_get_contacts
   layout_properties: {grid_position: 'OROBJO,DMOCEV'}
-- type: Button
-  properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: (go to view w/o contact tools), font_size: null,
-    font: '', spacing_above: large, icon_align: left, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false, icon: ''}
-  name: button_1
-  layout_properties: {grid_position: 'OROBJO,UJTYVK'}
-  event_bindings: {click: button_1_click}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: 'Phone number:', font_size: null, font: '', spacing_above: none,

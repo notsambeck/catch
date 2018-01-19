@@ -91,8 +91,15 @@ components:
     icon_align: left, spacing_below: medium, italic: false, background: '', bold: true,
     underline: false, icon: ''}
   name: go_button
-  layout_properties: {grid_position: 'ZBCZAB,VSBJRI', row_background: ''}
+  layout_properties: {grid_position: 'ZBCZAB,VSBJRI EPUGLR,JZBFVH', row_background: ''}
   event_bindings: {click: go, hide: go_button_hide}
+- type: Label
+  properties: {role: null, width: default, align: center, border: '', foreground: '',
+    visible: false, text: We will send one (just one!) text message to confirm your identity.,
+    font_size: 10, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+    italic: false, background: '', bold: false, underline: false, icon: ''}
+  name: confirmation_text_warn
+  layout_properties: {grid_position: 'ZBCZAB,VSBJRI IHGWDG,INPDNM'}
 - type: CheckBox
   properties: {role: null, width: default, align: left, border: '', enabled: true,
     foreground: '', visible: true, text: 'Create a new account?', font_size: null,

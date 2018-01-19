@@ -3,6 +3,7 @@ import anvil.server
 import anvil.users
 import tables
 from tables import app_tables
+from Status import Status
 
 # TODO delete this and function definition in ServerModule1
 # random_id = anvil.server.call('some_connection')
@@ -11,6 +12,8 @@ class PlayCatch (PlayCatchTemplate):
   def __init__(self, game, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
+    
+    self.column_panel_1.add_component(Status())
 
     self.game = game
     if not self.game['is_active']:
