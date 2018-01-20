@@ -328,6 +328,10 @@ def add_connection(phone):
 def get_games():
   '''
   get all the connections for current user
+  
+  returns an iterator on table rows; row['game'] is a game row
+  
+  TODO: This is dumb
   '''
   me = anvil.users.get_user()
   

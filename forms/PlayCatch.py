@@ -182,7 +182,7 @@ class PlayCatch (PlayCatchTemplate):
       self.ball_x += self.ball_vx
         
       self.ball_y -= self.ball_vy   # indexed from top
-      self.ball_vy -= .0065
+      self.ball_vy -= .0067
       
       if self.ball_steps == 20:
         # print('ball has arrived')
