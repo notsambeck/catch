@@ -401,7 +401,7 @@ def throw(game_id):
             'msg': 'Must activate game before throwing.'}
   
   has_ball = 'player_{}'.format(game['has_ball'])
-  print(has_ball, ' has the ball. name: ', game[has_ball]['handle'])
+  # print(has_ball, ' has the ball now. name: ', game[has_ball]['handle'])
 
   if game[has_ball] != me:
     return {'success': False,
