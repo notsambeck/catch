@@ -25,7 +25,7 @@ def send_authorization_message(phone):
   user = app_tables.users.get(phone_hash=hash_phone(phone))
   if not user:
     return {'success': False,
-            'msg': 'no account for number {}'.format(phone)}
+            'msg': 'no account for {}; please create a new account.'.format(phone)}
   
   elif user['enabled']:
     return {'success': False,
@@ -33,19 +33,24 @@ def send_authorization_message(phone):
   
   elif user['confirmations_sent'] > 3:
     return {'success': False,
-            'msg': '''We have sent {} confirmation messages.
-            Please contact customer service.'''.format(user['confirmations_sent'])}
+            'msg': 'We have sent > 3 confirmation messages. Please contact customer service.'}
   
   elif user['dummy']:
     return {'success': False,
-            'msg': "please use Create New Account to create a password and username"}
+            'msg': "Check 'create new account' to create your password"}
 
   else:
-    message = client.api.account.messages.create(
-      to="+1{}".format(phone),     # TODO: replace with phone once not callable
-      from_="+15035582695",
-      body="Your CATCH authentication code: {}".format(user['twilio_code'])
-     )
-    user['confirmations_sent'] += 1
-    return {'success': True,
+    try:
+      message = client.api.account.messages.create(
+        to="+1{}".format(phone),     # TODO: replace with phone once not callable
+        from_="+15035582695",
+        body="Your CATCH authentication code: {}".format(user['twilio_code'])
+      )
+      user['confirmations_sent'] += 1
+      return {'success': True,
             'msg': 'message sent'}
+    
+    except TwilioError:
+      return {'success': False,
+              'msg': 'conf message attempted, but failed to send'}
+      

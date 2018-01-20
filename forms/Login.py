@@ -91,9 +91,8 @@ class Login(LoginTemplate):
 
       # else: fail
       else:
-        print('unsuccessful login')
         Notification(status['msg']).show()
 
   def continue_button_click (self, **event_args):
     # This method is called when the button is clicked
-    open_form('GameList'')
+    open_form('GameList')

@@ -23,7 +23,7 @@ class PlayCatch (PlayCatchTemplate):
 
     self.user_is_player_1 = self.game['player_1'] == anvil.users.get_user()
     
-    if self.game['who_has_ball'] == 1:
+    if self.game['has_ball'] == 0:
       self.player_1_ball.selected = True
       self.player_2_ball.selected = False
       if self.user_is_player_1:
@@ -42,8 +42,8 @@ class PlayCatch (PlayCatchTemplate):
         self.player_1_throw.visible = False
         self.player_2_throw.visible = True
     
-    self.player_1_name.text = self.game['player_1']['handle']
-    self.player_2_name.text = self.game['player_2']['handle']
+    self.player_1_name.text = self.game['player_0']['handle']
+    self.player_2_name.text = self.game['player_1']['handle']
     
     self.counter = 0
     self.ball_moving = False

@@ -26,12 +26,17 @@ class GameList(GameListTemplate):
    self.game_panel.add_component(GameListElement(new_conn))
     
   def update_connections(self):
-    conns = anvil.server.call('get_connections')
-    if self.conns is None or conns != self.conns:
+    connects = anvil.server.call('get_games')
+    print(connects['msg'])
+    if not connects['success']:
+      return self.conns
+
+    if self.conns is None or connects['games'] != self.conns:
       self.game_panel.clear()
-      for conn in conns:
-        self.game_panel.add_component(GameListElement(conn))
-      return conns
+      for row in connects['games']:
+        game = row['game']
+        self.game_panel.add_component(GameListElement(game))
+      return connects['games']
   
   def timer_1_tick(self, **event_args):
     # This method is called Every [interval] seconds
