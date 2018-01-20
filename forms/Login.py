@@ -96,4 +96,4 @@ class Login(LoginTemplate):
 
   def continue_button_click (self, **event_args):
     # This method is called when the button is clicked
-    open_form('game_list')
+    open_form('GameList'')
