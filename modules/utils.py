@@ -52,3 +52,19 @@ def generate_code(length=5):
   code = ''.join([str(random.randrange(0, 10)) for _ in range(length)])
   assert isinstance(code, str) and len(code) == length
   return code
+
+
+def two_identical_game_iterators(games_1, games_2):
+  '''
+  returns true if games_1 == games_2
+  else returns false
+  '''
+  if len(games_1) != len(games_2):
+    return False
+  
+  for game in games_1:
+    _id = game.get_id()
+    other = games_2.get_by_id(_id)
+    if game['throws'] != other['throws']:
+      return False
+  return True

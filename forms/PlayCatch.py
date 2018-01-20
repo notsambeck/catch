@@ -23,35 +23,44 @@ class PlayCatch (PlayCatchTemplate):
       assert activate['success']
       self.game = activate['game']
 
+    # set permanent labels for this game instance:
+    
     self.p0_name.text = self.me['handle']
     self.am0 = self.game['player_0'] == self.me
-    
+
+    self.set_labels_directions()
+      
+  def set_labels_directions(self):
     if self.am0:
       self.i_have_ball = self.game['has_ball'] == 0
       self.p1_name.text = self.game['player_1']['handle']
     else:
       self.i_have_ball = self.game['has_ball'] == 1
-      self.p0_name.text = self.game['player_0']['handle']
+      self.p1_name.text = self.game['player_0']['handle']
 
     self.p0_ball.selected = self.i_have_ball
     self.p1_ball.selected = not self.i_have_ball
     self.p0_throw.visible = self.i_have_ball
-    self.p1_throw.visible = False  # because always left to right
+    self.p0_throw.background = '#92bf89'
+    self.p1_throw.visible = False  # always left to right
     
-    # initialize movement
+    # set movement vairables
     self.counter = 0
     self.ball_moving = False
-    if self.game['has_ball'] == 0:
+    
+    if self.i_have_ball:
       self.ball_x = .12
       self.ball_vx = .04
     else:
       self.ball_x = .88
-      self.ball_vx = .04
+      self.ball_vx = -.04
+      
+    # set y / y_velocity
     self.ball_y = .76
     self.ball_vy = .06
-
-  # navigation
-
+ 
+ 
+  # navigation button
   def add_contacts_click(self, **event_args):
     # This method is called when the button is clicked
     open_form('AddContacts')
@@ -59,14 +68,18 @@ class PlayCatch (PlayCatchTemplate):
   def throw_button_click(self, **event_args):
     # tell server that ball has been thrown immediately
     throw_status = anvil.server.call('throw', self.game.get_id())
+    
     if not throw_status['success']:
       print('Throw failed:', throw_status['msg'])
       return False
+    else:
+      self.game = throw_status['game']
 
+    # reset y velocity
     self.ball_y = .76
     self.ball_vy = .06
     
-    # change indicators
+    # turn off indicators
     self.p0_ball.selected = False
     self.p1_ball.selected = False
     self.p0_throw.visible = False
@@ -77,20 +90,8 @@ class PlayCatch (PlayCatchTemplate):
     
   def ball_arrived(self):
     self.ball_moving = False
-    update = anvil.server.call('get_game', self.game.get_id())
-    if update['success']:
-      self.game = update['game']
-    else:
-      open_form('AddContacts')
     
-    if self.game['has_ball'] == 0:
-      self.p0_ball.selected = True
-      if not self.am0:
-        self.p0_throw.visible = True
-    elif self.game['has_ball'] == 1:
-      self.p1_ball.selected = True
-    else:
-      open_form('AddContacts')
+    self.set_labels_directions()
       
   def draw(self, **event_args):
     self.counter += 1
@@ -163,30 +164,40 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_rect(.1*w, .65*h, .04*w, .25*h )
     c.fill_rect(.9*w, .65*h, .04*w, .25*h )
     c.fill_style = '#BB9900'
+    # heads
     c.fill_rect(.1*w, .59*h, .04*w, .08*h )
     c.fill_rect(.9*w, .59*h, .04*w, .08*h )
+    # gloves
+    c.fill_rect(.12*w, .75*h, .03*w, .06*h )
+    c.fill_rect(.88*w, .75*h, .03*w, .06*h )
     
-    # if player has ball:
+    # ball:
     c.fill_style = '#FFFFFF'
+    c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
+    
     if self.ball_moving:
       self.ball_steps += 1
       
       # direction
-      if self.game['has_ball'] == 0:
-        self.ball_x += self.ball_vx
-      else:
-        self.ball_x -= self.ball_vx
+      self.ball_x += self.ball_vx
         
-      self.ball_y -= self.ball_vy
-      self.ball_vy -= .0064
-      if self.ball_steps == 19:
-        print('ball has arrived')
+      self.ball_y -= self.ball_vy   # indexed from top
+      self.ball_vy -= .0065
+      
+      if self.ball_steps == 20:
+        # print('ball has arrived')
         self.ball_arrived()
-    c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
         
+    # update from server
     if self.counter % 30 == 29 and not self.ball_moving:
       game_live = anvil.server.call('get_game', self.game.get_id())
+      if game_live['success']:
+        print('local: {} / server: {}'.format(self.game['has_ball'], game_live['game']['has_ball']))
+      else:
+        print(game_live['msg']).show()
+        
       if game_live['success'] and game_live['game']['has_ball'] != self.game['has_ball']:
+        print('updating from server...')
         self.game = game_live['game']
         self.ball_moving = True
         self.ball_steps = 0

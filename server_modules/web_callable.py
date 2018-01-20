@@ -399,12 +399,13 @@ def throw(game_id):
   has_ball = 'player_{}'.format(game['has_ball'])
   print(has_ball, ' has the ball. name: ', game[has_ball]['handle'])
 
+  if game[has_ball] != me:
+    return {'success': False,
+            'msg': 'you did not have the ball'}
+
   with tables.Transaction() as txn:
-    if not game[has_ball] == me:
-      return {'success': False,
-              'msg': 'you did not have the ball'}
-    
-    game['has_ball'] = abs(1 - game['has_ball'])
+
+    game['has_ball'] = abs(1 - game['has_ball'])  # flip who has ball
     game['throws'] += 1
     game['last_throw_time'] = datetime.now()
 
@@ -430,9 +431,9 @@ def get_game(game_id):
 
   game = app_tables.games.get_by_id(game_id)
   
-  if not game['player_0'] == me or game['player_1'] == me:
+  if not (game['player_0'] == me or game['player_1'] == me):
     return {'success': False, 
-            'msg': 'Not in that game.'}
+            'msg': 'You are not in that game.'}
   
   else:
     print(game['has_ball'], ' has the ball')

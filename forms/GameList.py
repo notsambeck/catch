@@ -32,6 +32,7 @@ class GameList(GameListTemplate):
       return self.conns
 
     if self.conns is None or connects['games'] != self.conns:
+      
       self.game_panel.clear()
       for row in connects['games']:
         game = row['game']
