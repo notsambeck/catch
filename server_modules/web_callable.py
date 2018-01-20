@@ -326,7 +326,7 @@ def get_connections():
   '''
   
   # the following works but the list is not a good structure
-  # games = [game for game in app_tables.graph.search(tables.order_by('last_throw_time', ascending=False)) if game['player_1'] == user or game['player_2'] == user]
+  games = [game for game in app_tables.graph.search(tables.order_by('last_throw_time', ascending=False)) if game['player_1'] == me or game['player_2'] == me]
 
   return games
 
