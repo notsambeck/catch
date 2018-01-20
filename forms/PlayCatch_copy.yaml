@@ -1,6 +1,3 @@
-container:
-  type: ColumnPanel
-  properties: {col_widths: '{"MUZYMN":10,"YRAZOJ":20,"CTMSFR":20,"SRGNIM":10}'}
 components:
 - type: ColumnPanel
   properties: {}
@@ -24,28 +21,28 @@ components:
     visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
     spacing_below: small, italic: false, background: '', bold: true, underline: false,
     icon: ''}
-  name: p0_name
+  name: player_1_name
   layout_properties: {grid_position: 'FDTRQJ,YRAZOJ', full_width_row: false}
 - type: Label
   properties: {role: null, width: default, align: right, border: '', foreground: '',
     visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
     spacing_below: small, italic: false, background: '', bold: true, underline: false,
     icon: ''}
-  name: p1_name
+  name: player_2_name
   layout_properties: {grid_position: 'FDTRQJ,CTMSFR', full_width_row: false}
 - type: RadioButton
   properties: {role: null, selected: false, width: default, align: right, border: '',
     enabled: false, foreground: '', value: '', visible: true, text: has ball, font_size: null,
     font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
     bold: false, group_name: radioGroup1, underline: false}
-  name: p1_ball
+  name: player_2_ball
   layout_properties: {grid_position: 'FDTRQJ,SRGNIM', full_width_row: false}
 - type: Button
   properties: {role: null, width: default, align: left, border: '', enabled: true,
     foreground: '', visible: false, text: throw, font_size: null, font: '', spacing_above: small,
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
-  name: p0_throw
+  name: player_1_throw
   layout_properties: {grid_position: 'JQGELU,VNHQYF', full_width_row: false}
   event_bindings: {click: throw_button_click}
 - type: Button
@@ -53,7 +50,7 @@ components:
     foreground: '', visible: false, text: throw, font_size: null, font: '', spacing_above: small,
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
-  name: p1_throw
+  name: player_2_throw
   layout_properties: {grid_position: 'JQGELU,CNSMAR', full_width_row: false}
   event_bindings: {click: throw_button_click}
 - type: Spacer
@@ -76,3 +73,6 @@ components:
   properties: {interval: 0.2}
   name: timer_1
   event_bindings: {tick: draw}
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{"MUZYMN":10,"YRAZOJ":20,"CTMSFR":20,"SRGNIM":10}'}

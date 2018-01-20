@@ -296,15 +296,15 @@ def add_connection(phone):
   with tables.Transaction() as txn:
     # search for pre-existing games
     my_games = app_tables.user_games.search(user=me)
-    for game in my_games:
-      if game['player_1'] == other_user or game['player_0'] == other_user:
+    for row in my_games:
+      if row['game']['player_1'] == other_user or row['game']['player_0'] == other_user:
         
         # success is not really 'True' but same result
         return {
           'success': True,
-          'enabled': game['p1_enabled'],
+          'enabled': row['game']['p1_enabled'],
           'msg': 'game already existed!',
-          'game': game,}
+          'game': row['game'],}
     
     # no existing connection; make one
     game = app_tables.games.add_row(
@@ -391,7 +391,7 @@ def throw(game_id):
     return {'success': False, 
             'msg': 'Not logged in.'}
 
-  game = app_tables.graph.get_by_id(game_id)
+  game = app_tables.games.get_by_id(game_id)
   if not game['is_active']:
     return {'success': False, 
             'msg': 'Must activate game before throwing.'}
@@ -404,12 +404,41 @@ def throw(game_id):
       return {'success': False,
               'msg': 'you did not have the ball'}
     
-    game['has_ball'] = not game['has_ball']
+    game['has_ball'] = abs(1 - game['has_ball'])
     game['throws'] += 1
     game['last_throw_time'] = datetime.now()
 
   return {'success': True,
           'game': game}
+
+@anvil.server.callable
+def get_game(game_id):
+  '''
+  if user has permissions:
+  returns game with id game_id 
+  
+  args: game id
+  returns:
+    {'success': bool,
+     'game': game (row)}
+  '''
+  
+  me = anvil.users.get_user()
+  if not me:
+    return {'success': False, 
+            'msg': 'Not logged in.'}
+
+  game = app_tables.games.get_by_id(game_id)
+  
+  if not game['player_0'] == me or game['player_1'] == me:
+    return {'success': False, 
+            'msg': 'Not in that game.'}
+  
+  else:
+    print(game['has_ball'], ' has the ball')
+    return {'success': True,
+            'game': game}
+
 
 
 '''

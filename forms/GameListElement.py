@@ -17,16 +17,16 @@ class GameListElement(GameListElementTemplate):
     
     # self.game is ENTIRE ROW!
     self.game = game
-    self.user_is_player_1 = self.game['player_1'] == anvil.users.get_user()
+    self.am0 = self.game['player_0'] == anvil.users.get_user()
 
-    if self.user_is_player_1:
+    if self.am0:
       self.friend_label.text = self.game['player_1']['handle']
     else:
       self.friend_label.text = self.game['player_0']['handle']
     
     if self.game['is_active']:
       self.play_button.text = 'Go to game'
-      if self.user_is_player_1:
+      if self.am0:
         self.friend_ball.selected = self.game['has_ball'] == 1
         self.player_ball.selected = self.game['has_ball'] == 0
       else:
@@ -37,8 +37,7 @@ class GameListElement(GameListElementTemplate):
         self.num_throws.visible = True
         self.num_throws.text = 'Throws: {}'.format(str(self.game['throws']))
 
-      if (self.game['has_ball'] == 1 and self.user_is_player_1) or \
-      (self.game['has_ball'] == 0 and not self.user_is_player_1):
+      if (self.game['has_ball'] == 0 and self.am0) or (self.game['has_ball'] == 0 and not self.am0):
         self.play_button.background = '#92bf89'
       else:
         self.play_button.background = '#CCCCCC'
@@ -61,5 +60,5 @@ class GameListElement(GameListElementTemplate):
 
   def play_button_click(self, **event_args):
     # This method is called when the button is clicked
-    with Notification('starting game', timeout=1):
+    with Notification('Going to the park...', timeout=1):
       open_form('PlayCatch', self.game)
