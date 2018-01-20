@@ -1,35 +1,24 @@
-container:
-  type: ColumnPanel
-  properties: {role: null, width: default, border: 'True', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: mobile, spacing_above: small, col_widths: '{"TJKSBI":10}',
-    spacing_below: small, background: ''}
 components:
-- type: Label
-  properties: {role: null, width: default, align: left, border: '', foreground: '',
-    visible: true, text: 'Game with:', font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
-  name: label_1
-  layout_properties: {grid_position: 'CLYICX,ZIBOSR'}
-  data_bindings:
-  - {property: bold, code: 'self.item[''game_ongoing'']'}
-- type: Label
+- type: ColumnPanel
   properties: {}
-  name: friend_label
-  layout_properties: {grid_position: 'CLYICX,ICOQUP'}
-  data_bindings: []
+  name: column_panel_1
+  layout_properties: {grid_position: 'RFYZOP,LKWDLC'}
 - type: Label
   properties: {}
   name: num_throws
   layout_properties: {grid_position: 'CLYICX,TJKSBI'}
-- type: Button
-  properties: {role: null, width: default, align: right, border: '', enabled: true,
-    foreground: '', visible: true, text: Have a catch, font_size: null, font: '',
-    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '#92bf89',
-    bold: true, underline: false, icon: ''}
-  name: play_button
-  layout_properties: {grid_position: 'CLYICX,EBHLET'}
-  event_bindings: {click: play_button_click}
+- type: Label
+  properties: {}
+  name: player_label
+  layout_properties: {grid_position: 'EARZXN,LBOYDP'}
+- type: Label
+  properties: {role: null, width: default, align: right, border: '', foreground: '',
+    visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: small, italic: false, background: '', bold: false, underline: false,
+    icon: ''}
+  name: friend_label
+  layout_properties: {grid_position: 'EARZXN,EXJGDT'}
+  data_bindings: []
 - type: RadioButton
   properties: {role: null, selected: false, width: default, align: left, border: '',
     enabled: false, foreground: '', value: '', visible: true, text: You have ball,
@@ -53,4 +42,8 @@ components:
   properties: {height: 30}
   name: spacer_1
   layout_properties: {grid_position: 'GGUSQR,WZLBYF'}
-item_type: {table_id: 7128}
+container:
+  type: ColumnPanel
+  properties: {role: null, width: default, border: 'True', foreground: '', visible: true,
+    row_spacing: 10, wrap_on: mobile, spacing_above: small, col_widths: '{"TJKSBI":10}',
+    spacing_below: small, background: ''}

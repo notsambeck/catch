@@ -23,21 +23,22 @@ class PlayCatch (PlayCatchTemplate):
       assert activate['success']
       self.game = activate['game']
 
-    self.am0 = self.game['player_0'] == self.me
-    if self.am0:
-      self.have_ball = self.game['has_ball'] == 0
-    else:
-      self.have_ball = self.game['has_ball'] == 1
-      
-    self.p0_ball.selected = self.have_ball
-    self.p1_ball.selected = not self.have_ball
-    self.p0_throw.visible = self.have_ball
-    self.p1_throw.visible = False
-    
     self.p0_name.text = self.me['handle']
-    # why can this line read from another table?
-    self.p1_name.text = self.game['player_1']['handle']
+    self.am0 = self.game['player_0'] == self.me
     
+    if self.am0:
+      self.i_have_ball = self.game['has_ball'] == 0
+      self.p1_name.text = self.game['player_1']['handle']
+    else:
+      self.i_have_ball = self.game['has_ball'] == 1
+      self.p0_name.text = self.game['player_0']['handle']
+
+    self.p0_ball.selected = self.i_have_ball
+    self.p1_ball.selected = not self.i_have_ball
+    self.p0_throw.visible = self.i_have_ball
+    self.p1_throw.visible = False  # because always left to right
+    
+    # initialize movement
     self.counter = 0
     self.ball_moving = False
     if self.game['has_ball'] == 0:
@@ -49,7 +50,7 @@ class PlayCatch (PlayCatchTemplate):
     self.ball_y = .76
     self.ball_vy = .06
 
-  # navigation    
+  # navigation
 
   def add_contacts_click(self, **event_args):
     # This method is called when the button is clicked
@@ -184,9 +185,9 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
         
     if self.counter % 30 == 29 and not self.ball_moving:
-      new_game = anvil.server.call('get_game', self.game.get_id())
-      if new_game != self.game:
-        self.game = new_game
+      game_live = anvil.server.call('get_game', self.game.get_id())
+      if game_live['success'] and game_live['game']['has_ball'] != self.game['has_ball']:
+        self.game = game_live['game']
         self.ball_moving = True
         self.ball_steps = 0
         self.ball_vy = .06

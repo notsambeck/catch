@@ -5,11 +5,10 @@ import tables
 from tables import app_tables
 
     
-class GameListElement(GameListElementTemplate):
+class Game_fromGameListElement (Game_fromGameListElementTemplate):
   '''
-  GameListElement renders an entire row (game) as a status grid entry
-  
-  1 game per gameListElement instance
+  Game renders an entire row (game)
+
   '''
   def __init__(self, game, **properties):
     # You must call self.init_components() before doing anything else in this function
@@ -25,7 +24,6 @@ class GameListElement(GameListElementTemplate):
       self.friend_label.text = self.game['player_0']['handle']
     
     if self.game['is_active']:
-      self.play_button.text = 'Go to game'
       if self.am0:
         self.friend_ball.selected = self.game['has_ball'] == 1
         self.player_ball.selected = self.game['has_ball'] == 0
