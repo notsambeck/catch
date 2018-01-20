@@ -47,7 +47,7 @@ class PlayCatch (PlayCatchTemplate):
     
     self.counter = 0
     self.ball_moving = False
-    if self.game['who_has_ball'] == 1:
+    if self.game['has_ball'] == 0:
       self.ball_x = .12
       self.ball_vx = .04
     else:
@@ -90,11 +90,11 @@ class PlayCatch (PlayCatchTemplate):
     
   def ball_arrived(self):
     self.ball_moving = False
-    if self.game['who_has_ball'] == 1:
+    if self.game['has_ball'] == 1:
       self.player_2_ball.selected = True
       if not self.user_is_player_1:
         self.player_2_button.visible = True
-      self.game['who_has_ball'] == 2
+      self.game['has_ball'] == 2
     else:  
       self.player_1_ball.selected = True
       if self.user_is_player_1:
