@@ -321,7 +321,7 @@ def add_connection(phone):
       player_0=me,
       player_1=other_user,
       p1_enabled=other_user['enabled'],
-      throws=other_user['enabled'].astype(int) - 2,
+      throws=other_user['enabled'] - 2,
       last_throw_time=datetime.now(),)
     
     app_tables.user_games.add_row(game=game, user=me)
