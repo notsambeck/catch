@@ -258,6 +258,7 @@ def confirm_account(code, phone):
   
   else:
     return {'success': False,
+            'goto_login': False,
             'msg': 'code incorrect',}
 
 

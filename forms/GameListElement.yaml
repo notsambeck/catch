@@ -1,7 +1,7 @@
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: 'True', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: mobile, spacing_above: small, col_widths: '{"TJKSBI":10}',
+    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{"TJKSBI":10}',
     spacing_below: small, background: ''}
 components:
 - type: Label

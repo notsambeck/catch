@@ -54,7 +54,7 @@ def send_authorization_message(phone):
       )
       user['confirmations_sent'] += 1
       return {'success': True,
-            'msg': 'message sent'}
+              'msg': 'message sent'}
     
     except TwilioError:
       return {'success': False,
