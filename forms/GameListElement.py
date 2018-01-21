@@ -31,6 +31,8 @@ class GameListElement(GameListElementTemplate):
       self.play_button.text = 'Go to game'
       self.play_button.enabled = True
       self.play_button.visible = True
+      self.player_ball.visible = True
+      self.friend_ball.visible = True
       
       if self.am0:
         self.friend_ball.selected = self.game['has_ball'] == 1
