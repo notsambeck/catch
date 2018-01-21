@@ -13,8 +13,6 @@ class PlayCatch (PlayCatchTemplate):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
     
-    self.column_panel_1.add_component(Status())
-
     self.me = anvil.users.get_user()
     self.game = game
     

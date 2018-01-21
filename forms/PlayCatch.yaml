@@ -1,15 +1,11 @@
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: '', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{"MUZYMN":10,"YRAZOJ":20,"CTMSFR":20,"SRGNIM":10}',
+    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{"MUZYMN":15,"YRAZOJ":15,"CTMSFR":15,"SRGNIM":15,"EBREJJ":20}',
     spacing_below: small, background: ''}
 components:
-- type: ColumnPanel
-  properties: {}
-  name: column_panel_1
-  layout_properties: {grid_position: 'NQVCGY,GJZERQ'}
 - type: Canvas
-  properties: {role: null, width: default, height: 400, border: '', foreground: '',
+  properties: {role: null, width: default, height: '', border: '', foreground: '',
     visible: true, spacing_above: small, spacing_below: small, background: '#a5d3e3'}
   name: canvas_1
   layout_properties: {grid_position: 'OKBFUH,XXVEVG'}
@@ -58,22 +54,14 @@ components:
   name: p1_throw
   layout_properties: {grid_position: 'JQGELU,CNSMAR', full_width_row: false}
   event_bindings: {click: throw_button_click}
-- type: Spacer
-  properties: {height: 40}
-  name: spacer_1
-  layout_properties: {grid_position: 'WRNSTQ,DOPAKG'}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: game list / add friends, font_size: null,
-    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false, icon: ''}
+    foreground: '', visible: true, text: back, font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
   name: add_contacts
   layout_properties: {grid_position: 'WRNSTQ,EBREJJ'}
   event_bindings: {click: add_contacts_click}
-- type: Spacer
-  properties: {height: 32}
-  name: spacer_2
-  layout_properties: {grid_position: 'WRNSTQ,ZXJHAA'}
 - type: Timer
   properties: {interval: 0.2}
   name: timer_1

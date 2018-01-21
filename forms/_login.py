@@ -11,4 +11,4 @@ class _login (_loginTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run when the form opens.
-    self.content_panel.add_component(Login())    
+    self.content_panel.add_component(Login())
