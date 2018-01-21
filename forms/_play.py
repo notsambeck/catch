@@ -12,13 +12,12 @@ class _play (_playTemplate):
 
     # Any code you write here will run when the form opens.
 
-    self.xy_panel_1.width = '600px'
-    self.xy_panel_1.height = '400px' 
+    self.xy_panel_1.width = self.content_panel.width 
+    self.xy_panel_1.height = self.content_panel.width
     
     _frame = PlayCatch(game)
     _frame.height = '250px'
-    self.xy_panel_1.add_component(_frame)
-    print(w)
+    self.xy_panel_1.add_component(_frame, x=50, y=50, width=700)
 
     print(self.xy_panel_1.height)
     self.logged_in_label.txt = 'logged in as: {}'.format(anvil.users.get_user()['handle'])
