@@ -27,6 +27,8 @@ class PlayCatch (PlayCatchTemplate):
     
     self.p0_name.text = self.me['handle']
     self.am0 = self.game['player_0'] == self.me
+    
+    self.counter = 0
 
     self.set_labels_directions()
       
@@ -45,7 +47,6 @@ class PlayCatch (PlayCatchTemplate):
     self.p1_throw.visible = False  # always left to right
     
     # set movement vairables
-    self.counter = 0
     self.ball_moving = False
     
     if self.i_have_ball:
@@ -189,15 +190,16 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_arrived()
         
     # update from server
-    if self.counter % 30 == 29 and not self.ball_moving:
-      game_live = anvil.server.call('get_game', self.game.get_id())
+    if self.counter % 20 == 19 and not self.ball_moving:
+      game_live = anvil.server.call_s('get_game', self.game.get_id())
       if game_live['success']:
-        print('local: {} / server: {}'.format(self.game['has_ball'], game_live['game']['has_ball']))
+        pass
+        # print('local: {} / server: {}'.format(self.game['has_ball'], game_live['game']['has_ball']))
       else:
-        print(game_live['msg']).show()
+        print(game_live['msg'])
         
       if game_live['success'] and game_live['game']['has_ball'] != self.game['has_ball']:
-        print('updating from server...')
+        # print('updating from server...')
         self.game = game_live['game']
         self.ball_moving = True
         self.ball_steps = 0

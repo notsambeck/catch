@@ -26,9 +26,9 @@ class GameList(GameListTemplate):
    self.game_panel.add_component(GameListElement(new_conn))
     
   def update_connections(self):
-    connects = anvil.server.call('get_games')
-    print(connects['msg'])
+    connects = anvil.server.call_s('get_games')
     if not connects['success']:
+      print(connects['msg'])
       return self.conns
 
     if self.conns is None or connects['games'] != self.conns:

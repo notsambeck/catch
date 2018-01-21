@@ -288,9 +288,11 @@ def add_connection(phone):
       'msg': 'other player did not have an account',}
   
   if other_user['handle']:
-    print('add connection to', other_user['handle'])
+    # print('add connection to', other_user['handle'])
+    pass
   else:
-    print('add hypothetical connection to {}'.format(phone))
+    pass
+    # print('add hypothetical connection to {}'.format(phone))
     
   # protect whole operation from simultaneous adding
   with tables.Transaction() as txn:
@@ -436,11 +438,12 @@ def get_game(game_id):
   game = app_tables.games.get_by_id(game_id)
   
   if not (game['player_0'] == me or game['player_1'] == me):
+    print('attempted to throw in someone elses game')
     return {'success': False, 
             'msg': 'You are not in that game.'}
   
   else:
-    print(game['has_ball'], ' has the ball')
+    # print(game['has_ball'], ' has the ball')
     return {'success': True,
             'game': game}
 
