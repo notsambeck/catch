@@ -162,7 +162,7 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_rect(.88*w, .75*h, .03*w, .06*h )
     
     # ball:
-    c.fill_style = '#FFFFFF'
+    c.fill_style = '#FEF5E7'
     c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
     
     if self.ball_moving:
