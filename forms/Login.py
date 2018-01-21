@@ -4,6 +4,7 @@ import anvil.users
 
 from utils import is_valid_number
 from Title import Title
+from AddContacts import AddContacts
 
 class Login(LoginTemplate):
   def __init__(self, **properties):
@@ -67,7 +68,8 @@ class Login(LoginTemplate):
                                          self.user_name.text,)
         if user_created['success']:
           Notification('account created').show()
-          open_form('ConfirmAccount', number)
+          get_open_form().content_panel.clear()
+          get_open_form().content_panel.add_component(ConfirmAccount(number))
         else:
           alert(user_created['msg'])
 
@@ -82,12 +84,14 @@ class Login(LoginTemplate):
         Notification("Login successful...").show()
         self.go_button.visible = False
         self.continue_button.visible = True
-        open_form('AddContacts')
+        get_open_form().content_panel.clear()
+        get_open_form().content_panel.add_component(AddContacts())
 
       # if account not confirmed, go to confirmation
       elif status['success'] and not status['enabled']:
         Notification("Unverified account...").show()
-        open_form('ConfirmAccount', number)
+        get_open_form().content_panel.clear()
+        get_open_form().content_panel.add_component(ConfirmAccount(number))
 
       # else: fail
       else:
@@ -95,4 +99,5 @@ class Login(LoginTemplate):
 
   def continue_button_click (self, **event_args):
     # This method is called when the button is clicked
-    open_form('AddContacts')
+    get_open_form().content_panel.clear()
+    get_open_form().content_panel.add_component(AddContacts())

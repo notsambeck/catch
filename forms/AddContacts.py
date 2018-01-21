@@ -15,8 +15,6 @@ class AddContacts (AddContactsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run when the form opens.
-    self.title_panel.add_component(Title())
-    self.title_panel.add_component(Status())
     self.game_list_panel.add_component(GameList())
 
   def add_connection(self, **event_args):
@@ -75,7 +73,7 @@ class AddContacts (AddContactsTemplate):
   def button_1_click(self, **event_args):
     # This method is called when the button is clicked
     anvil.users.logout()
-    open_form('Login')
+    open_form('_login')
 
   def phone_pressed_enter(self, **event_args):
     # This method is called when the user presses Enter in this text box

@@ -1,0 +1,122 @@
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: content_panel
+  layout_properties: {slot: default}
+  components: []
+- type: Label
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: Catch, font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: small, italic: false, background: '', bold: true, underline: false,
+    icon: ''}
+  name: label_1
+  layout_properties: {slot: title}
+- type: Label
+  properties: {}
+  name: logged_in_label
+  layout_properties: {slot: nav-right}
+container:
+  type: HtmlTemplate
+  properties: {html: "<link href=\"https://fonts.googleapis.com/css?family=Roboto\"\
+      \ rel=\"stylesheet\">\n\n<style>\n\tbody * {\n\t\tbox-sizing: border-box;\n\t\
+      }\n\n\tbody {\n\t\tbackground-color: #d7d7d7;\n\t\tfont-family: \"Roboto\";\n\
+      \t\tmargin: 0;\n\t\tmin-height: 100%;\n\t}\n\n\tbody.anvil-show-banner {\n\t\
+      \tmargin-top: 0;\n\t}\n\n\ta, a:visited {\n\t\tcolor: #009688;\n\t}\n\n\ta:hover,\
+      \ a:active, a:focus {\n\t\tcolor: #00796B; /* Material design: Teal 700 */\n\
+      \t}\n\n\t.placeholder {\n\t\tpadding: 5px;\n\t\tborder: 2px dashed #888;\n\t\
+      }\n\n\t.nav {\n\t\tposition: absolute;\n\t\ttop: 0;\n\t\tleft: 0;\n\t\twidth:\
+      \ 100%;\n\t\tbackground-color: white;\n\t\tpadding: 11px 16px 11px; /* expect\
+      \ 5px margin */\n\t\theight: 62px;\n\t\tfont-size: 16px;\n\n\t\toverflow-y:\
+      \ hidden;\n\n\t\tcolor: #009688; /* Material Design: \"Teal 500\" */\n\t\ttext-transform:\
+      \ uppercase;\n\t\tfont-weight: bold;\n\n\t\tbox-shadow: 0 1px 3px #888;\n\n\n\
+      \t    -webkit-touch-callout: none;\n\t    -webkit-user-select: none;\n\t   \
+      \ -khtml-user-select: none;\n\t    -moz-user-select: none;\n\t    -ms-user-select:\
+      \ none;\n\t    user-select: none;\n\t}\n\n\tbody.anvil-show-banner .nav {\n\t\
+      \ttop: 50px;\n\t}\n\n\t.nav .title, .nav .menu-btn {\n\t\tdisplay: inline-block;\n\
+      \t\tvertical-align: top;\n\t\tmargin-left: 7px;\n\t}\n\t.nav .menu-btn, .nav\
+      \ .title.placeholder {\n\t\tmargin-top: 5px;\n\t\tmargin-left: 0;\n\t}\n\n\t\
+      .nav > .menu-btn {\n\t\tcolor: #333;\n\t\tcursor: pointer;\n\t\twidth: 32px;\n\
+      \t\theight: 32px;\n\t\tborder-radius: 16px;\n\t\tpadding: 5px;\n\t\tmargin-top:\
+      \ 7px;\n\t\ttext-align: center;\n\t}\n\n\t.nav > .menu-btn:hover {\n\t\tbackground-color:\
+      \ #ccc;\n\t}\n\n\t.nav-right {\n\t\tfloat: right;\n\t\tcolor: #333;\n\t}\n\n\
+      \t.nav-elt {\n\t\tdisplay: inline-block;\n\t\tvertical-align: top;\n\t\tmargin-left:\
+      \ 10px;\n\t\tposition: relative;\n\t}\n\n\t.nav-elt.placeholder {\n\t\tmargin-top:\
+      \ 5px;\n\t\topacity: 0.8;\n\t\tcolor: #888;\n\t\tvisibility: hidden;\n\t}\n\n\
+      \tbody.anvil-highlight .nav-elt.placeholder {\n\t\tvisibility: visible;\n\t\
+      }\n\n\t.nav-elt .drop-here {\n\t\tposition: absolute;\n\t\ttop: 0;\n\t\tleft:\
+      \ -7.5px;\n\t\tbottom: 0;\n\t\twidth: 5px;\n\t}\n\n\t.body {\n\t\tposition:\
+      \ relative;\n\t\tpadding-top: 62px;\n\t\twidth: 100%;\n\t\tdisplay: flex;\n\t\
+      \tflex-direction: row;\n\t\talign-items: stretch;\n\t\tmin-height: 100vh;\n\t\
+      }\n\n\tbody.anvil-show-banner .body {\n\t\tpadding-top: 112px; /* 62px navbar\
+      \ + 50px \"Anvil free\" banner */\n\t}\n\n\t.sidebar {\n\t\tbackground-color:\
+      \ #333;\n\t\tcolor: white;\n\t\tpadding: 10px 0;\n\t\tflex-shrink: 0;\n\n\t\t\
+      overflow-y: auto;\n\t\toverflow-x: hidden;\n\t}\n\n\t.sidebar .placeholder {\n\
+      \t\ttext-align: center;\n\t}\n\n\t.sidebar-elt::first {\n\t\tborder-top: 1px\
+      \ solid #888;\n\t}\n\n\t.sidebar-elt {\n\t\tposition: relative;\n\t\tborder-bottom:\
+      \ 1px solid #888;\n\t}\n\n\t.sidebar-elt .drop-here {\n\t\tposition: absolute;\n\
+      \t\ttop: -8px;\n\t\tleft: 0;\n\t\tright: 0;\n\t\theight: 5px;\n\t}\n  \n   \
+      \ .sidebar-elt>.content a {\n      font-size: 16px;\n      color:white;\n  \
+      \    text-transform: uppercase;\n    }\n  \n    .sidebar-elt>.content a:hover\
+      \ {\n      background: #444;\n    }\n\n\t.sidebar-elt .content a.anvil-component\
+      \ {\n\t\tpadding-left: 14px;\n\t\tpadding-right: 14px;\n\t}\n\n\t.sidebar-elt\
+      \ a {\n\t\tcolor: #ddd;\n\t}\n\n\t.sidebar-elt a:hover, .sidebar-elt a:active\
+      \ {\n\t\tcolor: white;\n\t}\n\n\t.cards {\n\t\tflex-grow: 1;\n\n\t\tfont-weight:\
+      \ bold;\n\t\tfont-color: #555;\n\t\tfont-size: 24px;\n\n\t\tpadding: 24px 16px;\n\
+      \t\tmax-width: 100%;\n\t}\n\n\t.cards > .anvil-container {\n\t\toutline: none\
+      \ !important;\n\t}\n\n\t.cards .anvil-container .anvil-container,\n\t.designer\
+      \ .anvil-highlight .cards .anvil-container .anvil-container {\n\t\tbackground-color:\
+      \ white;\n\t\tbox-shadow: 1px 2px 4px #888;\n\n\t\t/* Font back to defaults\
+      \ */\n\t\tfont-weight: normal;\n\t\t/*color: #333;*/\n\t\tfont-size: 14px;\n\
+      \n\t\toutline: none;\n\n\t\tpadding: 7px 0;\n\t}\n\n\t.designer .anvil-highlight\
+      \ .cards .anvil-container .anvil-container .anvil-container,\n\t.cards .anvil-container\
+      \ .anvil-container .anvil-container {\n\t\tbox-shadow: none;\n\t\tbackground-color:\
+      \ transparent;\n        padding: 0;\n\t}\n\n\t.designer .anvil-highlight .cards\
+      \ .anvil-container .anvil-container .anvil-container {\n\t\toutline: 1px dashed\
+      \ rgba(0,0,0,0.3)\n\t}\n\n\t.body .instructions {\n\t\tpadding: 24px 16px;\n\
+      \t\tfont-size: 14px;\n\t\ttext-align: center;\n\t\tcolor: #666;\n\t}\n\n\t/*\
+      \ Responsive bits: Make the menu overlay the screen\n\t   (and hidden by default)\
+      \ rather than displacing it\n\t   on small screens\n\t*/\n\n\t@media(max-width:767px)\
+      \ {\n\t\t.runner .sidebar {\n\t\t\tdisplay: none;\n\t\t\tposition: absolute;\n\
+      \t\t\ttop: 62px;\n\t\t\tbottom: 0px;\n\t\t\tleft: 0px;\n\t\t\tz-index: 2;\n\t\
+      \t}\n\n\t\t.runner .sidebar-click-guard {\n\t\t\tdisplay: none;\n\t\t\tposition:\
+      \ absolute;\n\t\t\ttop: 62px;\n\t\t\tbottom: 0px;\n\t\t\tleft: 0;\n\t\t\tright:\
+      \ 0;\n\t\t\tbackground-color: #888;\n\t\t\topacity: 0.5;\n\t\t\tz-index: 1;\n\
+      \t\t}\n\n\t\t.designer .sidebar {\n\t\t\tmax-width: 30%;\n\t\t}\n\n\t\t.sidebar.floating\
+      \ {\n\t\t\ttop: 62px;\n\t\t}\n\n\t\tbody.anvil-show-banner .sidebar.floating\
+      \ {\n\t\t\ttop: 112px;\n\t\t}\n\n\t\t.cards {\n\t\t\tpadding: 24px 0px;\n\t\t\
+      }\n\n\t}\n\n\t.sidebar.floating {\n\t\tposition: absolute;\n\t\ttop: 62px;\n\
+      \t\tbottom: 0px;\n\t\tleft: 0px;\n\t\tz-index: 2;\n\t}\n\n\tbody.anvil-show-banner\
+      \ .sidebar.floating {\n\t\ttop: 112px;\n\t}\n\n\n</style>\n\n<script>\nfunction\
+      \ toggleSidebar() {\n\tvar s = $('.sidebar');\n\tif (!s.is(':hidden')) {\n\t\
+      \t$('.sidebar-click-guard').hide();\n\t\ts.addClass('floating').animate({left:\
+      \ -s.width()}, {complete: function() { s.hide(); }});\n\t} else {\n\t\t$('.sidebar-click-guard').show();\n\
+      \t\ts.show().addClass('floating').css('left', '-100%').css('left', -s.width())\n\
+      \t\t\t.animate({left: 0}, {complete: function() { s.removeClass('floating');\
+      \ }});\n\t}\n}\n\n$(function() {\n\t$('.sidebar').click(function() {\n\t\tif\
+      \ (window.innerWidth <= 767) {\n\t\t\ttoggleSidebar();\n\t\t}\n\t});\n\t$('.sidebar-click-guard').click(toggleSidebar);\n\
+      })\n</script>\n\n<!-- Put body before nav so that it sits underneath -->\n\n\
+      <div class=\"body\" anvil-drop-default anvil-drop-container=\">.cards .anvil-container\"\
+      \ anvil-drop-redirect=\">.cards > .placeholder\">\n\t<div class=\"sidebar\"\
+      \ anvil-drop-redirect=\">.drop-here\">\n\t\t<div anvil-slot-repeat=\"sidebar\"\
+      \ class=\"sidebar-elt\">\n\t\t\t<div anvil-drop-here class=\"drop-here\"></div>\n\
+      \t\t\t<div anvil-slot class=\"content\"></div>\n\t\t</div>\n\t\t<div class=\"\
+      sidebar-elt anvil-designer-only drop-here\" anvil-drop-slot=\"sidebar\">\n\t\
+      \t\t<div class=\"content placeholder\"><i class=\"glyphicon glyphicon-plus\"\
+      ></i></div>\n\t\t</div>\n\t</div>\n\t<div class=\"sidebar-click-guard\"></div>\n\
+      \n\t<div class=\"cards anvil-measure-content\">\n\t\t<div anvil-if-slot-empty=\"\
+      default\"\n\t\t\t anvil-drop-slot=\"default\"\n\t\t\t class=\"placeholder\"\
+      >\n\t\t\t Drop a ColumnPanel here to add content\n\t\t</div>\n\n\t\t<div anvil-slot=\"\
+      default\"></div>\n\n\t\t<div class=\"anvil-designer-only instructions\">\n\t\
+      \t\t<i class=\"fa fa-info-circle\"></i> Add\n\t\t\t<img src=\"https://anvil.works/template-assets/column-panel-icon.png\"\
+      \ style=\"height: 30px; margin-right: -7px; margin-top: -5px\"> ColumnPanel\
+      \ components to create new cards.\n\t\t</div>\n\t</div>\n</div>\n\n<div class=\"\
+      nav\" anvil-drop-redirect=\".title.placeholder, .nav-elt.placeholder, .nav-elt\
+      \ .drop-here\">\n\n\t<div class=\"nav-right\" anvil-drop-redirect=\".nav-elt\"\
+      >\n\t\t<div anvil-slot-repeat=\"nav-right\" class=\"nav-elt\">\n\t\t\t<div anvil-drop-here\
+      \ class=\"drop-here\"></div>\n\t\t</div>\n\t\t<div class=\"nav-elt placeholder\
+      \ anvil-designer-only\" anvil-drop-slot=\"nav-right\">\n\t\t\t<i class=\"glyphicon\
+      \ glyphicon-plus\"></i>\n\t\t</div>\n\t</div>\n\n\t<div class=\"menu-btn\" onclick=\"\
+      toggleSidebar();\">\n\t\t<i class=\"fa fa-bars\"></i>\n\t</div>\n\n\t<div anvil-if-slot-empty=\"\
+      title\" anvil-drop-slot=\"title\" class=\"title placeholder anvil-designer-only\"\
+      >\n\t\tDrop a title here\n\t</div>\n\t<div anvil-slot=\"title\" class=\"title\"\
+      ></div>\n</div>"}
