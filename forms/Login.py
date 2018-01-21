@@ -84,8 +84,7 @@ class Login(LoginTemplate):
         Notification("Login successful...").show()
         self.go_button.visible = False
         self.continue_button.visible = True
-        get_open_form().content_panel.clear()
-        get_open_form().content_panel.add_component(AddContacts())
+        open_form('_games')
 
       # if account not confirmed, go to confirmation
       elif status['success'] and not status['enabled']:
@@ -99,5 +98,4 @@ class Login(LoginTemplate):
 
   def continue_button_click (self, **event_args):
     # This method is called when the button is clicked
-    get_open_form().content_panel.clear()
-    get_open_form().content_panel.add_component(AddContacts())
+    open_form('_games')

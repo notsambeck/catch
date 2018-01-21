@@ -351,7 +351,7 @@ def get_games():
   
   else:
     games = {game.get_id(): game 
-             for game in app_tables.games.search(tables.order_by('last_throw_time', ascending=True)) 
+             for game in app_tables.games.search(tables.order_by('last_throw_time', ascending=True))
              if game['player_0'] == me 
              or game['player_1'] == me}
     

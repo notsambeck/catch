@@ -70,8 +70,7 @@ class GameListElement(GameListElementTemplate):
   def play_button_click(self, **event_args):
     # This method is called when the button is clicked
     with Notification('Going to the park...', timeout=1):
-      get_open_form().content_panel.clear()
-      get_open_form().content_panel.add_component(PlayCatch(self.game))
+      open_form('_play', self.game)
       
   def update(self, updated_game):
     if self.game['throws'] != updated_game['throws'] or self.game['p1_enabled'] != updated_game['p1_enabled']:
