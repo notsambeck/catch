@@ -93,7 +93,3 @@ class Login(LoginTemplate):
       # else: fail
       else:
         Notification(status['msg']).show()
-
-  def continue_button_click (self, **event_args):
-    # This method is called when the button is clicked
-    open_form('_play')
