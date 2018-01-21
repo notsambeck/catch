@@ -82,9 +82,7 @@ class Login(LoginTemplate):
       # if we have full access, continue
       if status['success'] and status['enabled']:
         Notification("Login successful...").show()
-        self.go_button.visible = False
-        self.continue_button.visible = True
-        open_form('_games')
+        open_form('_play')
 
       # if account not confirmed, go to confirmation
       elif status['success'] and not status['enabled']:
@@ -98,4 +96,4 @@ class Login(LoginTemplate):
 
   def continue_button_click (self, **event_args):
     # This method is called when the button is clicked
-    open_form('_games')
+    open_form('_play')

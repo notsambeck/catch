@@ -1,8 +1,4 @@
 components:
-- type: ColumnPanel
-  properties: {}
-  name: title_panel
-  layout_properties: {grid_position: 'AUYPPR,MXGLPQ'}
 - type: Label
   properties: {role: null, width: default, align: center, border: '', foreground: '',
     visible: true, text: Add friends to play Catch!, font_size: null, font: '', spacing_above: medium,
@@ -41,21 +37,6 @@ components:
   name: go_button
   layout_properties: {grid_position: 'POHKFA,PHDVEA', row_background: ''}
   event_bindings: {click: add_connection}
-- type: Spacer
-  properties: {height: 29}
-  name: spacer_1
-  layout_properties: {grid_position: 'CCWNOV,UPTLIF'}
-- type: Label
-  properties: {role: null, width: default, align: left, border: '', foreground: '',
-    visible: true, text: 'Your friends:', font_size: null, font: '', spacing_above: large,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
-  name: existing_contacts
-  layout_properties: {grid_position: 'KYOGWU,WGMSYO'}
-- type: ColumnPanel
-  properties: {}
-  name: game_list_panel
-  layout_properties: {grid_position: 'TWGCNQ,FIMOZF'}
 - type: Timer
   properties: {interval: 10}
   name: timer_1

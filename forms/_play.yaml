@@ -9,8 +9,12 @@ components:
   - type: LinearPanel
     properties: {}
     name: linear_panel_1
-    layout_properties: {grid_position: 'ICFBAL,LAYCGT'}
+    layout_properties: {grid_position: 'NCBEKS,ANONBG'}
     components: []
+  - type: LinearPanel
+    properties: {}
+    name: linear_panel_2
+    layout_properties: {grid_position: 'GJWFJK,YGMZGT'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: Catch, font_size: null, font: '', spacing_above: small, icon_align: left,
@@ -30,6 +34,14 @@ components:
   name: logout_button
   layout_properties: {slot: nav-right}
   event_bindings: {click: logout_button_click}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: true, text: Add Contacts, font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '#92bf89',
+    bold: true, underline: false, icon: ''}
+  name: button_1
+  layout_properties: {slot: sidebar}
+  event_bindings: {click: button_1_click}
 container:
   type: HtmlTemplate
   properties: {html: "<link href=\"https://fonts.googleapis.com/css?family=Roboto\"\

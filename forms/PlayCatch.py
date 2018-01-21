@@ -1,9 +1,6 @@
 from anvil import *
 import anvil.server
 import anvil.users
-import tables
-from tables import app_tables
-from Status import Status
 
 # TODO following function call and definition in ServerModule for deployment?
 # random_id = anvil.server.call('some_connection')
@@ -58,12 +55,6 @@ class PlayCatch (PlayCatchTemplate):
     self.ball_y = .76
     self.ball_vy = .06
  
- 
-  # navigation button
-  def add_contacts_click(self, **event_args):
-    # This method is called when the button is clicked
-    open_form('_games')
-
   def throw_button_click(self, **event_args):
     # tell server that ball has been thrown immediately
     throw_status = anvil.server.call('throw', self.game.get_id())
@@ -125,7 +116,7 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_style = "rgba(100,100,100,1)"
     c.fill_rect(300, h/3, w//18, h//2)
     c.fill_rect(220, .35*h, w//20, 2*h//3)
-    c.fill_rect(320, .25*h, w//60, h//2.2)
+    c.fill_rect(320, .25*h, w//50, h//2.2)
     c.fill_rect(400, .5*h, w//15, h//1.6)
     c.fill_rect(490, .35*h, w//26, 2*h//3.7,)
     c.fill_rect(650, .25*h, w//40, h//2.7,)
@@ -133,13 +124,13 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_rect(520, .35*h, w//20, 3*h//5)
     c.fill_rect(620, .25*h, w//40, h//2)
     c.fill_rect(700, .5*h, w//45, h//3)
-    c.fill_rect(190, .35*h, w//36, 2*h//3.2,)
+    c.fill_rect(190, .35*h, w//32, 2*h//3.2,)
     c.fill_rect(50, .25*h, w//30, h//2.6,)
     
     c.fill_style = "rgba(60,60,90,1)"
     c.fill_rect(330, h/3, w//18, h//2)
     c.fill_rect(260, .35*h, w//20, 2*h//3)
-    c.fill_rect(330, .25*h, w//60, h//2.2)
+    c.fill_rect(330, .25*h, w//50, h//2.2)
     c.fill_rect(440, .5*h, w//15, h//1.6)
     c.fill_rect(520, .35*h, w//26, 2*h//3.7,)
     c.fill_rect(670, .25*h, w//40, h//2.7,)
@@ -147,7 +138,7 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_rect(560, .35*h, w//20, 3*h//5)
     c.fill_rect(630, .25*h, w//40, h//2)
     c.fill_rect(720, .5*h, w//45, h//3)
-    c.fill_rect(210, .35*h, w//36, 2*h//3.2,)
+    c.fill_rect(210, .35*h, w//32, 2*h//3.2,)
     c.fill_rect(80, .25*h, w//30, h//2.6,)
     
     # trees

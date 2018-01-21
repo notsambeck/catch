@@ -11,7 +11,7 @@ class GameListElement(GameListElementTemplate):
   
   1 game per gameListElement instance
   '''
-  def __init__(self, game, **properties):
+  def __init__(self, game, highlight=False, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
     
@@ -24,10 +24,24 @@ class GameListElement(GameListElementTemplate):
     else:
       self.friend_label.text = self.game['player_0']['handle']
     
+    self.highlight = highlight
     self.set_labels()
     
   def set_labels(self):
-    if self.game['is_active']:
+    self.background = '#FFFFFF'
+    if self.highlight:
+      self.background = '#92bf89'
+      self.play_button.text = 'Active'
+      self.play_button.enabled = False
+      self.play_button.visible = False
+      self.player_ball.visible = False
+      self.friend_ball.visible = False
+      
+      if self.game['throws'] >= 0:
+        self.num_throws.visible = True
+        self.num_throws.text = 'Throws: {}'.format(str(self.game['throws']))
+
+    elif self.game['is_active']:
       self.play_button.text = 'Go to game'
       self.play_button.enabled = True
       self.play_button.visible = True
@@ -69,8 +83,22 @@ class GameListElement(GameListElementTemplate):
 
   def play_button_click(self, **event_args):
     # This method is called when the button is clicked
-    with Notification('Going to the park...', timeout=1):
-      open_form('_play', self.game)
+    with Notification('Loading...'):
+
+      get_open_form().linear_panel_1.clear()
+      get_open_form().linear_panel_1.add_component(PlayCatch(self.game))
+
+      sibs = self.parent.get_components()
+      for sib in sibs:
+        if sib is self:
+          self.highlight = True
+          self.set_labels()
+        elif sib.highlight:
+          sib.highlight = False
+          sib.set_labels()
+        else:
+          continue
+
       
   def update(self, updated_game):
     if self.game['throws'] != updated_game['throws'] or self.game['p1_enabled'] != updated_game['p1_enabled']:

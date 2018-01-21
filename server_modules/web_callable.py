@@ -341,6 +341,7 @@ def get_games():
   
   returns {'success': bool,
            'msg': status message,
+           'order': list of game ids in order
            'games': {game_id: game},}
   '''
   me = anvil.users.get_user()
@@ -350,13 +351,24 @@ def get_games():
             'msg': 'Not logged in.'}
   
   else:
-    games = {game.get_id(): game 
-             for game in app_tables.games.search(tables.order_by('last_throw_time', ascending=True))
-             if game['player_0'] == me 
-             or game['player_1'] == me}
+    games = {}
+    order = []
+    waiting = []
+    for i, game in enumerate(app_tables.games.search(tables.order_by('last_throw_time', ascending=False))):
+      if game['player_0'] == me or game['player_1'] == me:
+        _id = game.get_id()
+        if not game['p1_enabled']:
+          waiting.append(_id)
+        else:
+          order.append(_id)
+        games[_id] = game
+    
+    order += waiting
+    assert len(order) == len(games)
     
     return {'success': True,
             'msg': 'retreived {} games'.format(len(games)),
+            'order': order,
             'games': games,}
 
 

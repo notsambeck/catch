@@ -1,7 +1,7 @@
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: '', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{"MUZYMN":15,"YRAZOJ":15,"CTMSFR":15,"SRGNIM":15,"EBREJJ":20}',
+    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{"MUZYMN":15,"YRAZOJ":15,"CTMSFR":15,"SRGNIM":15}',
     spacing_below: small, background: ''}
 components:
 - type: Canvas
@@ -54,14 +54,6 @@ components:
   name: p1_throw
   layout_properties: {grid_position: 'JQGELU,CNSMAR', full_width_row: false}
   event_bindings: {click: throw_button_click}
-- type: Button
-  properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: back, font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
-  name: add_contacts
-  layout_properties: {grid_position: 'WRNSTQ,EBREJJ'}
-  event_bindings: {click: add_contacts_click}
 - type: Timer
   properties: {interval: 0.2}
   name: timer_1

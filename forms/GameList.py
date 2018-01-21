@@ -20,39 +20,51 @@ class GameList(GameListTemplate):
 
     # Any code you write here will run when the form opens.
     self.games = None
+    self.game_list = []
     self.update_connections()
     
   def add_connection(self, new_conn):
    self.game_panel.add_component(GameListElement(new_conn))
+   _id = new_conn.get_id()
+   self.game_list.append(_id)
+   self.games[_id] = new_conn
     
   def update_connections(self):
-    listed = self.game_panel.get_components()
     server = anvil.server.call_s('get_games')
     
     if not server['success']:
       print server['msg']
       return None
       
-    elif not listed:
-      for game in server['games'].values():
-        self.game_panel.add_component(GameListElement(game))
+    elif not self.game_list:
+      self.games = server['games']
+      self.game_list = server['order']
+      for game in self.game_list:
+        self.game_panel.add_component(GameListElement(server['games'][game]))
     
     else:
       # successfully got games from server + there are already games
       
-      # there's no way to delete games so this is safe.
-      if len(server['games']) == len(listed):
-        for element in listed:
-          _id = element.game.get_id()
-          game = server['games'][_id]
-          if game['throws'] != element.game['throws']:
-            element.update(game)
-      # dumb way to repopulate for additional games
+      if server['order'] == self.game_list:
+        for i, _id in enumerate(self.game_list):
+          server_game = server['games'][_id]
+          local_game = self.games[_id]
+          if server_game['throws'] != local_game['throws']:
+            self.game_panel.get_components()[i].update(server_game)
+      # dumb way to repopulate for changed game list
       else:
         self.game_panel.clear()
-        for game in server['games'].values():
-          self.game_panel.add_component(GameListElement(game))
+        self.games = server['games']
+        self.game_list = server['order']
+        for _id in self.game_list:
+          self.game_panel.add_component(GameListElement(self.games[_id]))
 
+  def clear_highlights(self):
+    for el in self.game_panel.get_components():
+      if el.highlight:
+        el.highlight = False
+        el.set_labels()
+          
   def timer_1_tick(self, **event_args):
     # This method is called Every [interval] seconds
-    self.games = self.update_connections()
+    self.update_connections()

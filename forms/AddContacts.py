@@ -14,9 +14,6 @@ class AddContacts (AddContactsTemplate):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
 
-    # Any code you write here will run when the form opens.
-    self.game_list_panel.add_component(GameList())
-
   def add_connection(self, **event_args):
     # This method is called when the submit button is clicked
     phone = is_valid_number(self.phone.text)
@@ -69,11 +66,6 @@ class AddContacts (AddContactsTemplate):
           We will never share this phone number with anyone, period.
           ''',
           title='Why we need a phone number:')
-
-  def button_1_click(self, **event_args):
-    # This method is called when the button is clicked
-    anvil.users.logout()
-    open_form('_login')
 
   def phone_pressed_enter(self, **event_args):
     # This method is called when the user presses Enter in this text box
