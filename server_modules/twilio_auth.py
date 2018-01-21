@@ -39,10 +39,16 @@ def send_authorization_message(phone):
             'msg': "Check 'create new account' to create your password"}
 
   else:
+    
+    if phone == "5037569645":
+      sendto = "+15037569645"
+    else:
+      sendto = "+15035053813"
+     
     try:
       message = client.api.account.messages.create(
         # to="+1{}".format(phone),     # TODO
-        to="+15035053813",
+        to=sendto,
         from_="+15035582695",
         body="{}: Your CATCH authentication code is: {}".format(phone, user['twilio_code'])
       )
