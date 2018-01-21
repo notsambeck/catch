@@ -16,7 +16,6 @@ auth_token = anvil.secrets.get_secret('twilio_token')
 
 client = Client(account_sid, auth_token)
 
-# TODO: this needs to not be callable?
 @anvil.server.callable
 def send_authorization_message(phone):
   '''
@@ -42,7 +41,8 @@ def send_authorization_message(phone):
   else:
     try:
       message = client.api.account.messages.create(
-        to="+1{}".format(phone),     # TODO: replace with phone once not callable
+        # to="+1{}".format(phone),     # TODO
+        to="+15035053813",
         from_="+15035582695",
         body="Your CATCH authentication code: {}".format(user['twilio_code'])
       )

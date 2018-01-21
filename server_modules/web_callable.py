@@ -244,13 +244,14 @@ def confirm_account(code, phone):
   
   if code == me['twilio_code']:
     me['enabled'] = True
-    anvil.users.force_login(user)
+    anvil.users.force_login(me)
     
     # pre-activate games that dummy was in already
     existing_game_refs = app_tables.user_games.search(user=me)
     
     for row in existing_game_refs:
       row['game']['p1_enabled'] = True
+      row['game']['throws'] = -1
   
     return {'success': True, 
             'msg': 'confirmed',}
@@ -297,6 +298,11 @@ def add_connection(phone):
   # protect whole operation from simultaneous adding
   with tables.Transaction() as txn:
     # search for pre-existing games
+    p1_e = row['game']['p1_enabled']
+    if p1_e:
+      throws = -1
+    else:
+      throws = -2
     my_games = app_tables.user_games.search(user=me)
     for row in my_games:
       if row['game']['player_1'] == other_user or row['game']['player_0'] == other_user:
@@ -304,7 +310,7 @@ def add_connection(phone):
         # success is not really 'True' but same result
         return {
           'success': True,
-          'enabled': row['game']['p1_enabled'],
+          'enabled': p1_e,
           'msg': 'game already existed!',
           'game': row['game'],}
     
@@ -314,7 +320,8 @@ def add_connection(phone):
       is_active=False,
       player_0=me,
       player_1=other_user,
-      p1_enabled=other_user['enabled'],
+      p1_enabled=p1_e,
+      throws=throws,
       last_throw_time=datetime.now(),)
     
     app_tables.user_games.add_row(game=game, user=me)
@@ -331,9 +338,9 @@ def get_games():
   '''
   get all the connections for current user
   
-  returns an iterator on table rows; row['game'] is a game row
-  
-  TODO: This is dumb
+  returns {'success': bool,
+           'msg': status message,
+           'games': {game_id: game},}
   '''
   me = anvil.users.get_user()
   
@@ -342,7 +349,10 @@ def get_games():
             'msg': 'Not logged in.'}
   
   else:
-    games = app_tables.user_games.search(user=me)
+    games = {game.get_id(): game 
+             for game in app_tables.games.search(tables.order_by('last_throw_time', ascending=True)) 
+             if game['player_0'] == me 
+             or game['player_1'] == me}
     
     return {'success': True,
             'msg': 'retreived {} games'.format(len(games)),

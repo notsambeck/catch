@@ -24,6 +24,9 @@ class GameListElement(GameListElementTemplate):
     else:
       self.friend_label.text = self.game['player_0']['handle']
     
+    self.set_labels()
+    
+  def set_labels(self):
     if self.game['is_active']:
       self.play_button.text = 'Go to game'
       if self.am0:
@@ -42,7 +45,7 @@ class GameListElement(GameListElementTemplate):
       else:
         self.play_button.background = '#CCCCCC'
       
-    elif game['p1_enabled']:  # game inactive but both ready
+    elif self.game['p1_enabled']:  # game inactive but both ready
       self.play_button.text = 'Start new game'
       self.friend_ball.visible = False
       self.player_ball.visible = False
@@ -56,9 +59,14 @@ class GameListElement(GameListElementTemplate):
       self.friend_ball.visible = False
       self.player_ball.visible = False
       self.play_button.background = '#CCCCCC'
-
+ 
 
   def play_button_click(self, **event_args):
     # This method is called when the button is clicked
     with Notification('Going to the park...', timeout=1):
       open_form('PlayCatch', self.game)
+      
+  def update(self, updated_game):
+    if self.game['throws'] != updated_game['throws'] or self.game['p1_enabled'] != updated_game['p1_enabled']:
+      self.game = updated_game
+      self.set_labels()
