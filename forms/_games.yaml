@@ -120,3 +120,11 @@ components:
   properties: {}
   name: logged_in_label
   layout_properties: {slot: nav-right}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: true, text: log out, font_size: 10, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: logout_button
+  layout_properties: {slot: nav-right}
+  event_bindings: {click: logout_button_click}

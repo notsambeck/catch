@@ -64,7 +64,7 @@ class PlayCatch (PlayCatchTemplate):
   # navigation button
   def add_contacts_click(self, **event_args):
     # This method is called when the button is clicked
-    open_form('_game')
+    open_form('_games')
 
   def throw_button_click(self, **event_args):
     # tell server that ball has been thrown immediately
