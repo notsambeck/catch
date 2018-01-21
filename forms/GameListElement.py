@@ -29,6 +29,9 @@ class GameListElement(GameListElementTemplate):
   def set_labels(self):
     if self.game['is_active']:
       self.play_button.text = 'Go to game'
+      self.play_button.enabled = True
+      self.play_button.visible = True
+      
       if self.am0:
         self.friend_ball.selected = self.game['has_ball'] == 1
         self.player_ball.selected = self.game['has_ball'] == 0
@@ -36,7 +39,7 @@ class GameListElement(GameListElementTemplate):
         self.friend_ball.selected = self.game['has_ball'] == 0
         self.player_ball.selected = self.game['has_ball'] == 1
         
-      if self.game['throws'] >= 1:
+      if self.game['throws'] >= 0:
         self.num_throws.visible = True
         self.num_throws.text = 'Throws: {}'.format(str(self.game['throws']))
 
@@ -47,6 +50,7 @@ class GameListElement(GameListElementTemplate):
       
     elif self.game['p1_enabled']:  # game inactive but both ready
       self.play_button.text = 'Start new game'
+      self.play_button.enabled = True
       self.friend_ball.visible = False
       self.player_ball.visible = False
       self.play_button.background = '#92bf89'

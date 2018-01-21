@@ -44,7 +44,7 @@ def send_authorization_message(phone):
         # to="+1{}".format(phone),     # TODO
         to="+15035053813",
         from_="+15035582695",
-        body="Your CATCH authentication code: {}".format(user['twilio_code'])
+        body="{}: Your CATCH authentication code is: {}".format(phone, user['twilio_code'])
       )
       user['confirmations_sent'] += 1
       return {'success': True,

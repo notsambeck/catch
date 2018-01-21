@@ -298,20 +298,20 @@ def add_connection(phone):
   # protect whole operation from simultaneous adding
   with tables.Transaction() as txn:
     # search for pre-existing games
-    p1_e = row['game']['p1_enabled']
-    if p1_e:
-      throws = -1
-    else:
-      throws = -2
+
     my_games = app_tables.user_games.search(user=me)
     for row in my_games:
       if row['game']['player_1'] == other_user or row['game']['player_0'] == other_user:
         
+        if row['game']['p1_enabled']:
+          throws = -1
+        else:
+          throws = -2
         # success is not really 'True' but same result
         return {
           'success': True,
-          'enabled': p1_e,
-          'msg': 'game already existed!',
+          'enabled': row['game']['p1_enabled'],
+          'msg': 'game already exists',
           'game': row['game'],}
     
     # no existing connection; make one
@@ -320,8 +320,8 @@ def add_connection(phone):
       is_active=False,
       player_0=me,
       player_1=other_user,
-      p1_enabled=p1_e,
-      throws=throws,
+      p1_enabled=other_user['enabled'],
+      throws=other_user['enabled'].astype(int) - 2,
       last_throw_time=datetime.now(),)
     
     app_tables.user_games.add_row(game=game, user=me)
@@ -427,6 +427,7 @@ def throw(game_id):
 
   return {'success': True,
           'game': game}
+
 
 @anvil.server.callable
 def get_game(game_id):
