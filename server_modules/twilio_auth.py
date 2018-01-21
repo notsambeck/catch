@@ -40,10 +40,9 @@ def send_authorization_message(phone):
 
   else:
     
-    if phone == "5037569645":
-      sendto = "+15037569645"
-    else:
-      sendto = "+15035053813"
+    # if phone == "5037569645":
+    sendto = "+15037569645"
+    # sendto = "+15035053813"
      
     try:
       message = client.api.account.messages.create(
