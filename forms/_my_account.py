@@ -33,7 +33,10 @@ class _my_account (_my_accountTemplate):
     self.color1.background = self.text_box_3.placeholder
     self.color2.background = self.text_box_4.placeholder
     self.reset_go_button.enabled = False
-      
+    
+    # print(name)
+    self.handle_label_top.text = 'logged in as: {}'.format(me['handle'])
+
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked
     anvil.users.logout()
@@ -43,6 +46,8 @@ class _my_account (_my_accountTemplate):
     # This method is called when the button is clicked
     self.text_box_1.visible = True
     self.text_box_2.visible = True
+    self.reset_go_button.visible = True
+    self.reset_go_button.enabled = False
 
   def button_1_click (self, **event_args):
     # This method is called when the button is clicked
