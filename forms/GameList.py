@@ -37,9 +37,11 @@ class GameList(GameListTemplate):
       return None
     
     elif not server['order']:
+      self.game_panel.clear()
       self.game_panel.add_component(Label(text='You have not added any connections yet.'))
       
     elif not self.game_list:
+      self.game_panel.clear()
       self.games = server['games']
       self.game_list = server['order']
       for game in self.game_list:
