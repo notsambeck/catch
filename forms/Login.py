@@ -5,6 +5,7 @@ import anvil.users
 from utils import is_valid_number
 from Title import Title
 from AddContacts import AddContacts
+from ConfirmAccount import ConfirmAccount
 
 class Login(LoginTemplate):
   def __init__(self, **properties):

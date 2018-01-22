@@ -5,7 +5,6 @@ import anvil.users
 from utils import is_valid_number
 from Title import Title
 from AddContacts import AddContacts
-from Login import Login
 
 class ConfirmAccount (ConfirmAccountTemplate):
   def __init__(self, phone, **properties):
@@ -35,8 +34,7 @@ class ConfirmAccount (ConfirmAccountTemplate):
     else:
       alert(confirmed['msg'])
       if confirmed['goto_login']:
-        get_open_form().content_panel.clear()
-        get_open_form().content_panel.add_component(Login())
+        open_form(Login())
 
   def resend_button_click (self, **event_args):
     # This method is called when the button is clicked
