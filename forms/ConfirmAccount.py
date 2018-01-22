@@ -4,7 +4,7 @@ import anvil.users
 
 from utils import is_valid_number
 from Title import Title
-from AddContacts import AddContacts
+
 
 class ConfirmAccount (ConfirmAccountTemplate):
   def __init__(self, phone, **properties):
@@ -29,8 +29,7 @@ class ConfirmAccount (ConfirmAccountTemplate):
     confirmed = anvil.server.call('confirm_account', self.confirmation_code.text, self.phone)
     if confirmed['success']:
       Notification('Account confirmed.', title='Success!')
-      get_open_form().content_panel.clear()
-      get_open_form().content_panel.add_component(AddContacts())
+      open_form('_play')
     else:
       alert(confirmed['msg'])
       if confirmed['goto_login']:
