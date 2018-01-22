@@ -153,7 +153,7 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_style = "rgba(0,0,0,1)"
     c.fill_rect(.1*w, .65*h, .04*w, .25*h )
     c.fill_rect(.9*w, .65*h, .04*w, .25*h )
-    c.fill_style = '#BB9900'
+    c.fill_style = '#AA9900'
     # heads
     c.fill_rect(.1*w, .59*h, .04*w, .08*h )
     c.fill_rect(.9*w, .59*h, .04*w, .08*h )
