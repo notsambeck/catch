@@ -30,5 +30,5 @@ components:
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: 'True', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{}', spacing_below: small,
+    row_spacing: 10, wrap_on: never, spacing_above: none, col_widths: '{}', spacing_below: none,
     background: ''}
