@@ -90,3 +90,4 @@ class Login(LoginTemplate):
       # else: fail
       else:
         Notification(status['msg']).show()
+

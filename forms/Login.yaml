@@ -31,12 +31,13 @@ components:
   layout_properties: {grid_position: 'KWIYLI,GYJDOA CHETKC,UYTZAL'}
   event_bindings: {click: explain_phone}
 - type: TextBox
-  properties: {role: null, width: default, align: left, hide_text: false, placeholder: '1234567890',
-    border: '', enabled: true, foreground: '', visible: true, text: '1111111111',
-    font_size: null, font: '', spacing_above: small, type: telephone, spacing_below: small,
-    italic: false, background: '', bold: false, underline: false}
+  properties: {role: null, width: default, align: left, hide_text: false, placeholder: (123) 456-7890,
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: telephone, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
   name: phone
   layout_properties: {grid_position: 'KWIYLI,OXHEKA'}
+  event_bindings: {pressed_enter: phone_pressed_enter}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: 'Password:', font_size: null, font: '', spacing_above: small,
@@ -45,8 +46,8 @@ components:
   name: label_password
   layout_properties: {grid_position: 'POHKFA,HZRNRF'}
 - type: TextBox
-  properties: {role: null, width: default, align: left, hide_text: false, placeholder: '',
-    border: '', enabled: true, foreground: '', visible: true, text: password, font_size: null,
+  properties: {role: null, width: default, align: left, hide_text: false, placeholder: password,
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
     font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
     background: '', bold: false, underline: false}
   name: password
