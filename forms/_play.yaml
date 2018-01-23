@@ -124,13 +124,14 @@ container:
       \ z-index: 1;\n     }\n\n     .designer .sidebar {\n\t max-width: 30%;\n   \
       \  }\n\n     .sidebar.floating {\n\t top: 62px;\n     }\n\n     body.anvil-show-banner\
       \ .sidebar.floating {\n\t top: 112px;\n     }\n\n     .cards {\n\t padding:\
-      \ 24px 0px;\n\t height: 250px;\n     }\n\n }\n\n .sidebar.floating {\n     position:\
-      \ absolute;\n     top: 62px;\n     bottom: 0px;\n     left: 0px;\n     z-index:\
-      \ 2;\n }\n\n body.anvil-show-banner .sidebar.floating {\n     top: 112px;\n\
-      \ }\n\n\n</style>\n\n<script>\n function toggleSidebar() {\n     var s = $('.sidebar');\n\
-      \     if (!s.is(':hidden')) {\n\t $('.sidebar-click-guard').hide();\n\t s.addClass('floating').animate({left:\
-      \ -s.width()}, {complete: function() { s.hide(); }});\n     } else {\n\t $('.sidebar-click-guard').show();\n\
-      \t s.show().addClass('floating').css('left', '-100%').css('left', -s.width())\n\
+      \ 0px !important;\n\t height: 250px;\n     }\n\n }\n\n .sidebar.floating {\n\
+      \     position: absolute;\n     top: 62px;\n     bottom: 0px;\n     left: 0px;\n\
+      \     z-index: 2;\n }\n\n body.anvil-show-banner .sidebar.floating {\n     top:\
+      \ 112px;\n }\n\n\n</style>\n\n<script>\n function toggleSidebar() {\n     var\
+      \ s = $('.sidebar');\n     if (!s.is(':hidden')) {\n\t $('.sidebar-click-guard').hide();\n\
+      \t s.addClass('floating').animate({left: -s.width()}, {complete: function()\
+      \ { s.hide(); }});\n     } else {\n\t $('.sidebar-click-guard').show();\n\t\
+      \ s.show().addClass('floating').css('left', '-100%').css('left', -s.width())\n\
       \t  .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});\n\
       \     }\n }\n\n $(function() {\n     $('.sidebar').click(function() {\n\t if\
       \ (window.innerWidth <= 767) {\n\t     toggleSidebar();\n\t }\n     });\n  \
@@ -160,4 +161,4 @@ container:
       >\n\t<i class=\"fa fa-bars\"></i>\n    </div>\n\n    <div anvil-if-slot-empty=\"\
       title\" anvil-drop-slot=\"title\" class=\"title placeholder anvil-designer-only\"\
       >\n\tDrop a title here\n    </div>\n    <div anvil-slot=\"title\" class=\"title\"\
-      ></div>\n</div>"}
+      ></div>\n</div>\n"}
