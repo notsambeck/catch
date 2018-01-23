@@ -5,7 +5,7 @@ import tables
 from tables import app_tables
 from PlayCatch import PlayCatch
 
-from datetime import datetime
+from datetime import datetime, timezone
 import colors
     
 class GameListElement(GameListElementTemplate):
@@ -44,7 +44,8 @@ class GameListElement(GameListElementTemplate):
     # Normal status for ongoing game
     if self.game['is_active']:
       time = self.game['last_throw_time']
-      now = datetime.now()
+      time.
+      now = datetime.now(timezone.utc)
       delta = now - time
       if delta.days > 1:
         timestring = '{} days ago'.format(delta.days)
