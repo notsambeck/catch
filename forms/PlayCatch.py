@@ -1,9 +1,13 @@
 from anvil import *
 import anvil.server
 import anvil.users
+import random
 
 # TODO following function call and definition in ServerModule for deployment?
 # random_id = anvil.server.call('some_connection')
+
+# city
+
 
 class PlayCatch (PlayCatchTemplate):
   def __init__(self, game, **properties):
@@ -25,6 +29,28 @@ class PlayCatch (PlayCatchTemplate):
     self.counter = 0
 
     self.set_labels_directions()
+    
+    self.buildings = []
+    
+    self.width = self.canvas_1.get_width()
+    self.height = self.canvas_1.get_height()
+    for _ in range(10):
+      self.make_building()
+    
+    print(self.width, self.height, self.canvas_1.width, self.canvas_1.height)
+      
+  def make_building(self):
+    '''make random building w x h'''
+    bx = random.randrange(0, self.width)    # center
+    bh = random.randrange(0, self.height//2)  # top
+    bw = random.choice([.10, .15, .5, .7,])  # width
+    self.buildings.append([bx, bh, bw])
+    
+  def draw_building(self, bx, bh, bw):
+    self.canvas_1.fill_style = "rgba(100,100,100,1)"
+    self.canvas_1.fill_rect(bx, bh, bw, self.height-bh)
+    self.canvas_1.fill_style = "rgba(60,60,90,1)"
+    self.canvas_1.fill_rect(bx-bw, bh, bw, self.height-bh)
       
   def set_labels_directions(self):
     if self.am0:
@@ -114,35 +140,9 @@ class PlayCatch (PlayCatchTemplate):
         x += w
       c.fill_rect(x, h/2 // cloud[2], cloud[0], cloud[1])
       
-    # city
-    c.fill_style = "rgba(100,100,100,1)"
-    c.fill_rect(300, h/3, w//18, h//2)
-    c.fill_rect(220, .35*h, w//20, 2*h//3)
-    c.fill_rect(320, .25*h, w//50, h//2.2)
-    c.fill_rect(400, .5*h, w//15, h//1.6)
-    c.fill_rect(490, .35*h, w//26, 2*h//3.7,)
-    c.fill_rect(650, .25*h, w//40, h//2.7,)
-    c.fill_rect(200, h/3, w//30, h//2.1)
-    c.fill_rect(520, .35*h, w//20, 3*h//5)
-    c.fill_rect(620, .25*h, w//40, h//2)
-    c.fill_rect(700, .5*h, w//45, h//3)
-    c.fill_rect(190, .35*h, w//32, 2*h//3.2,)
-    c.fill_rect(50, .25*h, w//30, h//2.6,)
-    
-    c.fill_style = "rgba(60,60,90,1)"
-    c.fill_rect(330, h/3, w//18, h//2)
-    c.fill_rect(260, .35*h, w//20, 2*h//3)
-    c.fill_rect(330, .25*h, w//50, h//2.2)
-    c.fill_rect(440, .5*h, w//15, h//1.6)
-    c.fill_rect(520, .35*h, w//26, 2*h//3.7,)
-    c.fill_rect(670, .25*h, w//40, h//2.7,)
-    c.fill_rect(230, h/3, w//30, h//2.1)
-    c.fill_rect(560, .35*h, w//20, 3*h//5)
-    c.fill_rect(630, .25*h, w//40, h//2)
-    c.fill_rect(720, .5*h, w//45, h//3)
-    c.fill_rect(210, .35*h, w//32, 2*h//3.2,)
-    c.fill_rect(80, .25*h, w//30, h//2.6,)
-    
+    for b in self.buildings:
+      self.draw_building(b[0], b[1], b[2])
+
     # trees
     c.fill_style = "rgba(100,140,70,1)"
     c.fill_rect(0, .6*h, (w*1.2)//1, h//2)
