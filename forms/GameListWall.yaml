@@ -8,7 +8,7 @@ components:
   - type: Link
     properties: {role: null, width: default, align: left, border: '', foreground: '',
       visible: true, text: '', font_size: null, row_spacing: 10, wrap_on: never, font: '',
-      spacing_above: small, icon_align: left, col_widths: '{"RSPGUA":30,"KGTRPK":30}',
+      spacing_above: small, icon_align: left, col_widths: '{"RSPGUA":35,"KGTRPK":25}',
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: game_summary
@@ -16,7 +16,7 @@ components:
     components:
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
-        visible: true, text: Go to wall, font_size: 18, font: '', spacing_above: small,
+        visible: true, text: Go to wall, font_size: 16, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
         underline: false, icon: ''}
       name: you_label
@@ -24,7 +24,7 @@ components:
       data_bindings: []
     - type: Label
       properties: {role: null, width: default, align: right, border: '', foreground: '',
-        visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
+        visible: true, text: '', font_size: 13, font: '', spacing_above: small, icon_align: left,
         spacing_below: small, italic: false, background: '', bold: false, underline: false,
         icon: ''}
       name: num_throws
