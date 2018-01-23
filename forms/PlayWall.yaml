@@ -9,7 +9,7 @@ components:
   components:
   - type: Canvas
     properties: {role: null, width: default, height: '100', border: '', foreground: '',
-      visible: true, spacing_above: small, spacing_below: small, background: '#89bbcd'}
+      visible: true, spacing_above: small, spacing_below: small, background: '#7a91d3'}
     name: canvas_1
     layout_properties: {grid_position: 'BCMADU,PJNASK', full_width_row: true}
   event_bindings: {click: throw_button_click}

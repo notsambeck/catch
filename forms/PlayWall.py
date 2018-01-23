@@ -70,7 +70,7 @@ class PlayWall(PlayWallTemplate):
         x += w
       c.fill_rect(x, h // cloud[2], cloud[0], cloud[1])
       
-    c.fill_style = "rgba(220,220,220,.2)"
+    c.fill_style = "rgba(180,180,180,.15)"
     for cloud in ((100, 20, 4, 0), (77, 45, 5, 30), (30, 120, 5, 40), (50, 120, 4, 63), (188, 103, 8, 90),
                  (100, 60, 2, 0), (230, 405, 5, 10), (70, 200, 3, 70), (160, 60, 7, 23), (218, 39, 2, 60),
                  (100, 60, 2, 80), (230, 405, 5, 50), (70, 200, 3, 40), (160, 60, 7, 53), (218, 39, 2, 95)):
@@ -109,11 +109,11 @@ class PlayWall(PlayWallTemplate):
     c.fill_rect(80, .25*h, w//30, h//2.6,)
     
     # trees
-    c.fill_style = "rgba(100,140,70,1)"
+    c.fill_style = "rgba(100,110,70,1)"
     c.fill_rect(0, .6*h, (w*1.2)//1, h//2)
     
     # ground
-    c.fill_style = "rgba(140,160,90,1)"
+    c.fill_style = "rgba(100,120,80,1)"
     c.fill_rect(0, h*2//3, (w*1.2)//1, h//3)
     
     # players
