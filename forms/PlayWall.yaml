@@ -8,7 +8,7 @@ components:
   layout_properties: {grid_position: 'OKBFUH,MQQUEU', full_width_row: true}
   components:
   - type: Canvas
-    properties: {role: null, width: default, height: '120', border: '', foreground: '',
+    properties: {role: null, width: default, height: '200', border: '', foreground: '',
       visible: true, spacing_above: small, spacing_below: small, background: '#7a91d3'}
     name: canvas_1
     layout_properties: {grid_position: 'BCMADU,PJNASK', full_width_row: true}

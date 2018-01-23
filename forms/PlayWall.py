@@ -138,12 +138,12 @@ class PlayWall(PlayWallTemplate):
 
     
     c.fill_style = '#FFFFFF'
-    c.font = '{}px sans-serif'.format(h//7)
+    c.font = '{}px sans-serif'.format(h//12)
     
-    c.fill_text('THROWS:'.format(self.throws), (w*.68), h//2)
-    c.fill_text(' {}'.format(self.throws), w*.65, h*.78)
+    c.fill_text('THROWS:'.format(self.throws), (w*.6), h//2)
+    c.fill_text('{}'.format(self.throws), w*.6, h*.8)
     if not self.ball_moving and self.counter % 5:
-      c.fill_text('TAP TO THROW', w//16, h//4)
+      c.fill_text('TAP TO THROW', w//16, h//5)
     
     # ball:
     c.fill_style = '#FEF5E7'
