@@ -44,7 +44,6 @@ class GameListElement(GameListElementTemplate):
  
     # Normal status for ongoing game
     if self.game['is_active']:
-      self.play_button.visible = False
       self.status_label.visible = True
       
       if (self.am0 and self.game['has_ball'] == 0) or (not self.am0 and self.game['has_ball'] == 1):
@@ -58,7 +57,7 @@ class GameListElement(GameListElementTemplate):
       self.num_throws.text = 'Throws: {}'.format(str(self.game['throws']))
 
     elif self.game['p1_enabled']:  # game inactive but both ready
-      self.play_button.text = 'Start new game'
+      self.num_throws.text = 'Start new game'
       self.background = colors.highlight
       self.status_label.visible = False
       self.num_throws.visible = False

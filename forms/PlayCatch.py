@@ -169,7 +169,7 @@ class PlayCatch (PlayCatchTemplate):
     
     if self.i_have_ball and not self.ball_moving and self.counter % 5:
       c.fill_style = '#FFFFFF'
-      c.font = '{}px sans-serif'.format(h//6)
+      c.font = '{}px sans-serif'.format(h//7)
       c.fill_text('TAP TO THROW', w//12, h//5)
     
     if self.ball_moving:

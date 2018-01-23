@@ -65,7 +65,7 @@ container:
       \ #000000;\n }\n\n .placeholder {\n     padding: 5px;\n     border: 2px dashed\
       \ #888;\n }\n\n .nav {\n     position: absolute;\n     top: 0;\n     left: 0;\n\
       \     width: 100%;\n     background-color: white;\n     padding: 11px 16px 11px;\
-      \ /* expect 5px margin */\n     height: 62px;\n     font-size: 20px;\n\n   \
+      \ /* expect 5px margin */\n     height: 62px;\n     font-size: 18px;\n\n   \
       \  overflow-y: hidden;\n\n     color: #009640; \n     text-transform: uppercase;\n\
       \     font-weight: bold;\n\n     box-shadow: 0 1px 3px #888;\n\n\n     -webkit-touch-callout:\
       \ none;\n     -webkit-user-select: none;\n     -khtml-user-select: none;\n \
