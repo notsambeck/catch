@@ -12,12 +12,7 @@ class PlayWall(PlayWallTemplate):
     
     self.me = anvil.users.get_user()
     
-    self.p0_name.text = self.me['handle']
     self.throws = self.me['wall_throws']
-    
-    # TODO: delete these or use them
-    self.p0_ball.visible = False
-    self.p1_ball.visible = False
     
     self.counter = 0
 
@@ -143,9 +138,9 @@ class PlayWall(PlayWallTemplate):
 
     
     c.fill_style = '#FFFFFF'
-    c.font = '30px sans-serif'
+    c.font = '{}px sans-serif'.format(h//6)
     
-    c.fill_text('THROWS: {}'.format(self.throws), (w*2//3), h//2)
+    c.fill_text('THROWS: {}'.format(self.throws), (w*.55), h//2)
     if not self.ball_moving and self.counter % 5:
       c.fill_text('TAP TO THROW', w//12, h//4)
     

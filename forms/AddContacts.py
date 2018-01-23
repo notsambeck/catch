@@ -4,9 +4,6 @@ import anvil.users
 import tables
 from tables import app_tables
 from utils import is_valid_number, hash_phone
-from Title import Title
-from GameList import GameList
-from Status import Status
 
 
 class AddContacts (AddContactsTemplate):

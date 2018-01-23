@@ -4,7 +4,6 @@ import anvil.users
 import tables
 from tables import app_tables
 from PlayCatch import PlayCatch
-from GameList import GameList
 from AddContacts import AddContacts
 
 class _my_account (_my_accountTemplate):

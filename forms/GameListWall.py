@@ -40,3 +40,4 @@ class GameListWall(GameListWallTemplate):
     self.game_view.clear()
     self.game_summary.visible = True
     self.wall_active = False
+

@@ -59,14 +59,13 @@ class GameListElement(GameListElementTemplate):
 
     elif self.game['p1_enabled']:  # game inactive but both ready
       self.play_button.text = 'Start new game'
-      self.play_button.enabled = True
       self.background = colors.highlight
       self.status_label.visible = False
       self.num_throws.visible = False
       
     else:   # player 2 not yet enabled
-      self.play_button.text = 'Player not activated'
-      self.play_button.foreground = colors.gray
+      self.num_throws.text = 'Player not activated'
+      self.num_throws.foreground = colors.gray
       self.you_label.foreground = colors.gray
    
   def update(self, updated_game):

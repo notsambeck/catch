@@ -20,31 +20,26 @@ components:
     components:
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
-        visible: true, text: '', font_size: 22, font: '', spacing_above: small, icon_align: left,
+        visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
         spacing_below: small, italic: false, background: '', bold: true, underline: false,
         icon: ''}
       name: you_label
-      layout_properties: {grid_position: 'ZWEYBN,SJLVYU BDVULM,ZCEBQQ'}
+      layout_properties: {grid_position: 'ZWEYBN,SJLVYU'}
       data_bindings: []
-    - type: Label
-      properties: {}
-      name: status_label
-      layout_properties: {grid_position: 'ZWEYBN,SJLVYU XMUFNC,GPHAUW'}
     - type: Label
       properties: {role: null, width: default, align: right, border: '', foreground: '',
         visible: true, text: '', font_size: 18, font: '', spacing_above: small, icon_align: left,
         spacing_below: small, italic: false, background: '', bold: false, underline: false,
         icon: ''}
       name: num_throws
-      layout_properties: {grid_position: 'ZWEYBN,CYDJHW LULAVT,GPTJRJ'}
-    - type: Button
-      properties: {role: null, width: default, align: right, border: '', enabled: true,
-        foreground: '', visible: true, text: Start New Game, font_size: 18, font: '',
-        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '#c3c3c3', bold: true, underline: false, icon: ''}
-      name: play_button
-      layout_properties: {grid_position: 'ZWEYBN,CYDJHW YUQPUR,ORZLDW'}
-      event_bindings: {click: play_button_click}
+      layout_properties: {grid_position: 'ZWEYBN,CYDJHW'}
+    - type: Label
+      properties: {role: null, width: default, align: left, border: '', foreground: '',
+        visible: true, text: '', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: status_label
+      layout_properties: {grid_position: 'GTABZO,NIXFKP'}
     event_bindings: {click: expand}
   - type: LinearPanel
     properties: {}

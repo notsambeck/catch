@@ -3,7 +3,6 @@ import anvil.server
 import anvil.users
 
 from utils import is_valid_number
-from Title import Title
 
 
 class ConfirmAccount (ConfirmAccountTemplate):
@@ -11,10 +10,7 @@ class ConfirmAccount (ConfirmAccountTemplate):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
     self.phone = phone
-
-    # Any code you write here will run when the form opens.
-    self.title_panel.add_component(Title())
-    
+ 
     # alert('Your Catch confirmation code is:\n{}'.format(twilio_code), title='SMS INCOMING...')
     self.resend_button.text = 'Resend confirmation text to {}.'.format(self.phone)
 
