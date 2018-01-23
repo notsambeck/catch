@@ -38,6 +38,8 @@ class PlayWall(PlayWallTemplate):
     if self.ball_moving:
       return False
     self.throws += 1
+    if self.throws % 10 == 0:
+      anvil.server.call_s('update_wall', self.throws)
 
     # reset y velocity
     self.ball_y = .76
@@ -64,19 +66,20 @@ class PlayWall(PlayWallTemplate):
     c.clear_rect(0, 0, w, h * 2//3)
     
     # clouds
-    c.fill_style = "rgba(200,200,200,.3)"
+    c.fill_style = "rgba(200,200,200,.2)"
     for cloud in ((100, 20, 4, 0), (77, 45, 5, 30), (30, 120, 5, 40), (50, 120, 4, 63), (188, 103, 8, 90),
                  (100, 60, 2, 0), (230, 405, 5, 10), (70, 200, 3, 70), (160, 60, 7, 23), (218, 39, 2, 60),
                  (100, 60, 2, 80), (230, 405, 5, 50), (70, 200, 3, 40), (160, 60, 7, 53), (218, 39, 2, 95)):
-      x = (cloud[3] - self.counter) * w // 200
+      x = (cloud[3] - self.counter) * w // 300
       if x < 0:
         x += w
       c.fill_rect(x, h // cloud[2], cloud[0], cloud[1])
       
+    c.fill_style = "rgba(220,220,220,.2)"
     for cloud in ((100, 20, 4, 0), (77, 45, 5, 30), (30, 120, 5, 40), (50, 120, 4, 63), (188, 103, 8, 90),
                  (100, 60, 2, 0), (230, 405, 5, 10), (70, 200, 3, 70), (160, 60, 7, 23), (218, 39, 2, 60),
                  (100, 60, 2, 80), (230, 405, 5, 50), (70, 200, 3, 40), (160, 60, 7, 53), (218, 39, 2, 95)):
-      x = (cloud[3] - self.counter) * w // 150
+      x = (cloud[3] - self.counter) * w // 250
       if x < -100:
         x += w
       c.fill_rect(x, h/2 // cloud[2], cloud[0], cloud[1])
@@ -127,20 +130,28 @@ class PlayWall(PlayWallTemplate):
     # gloves
     c.fill_rect(.12*w, .75*h, .03*w, .06*h )
     
-    # ball:
-    c.fill_style = '#FEF5E7'
-    c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
-    
     # wall
-    c.fill_style = '#AA3300'
-    c.fill_rect(w//2, h//4, w//40, h*2//3)
+    c.fill_style = '#883300'
+    c.fill_rect(w*.52, h*.27, w//40, h*2//3)
+    c.fill_rect(w*.51, h*.26, w//40, h*2//3)
+    c.fill_rect(w*.50, h*.25, w//40, h*2//3)
+    c.fill_rect(w*.49, h*.24, w//40, h*2//3)
+    c.fill_rect(w*.48, h*.23, w//40, h*2//3)
+    c.fill_rect(w*.47, h*.22, w//40, h*2//3)
+    c.fill_style = '#702000'
+    c.fill_rect(w*.53, h*.28, w//40, h*2//3)
+
     
     c.fill_style = '#FFFFFF'
     c.font = '30px sans-serif'
     
-    c.fill_text('throws: {}'.format(self.throws), (w*3//4), h//5)
-    if not self.ball_moving:
-      c.fill_text('tap to throw', w//12, h//5)
+    c.fill_text('THROWS: {}'.format(self.throws), (w*2//3), h//2)
+    if not self.ball_moving and self.counter % 5:
+      c.fill_text('TAP TO THROW', w//12, h//4)
+    
+    # ball:
+    c.fill_style = '#FEF5E7'
+    c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
     
     if self.ball_moving:
       self.ball_steps += 1

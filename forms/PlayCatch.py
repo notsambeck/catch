@@ -14,17 +14,12 @@ class PlayCatch (PlayCatchTemplate):
     self.game = game
     
     if not self.game['is_active']:
-      activate = anvil.server.call('make_game_active', self.game.get_id())
+      activate = anvil.server.call_s('make_game_active', self.game.get_id())
       assert activate['success']
       self.game = activate['game']
 
-    # TODO: delete these or use them
-    self.p0_ball.visible = False
-    self.p1_ball.visible = False
-    
     # set permanent labels for this game instance:
     
-    self.p0_name.text = self.me['handle']
     self.am0 = self.game['player_0'] == self.me
     
     self.counter = 0
@@ -34,15 +29,22 @@ class PlayCatch (PlayCatchTemplate):
   def set_labels_directions(self):
     if self.am0:
       self.i_have_ball = self.game['has_ball'] == 0
-      self.p1_name.text = self.game['player_1']['handle']
+      if self.i_have_ball:
+        self.p1_name.text = self.game['player_1']['handle']
+      else:
+        self.p1_name.text = '{} has the ball'.format(self.game['player_1']['handle'])
     else:
       self.i_have_ball = self.game['has_ball'] == 1
-      self.p1_name.text = self.game['player_0']['handle']
+      if self.i_have_ball:
+        self.p1_name.text = self.game['player_0']['handle']
+      else:
+        self.p1_name.text = '{} has the ball'.format(self.game['player_0']['handle'])
+
+    self.p0_name.text = 'Me: {}'.format(self.me['handle'])
 
     # TODO: either unhide ball indicators or delete
-
-    self.p0_ball.selected = self.i_have_ball
-    self.p1_ball.selected = not self.i_have_ball
+    # self.p0_ball.selected = self.i_have_ball
+    # self.p1_ball.selected = not self.i_have_ball
     
     # set movement vairables
     self.ball_moving = False
@@ -62,7 +64,7 @@ class PlayCatch (PlayCatchTemplate):
     if not self.i_have_ball:
       return False
     # tell server that ball has been thrown immediately
-    throw_status = anvil.server.call('throw', self.game.get_id())
+    throw_status = anvil.server.call_s('throw', self.game.get_id())
     
     if not throw_status['success']:
       print('Throw failed:', throw_status['msg'])
@@ -74,17 +76,12 @@ class PlayCatch (PlayCatchTemplate):
     self.ball_y = .76
     self.ball_vy = .06
     
-    # turn off indicators
-    self.p0_ball.selected = False
-    self.p1_ball.selected = False
-
     # change ball status so it starts moving
     self.ball_moving = True
     self.ball_steps = 0
     
   def ball_arrived(self):
     self.ball_moving = False
-    
     self.set_labels_directions()
       
   def draw(self, **event_args):
@@ -107,11 +104,12 @@ class PlayCatch (PlayCatchTemplate):
       if x < 0:
         x += w
       c.fill_rect(x, h // cloud[2], cloud[0], cloud[1])
-      
+    
+    c.fill_style = "rgba(230,230,230,.3)"
     for cloud in ((100, 20, 4, 0), (77, 45, 5, 30), (30, 120, 5, 40), (50, 120, 4, 63), (188, 103, 8, 90),
                  (100, 60, 2, 0), (230, 405, 5, 10), (70, 200, 3, 70), (160, 60, 7, 23), (218, 39, 2, 60),
                  (100, 60, 2, 80), (230, 405, 5, 50), (70, 200, 3, 40), (160, 60, 7, 53), (218, 39, 2, 95)):
-      x = (cloud[3] - self.counter) * w // 150
+      x = (cloud[3] - self.counter) * w // 250
       if x < -100:
         x += w
       c.fill_rect(x, h/2 // cloud[2], cloud[0], cloud[1])
@@ -169,10 +167,10 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_style = '#FEF5E7'
     c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
     
-    if self.i_have_ball and not self.ball_moving:
+    if self.i_have_ball and not self.ball_moving and self.counter % 5:
       c.fill_style = '#FFFFFF'
       c.font = '30px sans-serif'
-      c.fill_text('tap to throw', w//12, h//5)
+      c.fill_text('TAP TO THROW', w//12, h//5)
     
     if self.ball_moving:
       self.ball_steps += 1

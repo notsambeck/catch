@@ -40,7 +40,7 @@ components:
       properties: {role: null, width: default, align: right, border: '', enabled: true,
         foreground: '', visible: true, text: Start New Game, font_size: 18, font: '',
         spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '#92bf89', bold: true, underline: false, icon: ''}
+        background: '#c3c3c3', bold: true, underline: false, icon: ''}
       name: play_button
       layout_properties: {grid_position: 'ZWEYBN,CYDJHW YUQPUR,ORZLDW'}
       event_bindings: {click: play_button_click}

@@ -26,6 +26,7 @@ class _my_account (_my_accountTemplate):
     throws = 0
     for game in my_games['order']:
       throws += my_games['games'][game]['throws']
+    throws += me['wall_throws']
    
     self.throws_label.visible = True
     self.throws_label.text = str(throws)

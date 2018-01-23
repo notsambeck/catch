@@ -75,6 +75,8 @@ class GameListElement(GameListElementTemplate):
       self.set_labels()
 
   def expand(self, **event_args):
+    if not self.game['p1_enabled']:
+      return False
     # This method is called when the link is clicked
     with Notification('Loading...'):
       self.parent.raise_event_on_children('x-collapse')

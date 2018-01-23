@@ -14,7 +14,7 @@ components:
     components:
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
-        visible: true, text: Go to Wall, font_size: 22, font: '', spacing_above: small,
+        visible: true, text: Go to wall, font_size: 22, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
         underline: false, icon: ''}
       name: you_label

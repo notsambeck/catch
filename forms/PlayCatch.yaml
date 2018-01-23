@@ -1,7 +1,7 @@
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: '', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{"MUZYMN":15,"YRAZOJ":15,"CTMSFR":15,"SRGNIM":15}',
+    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{"QGMGLS":15,"YOVYYG":22}',
     spacing_below: small, background: ''}
 components:
 - type: Link
@@ -14,39 +14,24 @@ components:
   components:
   - type: Canvas
     properties: {role: null, width: default, height: '110', border: '', foreground: '',
-      visible: true, spacing_above: small, spacing_below: small, background: '#a5d3e3'}
+      visible: true, spacing_above: small, spacing_below: small, background: '#82abc7'}
     name: canvas_1
     layout_properties: {grid_position: 'BCMADU,PJNASK'}
   event_bindings: {click: throw_button_click}
-- type: RadioButton
-  properties: {role: null, selected: false, width: default, align: left, border: '',
-    enabled: false, foreground: '', value: '', visible: true, text: has ball, font_size: null,
-    font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-    bold: false, group_name: radioGroup1, underline: false}
-  name: p0_ball
-  layout_properties: {grid_position: 'FDTRQJ,MUZYMN', full_width_row: false}
-  data_bindings: []
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
     spacing_below: small, italic: false, background: '', bold: true, underline: false,
     icon: ''}
   name: p0_name
-  layout_properties: {grid_position: 'FDTRQJ,YRAZOJ', full_width_row: false}
+  layout_properties: {grid_position: 'FDTRQJ,QGMGLS', full_width_row: false}
 - type: Label
   properties: {role: null, width: default, align: right, border: '', foreground: '',
     visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
     spacing_below: small, italic: false, background: '', bold: true, underline: false,
     icon: ''}
   name: p1_name
-  layout_properties: {grid_position: 'FDTRQJ,CTMSFR', full_width_row: false}
-- type: RadioButton
-  properties: {role: null, selected: false, width: default, align: right, border: '',
-    enabled: false, foreground: '', value: '', visible: true, text: has ball, font_size: null,
-    font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-    bold: false, group_name: radioGroup1, underline: false}
-  name: p1_ball
-  layout_properties: {grid_position: 'FDTRQJ,SRGNIM', full_width_row: false}
+  layout_properties: {grid_position: 'FDTRQJ,YOVYYG', full_width_row: false}
 - type: Timer
   properties: {interval: 0.2}
   name: timer_1

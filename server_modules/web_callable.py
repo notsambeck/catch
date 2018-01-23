@@ -472,6 +472,15 @@ def get_game(game_id):
             'game': game}
 
 
+@anvil.server.callable
+def update_wall(number):
+  me = anvil.users.get_user()
+  if not me:
+    return {'success': False, 
+            'msg': 'Not logged in.'}
+  
+  me['wall_throws'] = number
+  return {'success': True}
 
 '''
 @anvil.server.callable

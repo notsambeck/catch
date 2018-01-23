@@ -21,6 +21,8 @@ class GameListWall(GameListWallTemplate):
     self.me = anvil.users.get_user()
     
     self.game_view.add_component(PlayWall())
+    self.game_summary.visible = False
+    self.wall_active = True
         
     self.set_event_handler('x-collapse', self.collapse)
     
@@ -30,7 +32,11 @@ class GameListWall(GameListWallTemplate):
       self.parent.raise_event_on_children('x-collapse')
       self.game_view.add_component(PlayWall())
       self.game_summary.visible = False
+      self.wall_active = True
       
   def collapse(self, **kwargs):
+    if self.wall_active:
+      anvil.server.call_s('update_wall', self.game_view.get_components()[0].throws)
     self.game_view.clear()
     self.game_summary.visible = True
+    self.wall_active = False

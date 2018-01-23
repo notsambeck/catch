@@ -5,7 +5,11 @@ components:
     background: ''}
   name: content_panel
   layout_properties: {slot: default}
-  components: []
+  components:
+  - type: ColumnPanel
+    properties: {}
+    name: top_contacts
+    layout_properties: {grid_position: 'WTMRGI,VMPLHM'}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: Catch, font_size: 22, font: '', spacing_above: small, icon_align: left,
@@ -45,6 +49,10 @@ components:
   name: account
   layout_properties: {slot: sidebar}
   event_bindings: {click: account_click}
+- type: Timer
+  properties: {interval: 6}
+  name: timer_1
+  event_bindings: {tick: timer_1_tick}
 container:
   type: HtmlTemplate
   properties: {html: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"\
