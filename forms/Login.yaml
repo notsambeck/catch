@@ -87,7 +87,7 @@ components:
   layout_properties: {grid_position: 'ZBCZAB,HUWQWR', row_background: ''}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: Log in, font_size: null, font: '', spacing_above: medium,
+    foreground: '', visible: true, text: Log in, font_size: 22, font: '', spacing_above: medium,
     icon_align: left, spacing_below: medium, italic: false, background: '', bold: true,
     underline: false, icon: ''}
   name: go_button
