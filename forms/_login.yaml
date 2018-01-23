@@ -21,47 +21,47 @@ container:
       >\n\n<style>\n body * {\n     box-sizing: border-box;\n }\n\n body {\n     background-color:\
       \ #d7d7d7;\n     font-family: \"Arial\";\n     margin: 0;\n     min-height:\
       \ 100%;\n }\n\n body.anvil-show-banner {\n     margin-top: 0;\n }\n\n a, a:visited\
-      \ {\n     color: #009688;\n }\n\n a:hover, a:active, a:focus {\n     color:\
-      \ #00796B; /* Material design: Teal 700 */\n }\n\n .placeholder {\n     padding:\
-      \ 5px;\n     border: 2px dashed #888;\n }\n\n .nav {\n     position: absolute;\n\
-      \     top: 0;\n     left: 0;\n     width: 100%;\n     background-color: white;\n\
-      \     padding: 11px 16px 11px; /* expect 5px margin */\n     height: 62px;\n\
-      \     font-size: 16px;\n\n     overflow-y: hidden;\n\n     color: #009640; \n\
-      \     text-transform: uppercase;\n     font-weight: bold;\n\n     box-shadow:\
-      \ 0 1px 3px #888;\n\n\n     -webkit-touch-callout: none;\n     -webkit-user-select:\
-      \ none;\n     -khtml-user-select: none;\n     -moz-user-select: none;\n    \
-      \ -ms-user-select: none;\n     user-select: none;\n }\n\n body.anvil-show-banner\
-      \ .nav {\n     top: 50px;\n }\n\n .nav .title, .nav .menu-btn {\n     display:\
-      \ inline-block;\n     vertical-align: top;\n     margin-left: 7px;\n }\n .nav\
-      \ .menu-btn, .nav .title.placeholder {\n     margin-top: 5px;\n     margin-left:\
-      \ 0;\n }\n\n .nav > .menu-btn {\n     color: #333;\n     cursor: pointer;\n\
-      \     width: 32px;\n     height: 32px;\n     border-radius: 16px;\n     padding:\
-      \ 5px;\n     margin-top: 7px;\n     text-align: center;\n }\n\n .nav > .menu-btn:hover\
-      \ {\n     background-color: #ccc;\n }\n\n .nav-right {\n     float: right;\n\
-      \     color: #333;\n }\n\n .nav-elt {\n     display: inline-block;\n     vertical-align:\
-      \ top;\n     margin-left: 10px;\n     position: relative;\n }\n\n .nav-elt.placeholder\
-      \ {\n     margin-top: 5px;\n     opacity: 0.8;\n     color: #888;\n     visibility:\
-      \ hidden;\n }\n\n body.anvil-highlight .nav-elt.placeholder {\n     visibility:\
-      \ visible;\n }\n\n .nav-elt .drop-here {\n     position: absolute;\n     top:\
-      \ 0;\n     left: -7.5px;\n     bottom: 0;\n     width: 5px;\n }\n\n .body {\n\
-      \     position: relative;\n     padding-top: 62px;\n     width: 100%;\n    \
-      \ display: flex;\n     flex-direction: row;\n     align-items: stretch;\n  \
-      \   min-height: 100vh;\n }\n\n body.anvil-show-banner .body {\n     padding-top:\
-      \ 112px; /* 62px navbar + 50px \"Anvil free\" banner */\n }\n\n .sidebar {\n\
-      \     background-color: #333;\n     color: white;\n     padding: 10px 0;\n \
-      \    flex-shrink: 0;\n\n     overflow-y: auto;\n     overflow-x: hidden;\n }\n\
-      \n .sidebar .placeholder {\n     text-align: center;\n }\n\n .sidebar-elt::first\
-      \ {\n     border-top: 1px solid #888;\n }\n\n .sidebar-elt {\n     position:\
-      \ relative;\n     border-bottom: 1px solid #888;\n }\n\n .sidebar-elt .drop-here\
-      \ {\n     position: absolute;\n     top: -8px;\n     left: 0;\n     right: 0;\n\
-      \     height: 5px;\n }\n \n .sidebar-elt>.content a {\n     font-size: 16px;\n\
-      \     color:white;\n     text-transform: uppercase;\n }\n \n .sidebar-elt>.content\
-      \ a:hover {\n     background: #444;\n }\n\n .sidebar-elt .content a.anvil-component\
-      \ {\n     padding-left: 14px;\n     padding-right: 14px;\n }\n\n .sidebar-elt\
-      \ a {\n     color: #ddd;\n }\n\n .sidebar-elt a:hover, .sidebar-elt a:active\
-      \ {\n     color: white;\n }\n\n .cards {\n     flex-grow: 1;\n\n     font-weight:\
-      \ bold;\n     font-color: #555;\n     font-size: 24px;\n\n     padding: 24px\
-      \ 16px;\n     max-width: 100%;\n }\n\n .cards > .anvil-container {\n     outline:\
+      \ {\n     color: #000000;\n }\n\n a:hover, a:active, a:focus {\n     color:\
+      \ #000000;\n }\n\n .placeholder {\n     padding: 5px;\n     border: 2px dashed\
+      \ #888;\n }\n\n .nav {\n     position: absolute;\n     top: 0;\n     left: 0;\n\
+      \     width: 100%;\n     background-color: white;\n     padding: 11px 16px 11px;\
+      \ /* expect 5px margin */\n     height: 62px;\n     font-size: 20px;\n\n   \
+      \  overflow-y: hidden;\n\n     color: #009640; \n     text-transform: uppercase;\n\
+      \     font-weight: bold;\n\n     box-shadow: 0 1px 3px #888;\n\n\n     -webkit-touch-callout:\
+      \ none;\n     -webkit-user-select: none;\n     -khtml-user-select: none;\n \
+      \    -moz-user-select: none;\n     -ms-user-select: none;\n     user-select:\
+      \ none;\n }\n\n body.anvil-show-banner .nav {\n     top: 50px;\n }\n\n .nav\
+      \ .title, .nav .menu-btn {\n     display: inline-block;\n     vertical-align:\
+      \ top;\n     margin-left: 7px;\n }\n .nav .menu-btn, .nav .title.placeholder\
+      \ {\n     margin-top: 5px;\n     margin-left: 0;\n }\n\n .nav > .menu-btn {\n\
+      \     color: #333;\n     cursor: pointer;\n     width: 32px;\n     height: 32px;\n\
+      \     border-radius: 16px;\n     padding: 5px;\n     margin-top: 7px;\n    \
+      \ text-align: center;\n }\n\n .nav > .menu-btn:hover {\n     background-color:\
+      \ #ccc;\n }\n\n .nav-right {\n     float: right;\n     color: #333;\n }\n\n\
+      \ .nav-elt {\n     display: inline-block;\n     vertical-align: top;\n     margin-left:\
+      \ 10px;\n     position: relative;\n }\n\n .nav-elt.placeholder {\n     margin-top:\
+      \ 5px;\n     opacity: 0.8;\n     color: #888;\n     visibility: hidden;\n }\n\
+      \n body.anvil-highlight .nav-elt.placeholder {\n     visibility: visible;\n\
+      \ }\n\n .nav-elt .drop-here {\n     position: absolute;\n     top: 0;\n    \
+      \ left: -7.5px;\n     bottom: 0;\n     width: 5px;\n }\n\n .body {\n     position:\
+      \ relative;\n     padding-top: 62px;\n     width: 100%;\n     display: flex;\n\
+      \     flex-direction: row;\n     align-items: stretch;\n     min-height: 100vh;\n\
+      \ }\n\n body.anvil-show-banner .body {\n     padding-top: 112px; /* 62px navbar\
+      \ + 50px \"Anvil free\" banner */\n }\n\n .sidebar {\n     background-color:\
+      \ #333;\n     color: white;\n     padding: 10px 0;\n     flex-shrink: 0;\n\n\
+      \     overflow-y: auto;\n     overflow-x: hidden;\n }\n\n .sidebar .placeholder\
+      \ {\n     text-align: center;\n }\n\n .sidebar-elt::first {\n     border-top:\
+      \ 1px solid #888;\n }\n\n .sidebar-elt {\n     position: relative;\n     border-bottom:\
+      \ 1px solid #888;\n }\n\n .sidebar-elt .drop-here {\n     position: absolute;\n\
+      \     top: -8px;\n     left: 0;\n     right: 0;\n     height: 5px;\n }\n \n\
+      \ .sidebar-elt>.content a {\n     font-size: 16px;\n     color:white;\n    \
+      \ text-transform: uppercase;\n }\n \n .sidebar-elt>.content a:hover {\n    \
+      \ background: #444;\n }\n\n .sidebar-elt .content a.anvil-component {\n    \
+      \ padding-left: 14px;\n     padding-right: 14px;\n }\n\n .sidebar-elt a {\n\
+      \     color: #ddd;\n }\n\n .sidebar-elt a:hover, .sidebar-elt a:active {\n \
+      \    color: white;\n }\n\n .cards {\n     flex-grow: 1;\n\n     font-weight:\
+      \ bold;\n     font-color: #555;\n     font-size: 24px;\n\n     padding: 8px\
+      \ 8px;\n     max-width: 100%;\n }\n\n .cards > .anvil-container {\n     outline:\
       \ none !important;\n }\n\n .cards .anvil-container .anvil-container,\n .designer\
       \ .anvil-highlight .cards .anvil-container .anvil-container {\n     background-color:\
       \ white;\n     box-shadow: 1px 2px 4px #888;\n\n     /* Font back to defaults\
