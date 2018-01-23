@@ -45,12 +45,19 @@ class GameListElement(GameListElementTemplate):
     if self.game['is_active']:
       time = self.game['last_throw_time']
       now = datetime.now()
-      if time.day == now.day and time.month == now.month:
-        timestring = 'at {}:{:02d}'.format(time.month, time.day, time.hour, time.minute)
+      delta = now - time
+      if delta.days > 1:
+        timestring = '{} days ago'.format(delta.days)
+      elif delta.days == 1:
+        timestring = '1 day ago'
       else:
-        timestring = '{}/{} at {}:{:02d}'.format(time.month, time.day, time.hour, time.minute)
+        if delta.seconds > 6000:
+          timestring = '{} hours ago'.forma(delta.seconds // 3600)
+        else:
+          timestring = '{} minutes ago'.forma(delta.seconds // 60)
+
       if (self.am0 and self.game['has_ball'] == 0) or (not self.am0 and self.game['has_ball'] == 1):
-        self.status_label.text = '{} threw you ball #{} at {}'.format(self.you,
+        self.status_label.text = '{} threw you ball #{} {}'.format(self.you,
                                                                       self.game['throws'],
                                                                       timestring,)
         self.status_label.foreground = colors.highlight
