@@ -5,6 +5,7 @@ import tables
 from tables import app_tables
 from PlayCatch import PlayCatch
 
+from datetime import datetime
 import colors
     
 class GameListElement(GameListElementTemplate):
@@ -32,8 +33,6 @@ class GameListElement(GameListElementTemplate):
       if not self.you:
         self.you = self.game['player_0']['phone_hash']
 
-    self.you_label.text = self.you
-    
     self.set_labels()
     
     self.set_event_handler('x-collapse', self.collapse)
@@ -44,28 +43,33 @@ class GameListElement(GameListElementTemplate):
  
     # Normal status for ongoing game
     if self.game['is_active']:
-      self.status_label.visible = True
-      
+      time = self.game['last_throw_time']
+      now = datetime.now()
+      if time.day == now.day and time.month == now.month:
+        timestring = 'at {}:{:02d}'.format(time.month, time.day, time.hour, time.minute)
+      else:
+        timestring = '{}/{} at {}:{:02d}'.format(time.month, time.day, time.hour, time.minute)
       if (self.am0 and self.game['has_ball'] == 0) or (not self.am0 and self.game['has_ball'] == 1):
-        self.status_label.text = '{} threw you the ball'.format(self.you)
+        self.status_label.text = '{} threw you ball #{} at {}'.format(self.you,
+                                                                      self.game['throws'],
+                                                                      timestring,)
         self.status_label.foreground = colors.highlight
       else:
-        self.status_label.text = 'you threw ball to {}'.format(self.you)
+        self.status_label.text = 'You threw ball #{} to {} at {}'.format(self.game['throws'],
+                                                                         self.you,
+                                                                         timestring,)
         self.status_label.foreground = colors.off
-        
-      self.num_throws.visible = True
-      self.num_throws.text = 'Throws: {}'.format(str(self.game['throws']))
 
-    elif self.game['p1_enabled']:  # game inactive but both ready
-      self.num_throws.text = 'Start new game!'
+    # game inactive but both ready
+    elif self.game['p1_enabled']:  
+      self.status_label.text = 'Start new game with {}!'.format(self.you)
+      self.status_label.foreground = colors.black
       self.background = colors.highlight
-      self.status_label.visible = False
-      self.num_throws.visible = True
-      
-    else:   # player 2 not yet enabled
-      self.num_throws.text = 'Player not activated'
-      self.num_throws.foreground = colors.gray
-      self.you_label.foreground = colors.gray
+
+    # player 2 not yet enabled      
+    else:
+      self.status_label.text = 'Player {} not activated'.format(self.you)
+      self.status_label.foreground = colors.gray
    
   def update(self, updated_game):
     if self.game['throws'] != updated_game['throws'] or self.game['p1_enabled'] != updated_game['p1_enabled']:
