@@ -111,16 +111,16 @@ container:
       \ .anvil-container .anvil-container {\n     box-shadow: none;\n     background-color:\
       \ transparent;\n     padding: 0;\n }\n\n .designer .anvil-highlight .cards .anvil-container\
       \ .anvil-container .anvil-container {\n     outline: 1px dashed rgba(0,0,0,0.3)\n\
-      \ }\n\n .body .instructions {\n     padding: 24px 16px;\n     font-size: 14px;\n\
-      \     text-align: center;\n     color: #666;\n }\n\n /* Responsive bits: Make\
-      \ the menu overlay the screen\n    (and hidden by default) rather than displacing\
-      \ it\n    on small screens\n  */\n\n @media(max-width:767px) {\n     .runner\
-      \ .sidebar {\n\t display: none;\n\t position: absolute;\n\t top: 62px;\n\t bottom:\
-      \ 0px;\n\t left: 0px;\n\t z-index: 2;\n     }\n\n     .runner .sidebar-click-guard\
-      \ {\n\t display: none;\n\t position: absolute;\n\t top: 62px;\n\t bottom: 0px;\n\
-      \t left: 0;\n\t right: 0;\n\t background-color: #888;\n\t opacity: 0.5;\n\t\
-      \ z-index: 1;\n     }\n\n     .designer .sidebar {\n\t max-width: 30%;\n   \
-      \  }\n\n     .sidebar.floating {\n\t top: 62px;\n     }\n\n     body.anvil-show-banner\
+      \ }\n\n .body .instructions {\n     padding: 0px !important;\n     font-size:\
+      \ 14px;\n     text-align: center;\n     color: #666;\n }\n\n /* Responsive bits:\
+      \ Make the menu overlay the screen\n    (and hidden by default) rather than\
+      \ displacing it\n    on small screens\n  */\n\n @media(max-width:767px) {\n\
+      \     .runner .sidebar {\n\t display: none;\n\t position: absolute;\n\t top:\
+      \ 62px;\n\t bottom: 0px;\n\t left: 0px;\n\t z-index: 2;\n     }\n\n     .runner\
+      \ .sidebar-click-guard {\n\t display: none;\n\t position: absolute;\n\t top:\
+      \ 62px;\n\t bottom: 0px;\n\t left: 0;\n\t right: 0;\n\t background-color: #888;\n\
+      \t opacity: 0.5;\n\t z-index: 1;\n     }\n\n     .designer .sidebar {\n\t max-width:\
+      \ 30%;\n     }\n\n     .sidebar.floating {\n\t top: 62px;\n     }\n\n     body.anvil-show-banner\
       \ .sidebar.floating {\n\t top: 112px;\n     }\n\n     .cards {\n\t padding:\
       \ 0px;\n     }\n\n     .col-padding {\n\t padding: 0px;\n\t margin: 0px;\n\n\
       \ }\n\n .sidebar.floating {\n     position: absolute;\n     top: 62px;\n   \
