@@ -1,18 +1,14 @@
 components:
-- type: ColumnPanel
+- type: LinearPanel
   properties: {role: null, width: default, border: '', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{}', spacing_below: small,
-    background: ''}
+    row_spacing: 10, spacing_above: small, spacing_below: small, background: ''}
   name: card_content
-  layout_properties: {grid_position: 'QUMGQI,KEWNOY', full_width_row: true}
+  layout_properties: {grid_position: 'XRVMCJ,PZWRJA', full_width_row: true}
   components:
-  - type: Link
-    properties: {role: null, width: default, align: left, border: '', foreground: '',
-      visible: true, text: '', font_size: null, row_spacing: 10, wrap_on: never, font: '',
-      spacing_above: small, icon_align: left, col_widths: '{}', spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
+  - type: ColumnPanel
+    properties: {col_widths: '{}'}
     name: game_summary
-    layout_properties: {grid_position: 'VCCQBS,OLBDSW'}
+    layout_properties: {}
     components:
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
@@ -20,7 +16,7 @@ components:
         icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
         underline: false, icon: ''}
       name: you_label
-      layout_properties: {grid_position: 'ZWEYBN,SJLVYU'}
+      layout_properties: {grid_position: 'ATISUB,XIQPDA'}
       data_bindings: []
     - type: Label
       properties: {role: null, width: default, align: right, border: '', foreground: '',
@@ -28,14 +24,12 @@ components:
         spacing_below: small, italic: false, background: '', bold: false, underline: false,
         icon: ''}
       name: num_throws
-      layout_properties: {grid_position: 'ZWEYBN,CYDJHW'}
-    event_bindings: {click: expand}
-  - type: ColumnPanel
+      layout_properties: {grid_position: 'ATISUB,HXBIMS'}
+  - type: LinearPanel
     properties: {role: null, width: default, border: '', foreground: '', visible: true,
-      row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '', spacing_below: small,
-      background: ''}
+      row_spacing: 10, spacing_above: small, spacing_below: small, background: ''}
     name: game_view
-    layout_properties: {grid_position: 'PUYBPX,ENQFEK', full_width_row: true}
+    layout_properties: {grid_position: 'DBHMUX,XKHIAS', full_width_row: true}
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: 'True', foreground: '', visible: true,
