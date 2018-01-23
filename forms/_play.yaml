@@ -100,13 +100,13 @@ container:
       \ padding-left: 0px;\n     padding-right: 0px;\n }\n\n .sidebar-elt a {\n  \
       \   color: #ddd;\n }\n\n .sidebar-elt a:hover, .sidebar-elt a:active {\n   \
       \  color: white;\n }\n\n .cards {\n     flex-grow: 1;\n\n     font-weight: bold;\n\
-      \     font-color: #555;\n     font-size: 24px;\n\n     padding: 8px 8px;\n \
+      \     font-color: #555;\n     font-size: 24px;\n\n     padding: 0px 0px;\n \
       \    max-width: 100%;\n }\n\n .cards > .anvil-container {\n     outline: none\
       \ !important;\n }\n\n .cards .anvil-container .anvil-container,\n .designer\
       \ .anvil-highlight .cards .anvil-container .anvil-container {\n     background-color:\
       \ white;\n     box-shadow: 1px 2px 4px #888;\n\n     /* Font back to defaults\
       \ */\n     font-weight: normal;\n     /*color: #333;*/\n     font-size: 14px;\n\
-      \n     outline: none;\n\n     padding: 7px 0;\n }\n\n .designer .anvil-highlight\
+      \n     outline: none;\n\n     padding: 0px 0;\n }\n\n .designer .anvil-highlight\
       \ .cards .anvil-container .anvil-container .anvil-container,\n .cards .anvil-container\
       \ .anvil-container .anvil-container {\n     box-shadow: none;\n     background-color:\
       \ transparent;\n     padding: 0;\n }\n\n .designer .anvil-highlight .cards .anvil-container\
@@ -122,11 +122,12 @@ container:
       \ z-index: 1;\n     }\n\n     .designer .sidebar {\n\t max-width: 30%;\n   \
       \  }\n\n     .sidebar.floating {\n\t top: 62px;\n     }\n\n     body.anvil-show-banner\
       \ .sidebar.floating {\n\t top: 112px;\n     }\n\n     .cards {\n\t padding:\
-      \ 0px;\n     }\n\n }\n\n .sidebar.floating {\n     position: absolute;\n   \
-      \  top: 62px;\n     bottom: 0px;\n     left: 0px;\n     z-index: 2;\n }\n\n\
-      \ body.anvil-show-banner .sidebar.floating {\n     top: 112px;\n }\n\n\n</style>\n\
-      \n<script>\n function toggleSidebar() {\n     var s = $('.sidebar');\n     if\
-      \ (!s.is(':hidden')) {\n\t $('.sidebar-click-guard').hide();\n\t s.addClass('floating').animate({left:\
+      \ 0px;\n     }\n\n     .col-padding {\n\t padding: 0px;\n\t margin: 0px;\n\n\
+      \ }\n\n .sidebar.floating {\n     position: absolute;\n     top: 62px;\n   \
+      \  bottom: 0px;\n     left: 0px;\n     z-index: 2;\n }\n\n body.anvil-show-banner\
+      \ .sidebar.floating {\n     top: 112px;\n }\n\n\n</style>\n\n<script>\n function\
+      \ toggleSidebar() {\n     var s = $('.sidebar');\n     if (!s.is(':hidden'))\
+      \ {\n\t $('.sidebar-click-guard').hide();\n\t s.addClass('floating').animate({left:\
       \ -s.width()}, {complete: function() { s.hide(); }});\n     } else {\n\t $('.sidebar-click-guard').show();\n\
       \t s.show().addClass('floating').css('left', '-100%').css('left', -s.width())\n\
       \t  .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});\n\
