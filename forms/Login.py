@@ -83,7 +83,7 @@ class Login(LoginTemplate):
       # if we have full access, continue
       if status['success'] and status['enabled']:
         Notification("Login successful...").show()
-        open_form('_play')
+        open_form('_play_copy')
 
       # if account not confirmed, go to confirmation
       elif status['success'] and not status['enabled']:
