@@ -4,12 +4,14 @@ import anvil.users
 import tables
 from tables import app_tables
 from utils import is_valid_number, hash_phone
+import colors
 
 
 class AddContacts (AddContactsTemplate):
   def __init__(self, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
+    self.go_button.background = colors.highlight
 
   def add_connection(self, **event_args):
     # This method is called when the submit button is clicked
