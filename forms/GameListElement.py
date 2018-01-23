@@ -5,7 +5,7 @@ import tables
 from tables import app_tables
 from PlayCatch import PlayCatch
 
-from datetime import datetime, timezone
+from datetime import datetime
 import colors
     
 class GameListElement(GameListElementTemplate):
@@ -44,8 +44,8 @@ class GameListElement(GameListElementTemplate):
     # Normal status for ongoing game
     if self.game['is_active']:
       time = self.game['last_throw_time']
-      time.
-      now = datetime.now(timezone.utc)
+      time = time.replace(tzinfo=None)
+      now = datetime.utcnow()
       delta = now - time
       if delta.days > 1:
         timestring = '{} days ago'.format(delta.days)
@@ -53,9 +53,9 @@ class GameListElement(GameListElementTemplate):
         timestring = '1 day ago'
       else:
         if delta.seconds > 6000:
-          timestring = '{} hours ago'.forma(delta.seconds // 3600)
+          timestring = '{} hours ago'.format(delta.seconds // 3600)
         else:
-          timestring = '{} minutes ago'.forma(delta.seconds // 60)
+          timestring = '{} minutes ago'.format(delta.seconds // 60)
 
       if (self.am0 and self.game['has_ball'] == 0) or (not self.am0 and self.game['has_ball'] == 1):
         self.status_label.text = '{} threw you ball #{} {}'.format(self.you,
@@ -63,7 +63,7 @@ class GameListElement(GameListElementTemplate):
                                                                       timestring,)
         self.status_label.foreground = colors.highlight
       else:
-        self.status_label.text = 'You threw ball #{} to {} at {}'.format(self.game['throws'],
+        self.status_label.text = 'You threw ball #{} to {} {}'.format(self.game['throws'],
                                                                          self.you,
                                                                          timestring,)
         self.status_label.foreground = colors.off
