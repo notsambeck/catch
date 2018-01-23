@@ -3,7 +3,6 @@ import anvil.server
 import anvil.users
 
 from utils import is_valid_number
-from Title import Title
 from ConfirmAccount import ConfirmAccount
 
 class Login(LoginTemplate):
@@ -12,8 +11,6 @@ class Login(LoginTemplate):
     self.init_components(**properties)
     anvil.server.reset_session()
 
-    # Any code you write here will run when the form opens.
-    self.title_panel.add_component(Title())
 
   def new_account_change(self, **args):
     # show or hide confirm password and user_name

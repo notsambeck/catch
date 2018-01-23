@@ -97,12 +97,12 @@ container:
       \ .sidebar-elt>.content a {\n     font-size: 16px;\n     color:white;\n    \
       \ text-transform: uppercase;\n }\n \n .sidebar-elt>.content a:hover {\n    \
       \ background: #444;\n }\n\n .sidebar-elt .content a.anvil-component {\n    \
-      \ padding-left: 14px;\n     padding-right: 14px;\n }\n\n .sidebar-elt a {\n\
-      \     color: #ddd;\n }\n\n .sidebar-elt a:hover, .sidebar-elt a:active {\n \
-      \    color: white;\n }\n\n .cards {\n     flex-grow: 1;\n\n     font-weight:\
-      \ bold;\n     font-color: #555;\n     font-size: 24px;\n\n     padding: 8px\
-      \ 8px;\n     max-width: 100%;\n }\n\n .cards > .anvil-container {\n     outline:\
-      \ none !important;\n }\n\n .cards .anvil-container .anvil-container,\n .designer\
+      \ padding-left: 0px;\n     padding-right: 0px;\n }\n\n .sidebar-elt a {\n  \
+      \   color: #ddd;\n }\n\n .sidebar-elt a:hover, .sidebar-elt a:active {\n   \
+      \  color: white;\n }\n\n .cards {\n     flex-grow: 1;\n\n     font-weight: bold;\n\
+      \     font-color: #555;\n     font-size: 24px;\n\n     padding: 8px 8px;\n \
+      \    max-width: 100%;\n }\n\n .cards > .anvil-container {\n     outline: none\
+      \ !important;\n }\n\n .cards .anvil-container .anvil-container,\n .designer\
       \ .anvil-highlight .cards .anvil-container .anvil-container {\n     background-color:\
       \ white;\n     box-shadow: 1px 2px 4px #888;\n\n     /* Font back to defaults\
       \ */\n     font-weight: normal;\n     /*color: #333;*/\n     font-size: 14px;\n\
