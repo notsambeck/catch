@@ -4,6 +4,8 @@ import anvil.users
 import tables
 from tables import app_tables
 from PlayCatch import PlayCatch
+
+import colors
     
 class GameListElement(GameListElementTemplate):
   '''
@@ -11,96 +13,74 @@ class GameListElement(GameListElementTemplate):
   
   1 game per gameListElement instance
   '''
-  def __init__(self, game, highlight=False, **properties):
+  def __init__(self, game, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
     
     # self.game is ENTIRE ROW!
     self.game = game
-    self.am0 = self.game['player_0'] == anvil.users.get_user()
-
-    if self.am0:
-      self.friend_label.text = self.game['player_1']['handle']
-    else:
-      self.friend_label.text = self.game['player_0']['handle']
     
-    self.highlight = highlight
+    # set self.me, self.you, self.am0
+    self.me = anvil.users.get_user()
+    self.am0 = self.game['player_0'] == self.me
+    if self.am0:
+      self.you = self.game['player_1']['handle']
+      if not self.you:
+        self.you = self.game['player_1']['phone_hash']
+    else:
+      self.you = self.game['player_0']['handle']
+      if not self.you:
+        self.you = self.game['player_0']['phone_hash']
+
+    self.you_label.text = self.you
+    
     self.set_labels()
     
+    self.set_event_handler('x-collapse', self.collapse)
+    
   def set_labels(self):
-    self.background = '#FFFFFF'
-    if self.highlight:
-      self.background = '#92bf89'
-      self.play_button.text = 'Active'
-      self.play_button.enabled = False
+    # clear
+    self.background = colors.white
+ 
+    # Normal status for ongoing game
+    if self.game['is_active']:
       self.play_button.visible = False
-      self.player_ball.visible = False
-      self.friend_ball.visible = False
+      self.status_label.visible = True
       
-      if self.game['throws'] >= 0:
-        self.num_throws.visible = True
-        self.num_throws.text = 'Throws: {}'.format(str(self.game['throws']))
-
-    elif self.game['is_active']:
-      self.play_button.text = 'Go to game'
-      self.play_button.enabled = True
-      self.play_button.visible = True
-      self.player_ball.visible = True
-      self.friend_ball.visible = True
-      
-      if self.am0:
-        self.friend_ball.selected = self.game['has_ball'] == 1
-        self.player_ball.selected = self.game['has_ball'] == 0
+      if (self.am0 and self.game['has_ball'] == 0) or (not self.am0 and self.game['has_ball'] == 1):
+        self.status_label.text = '{} threw you the ball'.format(self.you)
+        self.status_label.foreground = colors.highlight
       else:
-        self.friend_ball.selected = self.game['has_ball'] == 0
-        self.player_ball.selected = self.game['has_ball'] == 1
+        self.status_label.text = 'you threw ball to {}'.format(self.you)
+        self.status_label.foreground = colors.off
         
-      if self.game['throws'] >= 0:
-        self.num_throws.visible = True
-        self.num_throws.text = 'Throws: {}'.format(str(self.game['throws']))
+      self.num_throws.visible = True
+      self.num_throws.text = 'Throws: {}'.format(str(self.game['throws']))
 
-      if (self.game['has_ball'] == 0 and self.am0) or (self.game['has_ball'] == 1 and not self.am0):
-        self.play_button.background = '#92bf89'
-      else:
-        self.play_button.background = '#CCCCCC'
-      
     elif self.game['p1_enabled']:  # game inactive but both ready
       self.play_button.text = 'Start new game'
       self.play_button.enabled = True
-      self.friend_ball.visible = False
-      self.player_ball.visible = False
-      self.play_button.background = '#92bf89'
+      self.background = colors.highlight
+      self.status_label.visible = False
+      self.num_throws.visible = False
       
     else:   # player 2 not yet enabled
       self.play_button.text = 'Player not activated'
-      self.friend_label.text = self.game['player_1']['phone_hash']
-
-      self.play_button.enabled = False
-      self.friend_ball.visible = False
-      self.player_ball.visible = False
-      self.play_button.background = '#CCCCCC'
- 
-
-  def play_button_click(self, **event_args):
-    # This method is called when the button is clicked
-    with Notification('Loading...'):
-
-      get_open_form().linear_panel_1.clear()
-      get_open_form().linear_panel_1.add_component(PlayCatch(self.game))
-
-      sibs = self.parent.get_components()
-      for sib in sibs:
-        if sib is self:
-          self.highlight = True
-          self.set_labels()
-        elif sib.highlight:
-          sib.highlight = False
-          sib.set_labels()
-        else:
-          continue
-
-      
+      self.play_button.foreground = colors.gray
+      self.you_label.foreground = colors.gray
+   
   def update(self, updated_game):
     if self.game['throws'] != updated_game['throws'] or self.game['p1_enabled'] != updated_game['p1_enabled']:
       self.game = updated_game
       self.set_labels()
+
+  def expand(self, **event_args):
+    # This method is called when the link is clicked
+    with Notification('Loading...'):
+      self.parent.raise_event_on_children('x-collapse')
+      self.game_view.add_component(PlayCatch(self.game))
+      self.game_summary.visible = False
+      
+  def collapse(self, **kwargs):
+    self.game_view.clear()
+    self.game_summary.visible = True

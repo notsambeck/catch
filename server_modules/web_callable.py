@@ -354,7 +354,7 @@ def get_games():
     games = {}
     order = []
     waiting = []
-    for i, game in enumerate(app_tables.games.search(tables.order_by('last_throw_time', ascending=False))):
+    for i, game in enumerate(app_tables.games.search(tables.order_by('throws', ascending=False))):
       if game['player_0'] == me or game['player_1'] == me:
         _id = game.get_id()
         if not game['p1_enabled']:

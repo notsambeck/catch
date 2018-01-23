@@ -32,7 +32,7 @@ components:
   event_bindings: {click: explain_phone}
 - type: TextBox
   properties: {role: null, width: default, align: left, hide_text: false, placeholder: '1234567890',
-    border: '', enabled: true, foreground: '', visible: true, text: 555-555-5555,
+    border: '', enabled: true, foreground: '', visible: true, text: '1111111111',
     font_size: null, font: '', spacing_above: small, type: telephone, spacing_below: small,
     italic: false, background: '', bold: false, underline: false}
   name: phone

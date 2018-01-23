@@ -3,10 +3,9 @@ import anvil.server
 import anvil.users
 import tables
 from tables import app_tables
-from PlayCatch import PlayCatch
-from GameList import GameList
-from AddContacts import AddContacts
+from GameListContacts import GameListContacts
 from GameListElement import GameListElement
+from GameListWall import GameListWall
 
 class _play_copy (_play_copyTemplate):
   def __init__(self, game=None, **properties):
@@ -15,18 +14,51 @@ class _play_copy (_play_copyTemplate):
 
     # Any code you write here will run when the form opens.
 
-    # self.content_panel.width = default by default
-    # self.w = int(str([char for char in self.content_panel.width if char in '1234567890']))
-    
-    self.linear_panel_1.add_component(AddContacts())
-    
-    my_games = anvil.server.call_s('get_games')
-    if my_games['success']:
-      self.linear_panel_2.add_component(GameListElement(my_games['games'][my_games['order'][0]]))
-    
     name = anvil.users.get_user()['handle']
-    # print(name)
-    self.handle.text = 'logged in as: {}'.format(name)
+    self.handle.text = 'logged in as: {}'.format(name)  # menu bar
+    
+    self.content_panel.add_component(GameListWall())
+    
+    self.games = None
+    self.game_list = []
+    self.update_connections()
+    
+    self.content_panel.add_component(GameListContacts())
+    
+    
+  def update_connections(self):
+    server = anvil.server.call_s('get_games')
+    
+    if not server['success']:
+      print server['msg']
+      return None
+    
+    elif not server['order']:
+      self.content_panel.add_component(Label(text='You have not added any connections yet.'))
+      
+    elif not self.game_list:
+      self.games = server['games']
+      self.game_list = server['order']
+      for game in self.game_list:
+        self.content_panel.add_component(GameListElement(self.games[game]))
+    
+    else:
+      # successfully got games from server + there are already games
+      if server['order'] == self.game_list:
+        for i, _id in enumerate(self.game_list):
+          server_game = server['games'][_id]
+          local_game = self.games[_id]
+          if server_game['throws'] != local_game['throws']:
+            self.content_panel.get_components()[i+1].update(server_game)
+      # dumb way to repopulate for changed game list
+      else:
+        self.game_panel.clear()
+        self.games = server['games']
+        self.game_list = server['order']
+        self.content_panel.add_component(GameListWall())
+        for _id in self.game_list:
+          self.game_panel.add_component(GameListElement(self.games[_id]))
+        self.content_panel.add_component(GameListContacts())
     
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked
@@ -39,6 +71,7 @@ class _play_copy (_play_copyTemplate):
     self.linear_panel_1.add_component(AddContacts())
     self.linear_panel_2.get_components()[0].clear_highlights()
 
-  def cccount_click (self, **event_args):
+  def account_click (self, **event_args):
     # This method is called when the button is clicked
     open_form('_my_account')
+
