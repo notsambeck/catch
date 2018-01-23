@@ -19,7 +19,7 @@ class _play (_playTemplate):
     self.top_contacts.visible = False
     
     name = anvil.users.get_user()['handle']
-    self.handle.text = 'logged in as: {}'.format(name)  # menu bar
+    self.handle.text = 'user: {}'.format(name)  # menu bar
     
     self.content_panel.add_component(GameListWall())
     
