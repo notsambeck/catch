@@ -1,8 +1,10 @@
 components:
 - type: ColumnPanel
-  properties: {col_widths: '{}'}
+  properties: {role: null, width: default, border: '', foreground: '', visible: true,
+    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{}', spacing_below: small,
+    background: ''}
   name: card_content
-  layout_properties: {grid_position: 'QUMGQI,KEWNOY'}
+  layout_properties: {grid_position: 'QUMGQI,KEWNOY', full_width_row: true}
   components:
   - type: Link
     properties: {role: null, width: default, align: left, border: '', foreground: '',
@@ -29,9 +31,11 @@ components:
       layout_properties: {grid_position: 'ZWEYBN,CYDJHW'}
     event_bindings: {click: expand}
   - type: ColumnPanel
-    properties: {}
+    properties: {role: null, width: default, border: '', foreground: '', visible: true,
+      row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '', spacing_below: small,
+      background: ''}
     name: game_view
-    layout_properties: {grid_position: 'PUYBPX,ENQFEK'}
+    layout_properties: {grid_position: 'PUYBPX,ENQFEK', full_width_row: true}
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: 'True', foreground: '', visible: true,
