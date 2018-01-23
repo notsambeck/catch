@@ -32,15 +32,15 @@ class PlayCatch (PlayCatchTemplate):
       if self.i_have_ball:
         self.p1_name.text = self.game['player_1']['handle']
       else:
-        self.p1_name.text = '{} has the ball'.format(self.game['player_1']['handle'])
+        self.p1_name.text = '{} (has the ball)'.format(self.game['player_1']['handle'])
     else:
       self.i_have_ball = self.game['has_ball'] == 1
       if self.i_have_ball:
         self.p1_name.text = self.game['player_0']['handle']
       else:
-        self.p1_name.text = '{} has the ball'.format(self.game['player_0']['handle'])
+        self.p1_name.text = '{} (has the ball)'.format(self.game['player_0']['handle'])
 
-    self.p0_name.text = 'Me: {}'.format(self.me['handle'])
+    self.p0_name.text = 'Me'
 
     # TODO: either unhide ball indicators or delete
     # self.p0_ball.selected = self.i_have_ball
@@ -169,7 +169,7 @@ class PlayCatch (PlayCatchTemplate):
     
     if self.i_have_ball and not self.ball_moving and self.counter % 5:
       c.fill_style = '#FFFFFF'
-      c.font = '{}px sans-serif'.format(h//7)
+      c.font = '{}px sans-serif'.format(h//9)
       c.fill_text('TAP TO THROW', w//16, h//5)
     
     if self.ball_moving:

@@ -88,12 +88,12 @@ class GameListElement(GameListElementTemplate):
     if not self.game['p1_enabled']:
       return False
     # This method is called when the link is clicked
-    with Notification('Loading game...'):
-      self.parent.raise_event_on_children('x-collapse')
-      self.game_view.add_component(PlayCatch(self.game))
-      self.game_summary.visible = False
-      self.background = colors.white
-      
+    # with Notification('Loading game...'):
+    self.parent.raise_event_on_children('x-collapse')
+    self.game_view.add_component(PlayCatch(self.game))
+    self.game_summary.visible = False
+    self.background = colors.white
+    
   def collapse(self, **kwargs):
     self.game_view.clear()
     self.game_summary.visible = True

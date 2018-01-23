@@ -63,7 +63,7 @@ container:
       ;\n     margin: 0;\n     min-height: 100%;\n }\n\n body.anvil-show-banner {\n\
       \     margin-top: 0;\n }\n\n a, a:visited {\n     color: #000000;\n }\n\n a:hover,\
       \ a:active, a:focus {\n     color: #000000; /* Material design: Teal 700 */\n\
-      \ }\n\n .placeholder {\n     padding: 5px;\n     border: 2px dashed #888;\n\
+      \ }\n\n .placeholder {\n     padding: 2px;\n     border: 2px dashed #888;\n\
       \ }\n\n .col-padding {\n     padding: 5px !important;\n }\n \n .nav {\n    \
       \ position: absolute;\n     top: 0;\n     left: 0;\n     width: 100%;\n    \
       \ background-color: white;\n     padding: 11px 16px 11px; /* expect 5px margin\
@@ -124,7 +124,7 @@ container:
       \ z-index: 1;\n     }\n\n     .designer .sidebar {\n\t max-width: 30%;\n   \
       \  }\n\n     .sidebar.floating {\n\t top: 62px;\n     }\n\n     body.anvil-show-banner\
       \ .sidebar.floating {\n\t top: 112px;\n     }\n\n     .cards {\n\t padding:\
-      \ 10px !important;\n     }\n\n }\n\n .sidebar.floating {\n     position: absolute;\n\
+      \ 6px !important;\n     }\n\n }\n\n .sidebar.floating {\n     position: absolute;\n\
       \     top: 62px;\n     bottom: 0px;\n     left: 0px;\n     z-index: 2;\n }\n\
       \n body.anvil-show-banner .sidebar.floating {\n     top: 112px;\n }\n\n\n</style>\n\
       \n<script>\n function toggleSidebar() {\n     var s = $('.sidebar');\n     if\

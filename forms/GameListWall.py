@@ -29,12 +29,12 @@ class GameListWall(GameListWallTemplate):
     
   def expand(self, **event_args):
     # This method is called when the link is clicked
-    with Notification('Loading...'):
-      self.parent.raise_event_on_children('x-collapse')
-      self.game_view.add_component(PlayWall())
-      self.game_summary.visible = False
-      self.wall_active = True
-      
+    # with Notification('Loading...'):
+    self.parent.raise_event_on_children('x-collapse')
+    self.game_view.add_component(PlayWall())
+    self.game_summary.visible = False
+    self.wall_active = True
+    
   def collapse(self, **kwargs):
     if self.wall_active:
       anvil.server.call_s('update_wall', self.game_view.get_components()[0].throws)
