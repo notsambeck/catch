@@ -148,18 +148,17 @@ components:
   event_bindings: {click: logout_button_click}
 container:
   type: HtmlTemplate
-  properties: {html: "<link href=\"https://fonts.googleapis.com/css?family=Roboto\"\
-      \ rel=\"stylesheet\">\n\n<style>\n body * {\n     box-sizing: border-box;\n\
-      \ }\n\n body {\n     background-color: #d7d7d7;\n     font-family: \"Roboto\"\
-      ;\n     margin: 0;\n     min-height: 100%;\n }\n\n body.anvil-show-banner {\n\
-      \     margin-top: 0;\n }\n\n a, a:visited {\n     color: #009688;\n }\n\n a:hover,\
-      \ a:active, a:focus {\n     color: #00796B; /* Material design: Teal 700 */\n\
-      \ }\n\n .placeholder {\n     padding: 5px;\n     border: 2px dashed #888;\n\
-      \ }\n\n .nav {\n     position: absolute;\n     top: 0;\n     left: 0;\n    \
-      \ width: 100%;\n     background-color: white;\n     padding: 11px 16px 11px;\
-      \ /* expect 5px margin */\n     height: 62px;\n     font-size: 16px;\n\n   \
-      \  overflow-y: hidden;\n\n     color: #009688; /* Material Design: \"Teal 500\"\
-      \ */\n     text-transform: uppercase;\n     font-weight: bold;\n\n     box-shadow:\
+  properties: {html: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"\
+      >\n\n<style>\n body * {\n     box-sizing: border-box;\n }\n\n body {\n     background-color:\
+      \ #d7d7d7;\n     font-family: \"Arial\";\n     margin: 0;\n     min-height:\
+      \ 100%;\n }\n\n body.anvil-show-banner {\n     margin-top: 0;\n }\n\n a, a:visited\
+      \ {\n     color: #009688;\n }\n\n a:hover, a:active, a:focus {\n     color:\
+      \ #00796B; /* Material design: Teal 700 */\n }\n\n .placeholder {\n     padding:\
+      \ 5px;\n     border: 2px dashed #888;\n }\n\n .nav {\n     position: absolute;\n\
+      \     top: 0;\n     left: 0;\n     width: 100%;\n     background-color: white;\n\
+      \     padding: 11px 16px 11px; /* expect 5px margin */\n     height: 62px;\n\
+      \     font-size: 16px;\n\n     overflow-y: hidden;\n\n     color: #009640; \n\
+      \     text-transform: uppercase;\n     font-weight: bold;\n\n     box-shadow:\
       \ 0 1px 3px #888;\n\n\n     -webkit-touch-callout: none;\n     -webkit-user-select:\
       \ none;\n     -khtml-user-select: none;\n     -moz-user-select: none;\n    \
       \ -ms-user-select: none;\n     user-select: none;\n }\n\n body.anvil-show-banner\
@@ -214,7 +213,7 @@ container:
       \ z-index: 1;\n     }\n\n     .designer .sidebar {\n\t max-width: 30%;\n   \
       \  }\n\n     .sidebar.floating {\n\t top: 62px;\n     }\n\n     body.anvil-show-banner\
       \ .sidebar.floating {\n\t top: 112px;\n     }\n\n     .cards {\n\t padding:\
-      \ 24px 0px;\n\t height: 280px;\n     }\n\n }\n\n .sidebar.floating {\n     position:\
+      \ 24px 0px;\n\t height: 250px;\n     }\n\n }\n\n .sidebar.floating {\n     position:\
       \ absolute;\n     top: 62px;\n     bottom: 0px;\n     left: 0px;\n     z-index:\
       \ 2;\n }\n\n body.anvil-show-banner .sidebar.floating {\n     top: 112px;\n\
       \ }\n\n\n</style>\n\n<script>\n function toggleSidebar() {\n     var s = $('.sidebar');\n\
@@ -250,4 +249,4 @@ container:
       >\n\t<i class=\"fa fa-bars\"></i>\n    </div>\n\n    <div anvil-if-slot-empty=\"\
       title\" anvil-drop-slot=\"title\" class=\"title placeholder anvil-designer-only\"\
       >\n\tDrop a title here\n    </div>\n    <div anvil-slot=\"title\" class=\"title\"\
-      ></div>\n</div>"}
+      ></div>\n</div>\n"}
