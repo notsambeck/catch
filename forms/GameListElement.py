@@ -57,10 +57,10 @@ class GameListElement(GameListElementTemplate):
       self.num_throws.text = 'Throws: {}'.format(str(self.game['throws']))
 
     elif self.game['p1_enabled']:  # game inactive but both ready
-      self.num_throws.text = 'Start new game'
+      self.num_throws.text = 'Start new game!'
       self.background = colors.highlight
       self.status_label.visible = False
-      self.num_throws.visible = False
+      self.num_throws.visible = True
       
     else:   # player 2 not yet enabled
       self.num_throws.text = 'Player not activated'
@@ -76,10 +76,11 @@ class GameListElement(GameListElementTemplate):
     if not self.game['p1_enabled']:
       return False
     # This method is called when the link is clicked
-    with Notification('Loading...'):
+    with Notification('Loading game...'):
       self.parent.raise_event_on_children('x-collapse')
       self.game_view.add_component(PlayCatch(self.game))
       self.game_summary.visible = False
+      self.background = colors.white
       
   def collapse(self, **kwargs):
     self.game_view.clear()
