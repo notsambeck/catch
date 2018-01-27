@@ -27,11 +27,11 @@ class PlayCatch (PlayCatchTemplate):
     self.am0 = self.game['player_0'] == self.me
     
     self.counter = 0
-
-    self.set_labels_directions()
-    
     self.buildings = []
+
+    self.set_labels_directions()    
     
+  def make_buildings(self):
     self.width = self.canvas_1.get_width()
     self.height = self.canvas_1.get_height()
     for _ in range(10):

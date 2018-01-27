@@ -138,7 +138,7 @@ class PlayWall(PlayWallTemplate):
 
     
     c.fill_style = '#FFFFFF'
-    c.font = '{}px sans-serif'.format(h//9)
+    c.font = '{}px sans-serif'.format(h//10)
     
     c.fill_text('THROWS:'.format(self.throws), (w*.6), h//2)
     c.fill_text('{}'.format(self.throws), w*.6, h*.8)
