@@ -16,7 +16,6 @@ class _login (_loginTemplate):
       print('already logged in')
       open_form('_play')
     
-      ready = anvil.server.call(x)
-      anvil.users.force_login(ready)
+      x
     else:
       self.content_panel.add_component(Login())
