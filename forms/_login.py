@@ -10,5 +10,8 @@ class _login (_loginTemplate):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
 
-    # Any code you write here will run when the form opens.
-    self.content_panel.add_component(Login())
+    if anvil.server.call('stored_login'):
+      print('already logged in')
+      open_form('_play')
+    else:
+      self.content_panel.add_component(Login())

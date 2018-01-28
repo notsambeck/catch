@@ -86,6 +86,13 @@ components:
   properties: {height: 32}
   name: spacer_2
   layout_properties: {grid_position: 'ZBCZAB,HUWQWR', row_background: ''}
+- type: CheckBox
+  properties: {role: null, width: default, align: left, border: '', enabled: true,
+    foreground: '', visible: true, text: Stay logged in (do not use on shared devices!),
+    font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
+    background: '', bold: false, checked: true, underline: false}
+  name: persist
+  layout_properties: {grid_position: 'ZBCZAB,VSBJRI KRCBPN,VSEFWE'}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
     foreground: '', visible: true, text: Log in, font_size: 18, font: '', spacing_above: medium,

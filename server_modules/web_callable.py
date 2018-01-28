@@ -23,7 +23,30 @@ def bhash(_string):
 
 
 @anvil.server.callable
-def do_login(phone, password):
+def stored_login():
+  '''
+  check for cookie with user id. encrypted, so this by itself is adequate security.
+  if cookie exists, user is loged in.
+  returns:
+     True or False
+  '''
+  me = anvil.server.cookies.local.get('user')
+  if me:
+    anvil.users.force_login(app_tables.users.get_by_id(me))
+    print('cookie exists for {}'.format(me))
+    return True
+  else:
+    print('no login cookie stored')
+    return False
+
+
+@anvil.server.callable
+def delete_cookie():
+  anvil.server.cookies.local.clear()
+
+  
+@anvil.server.callable
+def do_login(phone, password, stay_logged_in):
   '''
   set anvil.session['user'] to user with this phone number if password hash matches
   
@@ -55,6 +78,9 @@ def do_login(phone, password):
     elif bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
       if user['enabled']:
         anvil.users.force_login(user)
+        if stay_logged_in:
+          # install a cookie that keeps user logged in on this machine for 30 years
+          anvil.server.cookies.local.set(10000, user=user.get_id())
         return {'success': True,
                 'enabled': True,}
       else:

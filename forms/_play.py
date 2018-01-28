@@ -18,8 +18,10 @@ class _play (_playTemplate):
 
     self.top_contacts.visible = False
     
+    print('get user info...')
     name = anvil.users.get_user()['handle']
-    self.handle.text = 'user: {}'.format(name)  # menu bar
+    self.handle.text = 'user: {}'.format(name)  # for menu bar
+    print(name)
     
     self.content_panel.add_component(GameListWall())
     
@@ -32,7 +34,9 @@ class _play (_playTemplate):
     self.top_contacts.add_component(GameListContacts())
     
   def update_connections(self):
+    print('update_connections()')
     server = anvil.server.call_s('get_games')
+    print(server['msg'])
     
     if not server['success']:
       print server['msg']
@@ -67,6 +71,7 @@ class _play (_playTemplate):
     
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked
+    anvil.server.call('delete_cookie')
     anvil.users.logout()
     open_form('_login')
 

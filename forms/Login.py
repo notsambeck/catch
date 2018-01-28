@@ -74,7 +74,8 @@ class Login(LoginTemplate):
     else:
       status = anvil.server.call('do_login',
                                   number,
-                                  self.password.text,)
+                                  self.password.text,
+                                  self.persist.checked,)
       
       # if we have full access, continue
       if status['success'] and status['enabled']:

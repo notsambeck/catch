@@ -39,6 +39,7 @@ class _my_account (_my_accountTemplate):
 
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked
+    anvil.server.call('delete_cookie')
     anvil.users.logout()
     open_form('_login')
 
