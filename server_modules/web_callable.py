@@ -11,7 +11,6 @@ from datetime import datetime
 import random
 
 import bcrypt
-from hashlib import blake2b
 
 
 def bhash(_string):
@@ -23,17 +22,26 @@ def bhash(_string):
 
 
 @anvil.server.callable
-def stored_login():
+def has_stored_login():
   '''
   check for cookie with user id. encrypted, so this by itself is adequate security.
   if cookie exists, user is loged in.
   returns:
      True or False
   '''
-  me = anvil.server.cookies.local.get('user')
-  if me:
-    anvil.users.force_login(app_tables.users.get_by_id(me))
-    print('cookie exists for {}'.format(me))
+  user = anvil.users.get_user(allow_remembered=False)
+  if user:
+    print('already logged in')
+    return True
+  else:
+    print('not previously logged in')
+  
+  _id = anvil.server.cookies.local.get('_user_id')
+  if _id:
+    user = app_tables.users.get_by_id(_id)
+    print('cookie exists for {}'.format(_id))
+    anvil.users.force_login(user, remember=False)
+    print('logged in')
     return True
   else:
     print('no login cookie stored')
@@ -42,6 +50,7 @@ def stored_login():
 
 @anvil.server.callable
 def delete_cookie():
+  print('cookie deleted')
   anvil.server.cookies.local.clear()
 
   
@@ -77,10 +86,10 @@ def do_login(phone, password, stay_logged_in):
     # check password
     elif bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
       if user['enabled']:
-        anvil.users.force_login(user)
+        anvil.users.force_login(user, remember=False)
         if stay_logged_in:
           # install a cookie that keeps user logged in on this machine for 30 years
-          anvil.server.cookies.local.set(10000, user=user.get_id())
+          anvil.server.cookies.local.set(100, _user_id=user.get_id())
         return {'success': True,
                 'enabled': True,}
       else:

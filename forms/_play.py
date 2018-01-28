@@ -16,8 +16,8 @@ class _play (_playTemplate):
 
     self.top_contacts.visible = False
     
-    print('get user info...')
-    name = anvil.users.get_user()['handle']
+    print('get user info:')
+    name = anvil.users.get_user(allow_remembered=False)['handle']
     self.handle.text = 'user: {}'.format(name)  # for menu bar
     print(name)
     
