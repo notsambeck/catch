@@ -14,8 +14,6 @@ class _play (_playTemplate):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
 
-    # Any code you write here will run when the form opens.
-
     self.top_contacts.visible = False
     
     print('get user info...')
@@ -32,6 +30,7 @@ class _play (_playTemplate):
     
     self.content_panel.add_component(GameListContacts())
     self.top_contacts.add_component(GameListContacts())
+    print(self.content_panel.get_components())
     
   def update_connections(self):
     print('update_connections()')
@@ -39,7 +38,7 @@ class _play (_playTemplate):
     print(server['msg'])
     
     if not server['success']:
-      print server['msg']
+      print('update failed', server['msg'])
       return None
     
     elif not self.game_list:
@@ -48,7 +47,7 @@ class _play (_playTemplate):
       for _id in self.game_list:
         self.game_views[_id] = GameListElement(self.games[_id])
         self.content_panel.add_component(self.game_views[_id])
-    
+      print('made new game list')    
     else:
       # successfully got games from server + there are already games
       if server['order'] == self.game_list:
@@ -57,7 +56,7 @@ class _play (_playTemplate):
           local_game = self.games[_id]
           if server_game['throws'] != local_game['throws']:
             self.game_views[_id].update(server_game)
-      
+        print('quick update game_list')
       # we have games; there are updated games. Clear and start over
       else:
         self.content_panel.clear()
@@ -68,6 +67,7 @@ class _play (_playTemplate):
           self.game_views[_id] = GameListElement(self.games[_id])
           self.content_panel.add_component(self.game_views[_id])
         self.content_panel.add_component(GameListContacts())
+        print('full update game_list')
     
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked
