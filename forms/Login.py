@@ -9,8 +9,6 @@ class Login(LoginTemplate):
   def __init__(self, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
-    anvil.server.reset_session()
-
 
   def new_account_change(self, **args):
     # show or hide confirm password and user_name
