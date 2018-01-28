@@ -19,7 +19,7 @@ services:
   server_config: {auto_create_missing_columns: false}
 - source: /runtime/services/anvil/users.yml
   client_config: {allow_signup: true, enable_automatically: false, use_email: false,
-    confirm_email: false, allow_remember_me: false, remember_me_days: 365}
+    confirm_email: false, allow_remember_me: true, remember_me_days: 365}
   server_config: {user_table: 7129}
 - source: /runtime/services/anvil/secrets.yml
   client_config: {}

@@ -12,9 +12,11 @@ class _login (_loginTemplate):
     
     # anvil.server.call('delete_cookie')
 
-    ready = anvil.server.call('has_stored_login')
-    if ready:
+    if anvil.users.get_user(allow_remembered=True):
       print('already logged in')
       open_form('_play')
+    
+      ready = anvil.server.call(x)
+      anvil.users.force_login(ready)
     else:
       self.content_panel.add_component(Login())

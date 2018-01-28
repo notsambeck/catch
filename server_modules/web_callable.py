@@ -29,20 +29,17 @@ def has_stored_login():
   returns:
      True or False
   '''
-  user = anvil.users.get_user(allow_remembered=False)
+  user = anvil.users.get_user(allow_remembered=True)
   if user:
     print('already logged in')
     return True
   else:
     print('not previously logged in')
   
-  _id = anvil.server.cookies.local.get('_user_id')
-  if _id:
-    user = app_tables.users.get_by_id(_id)
-    print('cookie exists for {}'.format(_id))
-    anvil.users.force_login(user, remember=False)
-    print('logged in')
-    return True
+  me = anvil.server.cookies.local.get('user')
+  if me:
+    print('cookie exists for {}'.format(me.get_id()))
+    return me
   else:
     print('no login cookie stored')
     return False
@@ -86,10 +83,10 @@ def do_login(phone, password, stay_logged_in):
     # check password
     elif bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
       if user['enabled']:
-        anvil.users.force_login(user, remember=False)
+        anvil.users.force_login(user, remember=stay_logged_id)
         if stay_logged_in:
-          # install a cookie that keeps user logged in on this machine for 30 years
-          anvil.server.cookies.local.set(100, _user_id=user.get_id())
+          # install a cookie that keeps user logged in on this machine for 3 years
+          anvil.server.cookies.local.set(1000, user=user)
         return {'success': True,
                 'enabled': True,}
       else:
