@@ -1,1 +1,2 @@
-roles: []
+roles:
+- {name: game_animation}

@@ -11,9 +11,8 @@ class _login (_loginTemplate):
     self.init_components(**properties)
     
     # anvil.server.call('delete_cookie')
-    # anvil.server.reset_session()
+    anvil.server.reset_session()
     
-
   def form_show (self, **event_args):
     # This method is called when the HTML panel is shown on the screen
     me = anvil.users.get_user(allow_remembered=True)

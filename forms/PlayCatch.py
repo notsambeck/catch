@@ -44,7 +44,7 @@ class PlayCatch (PlayCatchTemplate):
       self.ball_x = .12
       self.ball_vx = .04
       # set y / y_velocity
-      self.ball_y = .76
+      self.ball_y = .78
       self.ball_vy = .06
  
     else:
@@ -77,7 +77,7 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_vx = -.04
         
       # set y / y_velocity
-      self.ball_y = .76
+      self.ball_y = .78
       self.ball_vy = .06
   
   def throw_button_click(self, **event_args):
@@ -96,7 +96,7 @@ class PlayCatch (PlayCatchTemplate):
       self.game = throw_status['game']
 
     # reset y velocity
-    self.ball_y = .76
+    self.ball_y = .78
     self.ball_vy = .06
     
     # change ball status so it starts moving
@@ -111,7 +111,7 @@ class PlayCatch (PlayCatchTemplate):
       anvil.server.call_s('update_wall', self.throws)
 
     # reset y velocity
-    self.ball_y = .76
+    self.ball_y = .78
     self.ball_vy = .06
     
     # change ball status so it starts moving
@@ -145,48 +145,52 @@ class PlayCatch (PlayCatchTemplate):
     for bld in self.buildings:
       bld.draw()
     
-    # trees
-    drawing.Rectangle(0, .5, 1.2, .2, "rgba(90,140,70,1)").draw()
-    
     # ground
-    drawing.Rectangle(0, .6, 1.2, .5, "rgba(140,160,90,1)").draw()
+    drawing.Rectangle(0, .6, 1.2, .5, colors.grass).draw()
 
+    # trees
+    for tree in self.trees:
+      tree.draw()
+      
+    drawing.RandomTree.update_wind()
+    
     # player0
-    drawing.Rectangle(.1, .65, .03, .35, colors.black).draw()
-    drawing.Circle(.12, .79, .015, colors.skin).draw()
-    drawing.Circle(.09, .57, .026, colors.skin).draw()
+    drawing.Rectangle(.1, .57, .04, .35, colors.black).draw()
+    drawing.Circle(.12, .79, .02, colors.skin).draw()
+    drawing.Circle(.09, .57, .029, colors.skin).draw()
 
     # player1
     if self.game != 'wall':
-      drawing.Rectangle(.9, .65, .03, .35, colors.black).draw()
-      drawing.Circle(.88, .79, .015, colors.skin).draw()
-      drawing.Circle(.89, .57, .026, colors.skin).draw()
+      drawing.Rectangle(.9, .57, .04, .35, colors.black).draw()
+      drawing.Circle(.88, .79, .02, colors.skin).draw()
+      drawing.Circle(.89, .57, .029, colors.skin).draw()
       
-    # wall: wall text
+    # wall: 
     if self.game == 'wall':
-      c.fill_style = colors.white
-      c.font ='{}px sans-serif'.format(self.h//9)
-      c.fill_text('THROWS:'.format(self.throws), (self.w*.6), self.h//2)
-      c.fill_text('{}'.format(self.throws), self.w*.6, self.h*.8)
-
       # wall
       for delta in [.01 * i for i in range(8)]:
-        drawing.Rectangle(.46 + delta, .28+delta, .03, .67, colors.red).draw()
+        drawing.Rectangle(.46 + delta * 2, .28 + delta, .03, .6, colors.red).draw()
         
       # end of wall
       red = '#702000'
-      drawing.Rectangle(.53, .36, .036, .67, colors.darkred).draw()
+      drawing.Rectangle(.62, .36, .03, .6, colors.darkred).draw()
+      
+      # wall text
+      c.fill_style = colors.white
+      c.font ='{}px sans-serif'.format(self.h//10)
+      c.fill_text('THROWS:'.format(self.throws), (self.w*.55), self.h * .7)
+      c.fill_text('{}'.format(self.throws), self.w*.65, self.h*.86)
 
-
-    # ball:
-    ball = drawing.Circle(self.ball_x, self.ball_y, .01).draw()
+   # ball:
+    ball = drawing.Circle(self.ball_x, self.ball_y, .019).draw()
     
-    # 
+    # tap to throw text
     if (self.game == 'wall' or self.i_have_ball) and not self.ball_moving and self.counter % 5:
       c.fill_style = '#FFFFFF'
       c.font = '{}px sans-serif'.format(self.h//9)
       c.fill_text('TAP TO THROW', self.w//16, self.h//6)
     
+    # move ball - not wall
     if self.ball_moving and not self.game == 'wall':
       self.ball_steps += 1
       
@@ -196,6 +200,7 @@ class PlayCatch (PlayCatchTemplate):
       self.ball_y -= self.ball_vy   # indexed from top
       self.ball_vy -= .0067
       
+    # move ball - wall
     elif self.ball_moving:
       self.ball_steps += 1
       
@@ -208,6 +213,7 @@ class PlayCatch (PlayCatchTemplate):
       self.ball_y -= self.ball_vy   # indexed from top
       self.ball_vy -= .007
 
+    # check arrival
     if self.ball_moving:
       if self.game != 'wall' and self.ball_steps == 20:
         self.ball_arrived()
@@ -215,7 +221,7 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_arrived()
 
     # update from server
-    if self.game != 'wall' and self.counter % 30 == 29 and not self.ball_moving:
+    if self.game != 'wall' and self.counter % 20 == 19 and not self.ball_moving:
       game_live = anvil.server.call_s('get_game', self.game.get_id())
       if game_live['success']:
         pass
@@ -237,11 +243,15 @@ class PlayCatch (PlayCatchTemplate):
     
     # build arrays of clouds and stuff:
     self.buildings = []
-    for i in range(32):
+    for i in range(24):
       self.buildings.append(drawing.RandomBuilding())
       
     self.clouds = []
     for i in range(12):
       self.clouds.append(drawing.RandomCloud())
+      
+    self.trees = []
+    for tree in range(4):
+      self.trees.append(drawing.RandomTree())
       
       

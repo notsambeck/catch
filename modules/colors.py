@@ -13,4 +13,6 @@ building2 = '#667'
 skin = '#AA9900'
 
 red = '#883300'
-darkred = '#702000'
+darkred = '#602000'
+grass = "rgba(90,140,70,1)"
+leaf = "rgba(140,160,90,.6)"

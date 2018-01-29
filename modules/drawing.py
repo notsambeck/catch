@@ -17,6 +17,9 @@ class CanvasObject:
     cls._canvas = canvas
     cls._w = canvas.get_width()
     cls._h = canvas.get_height()
+    if cls._h < cls._w / 3:
+      cls._canvas.height = '{}px'.format(cls._w // 3)
+      cls._h = canvas.get_height()
     print('canvas:', cls._canvas, cls._w, cls._h)
     return cls._w, cls._h
   
@@ -89,9 +92,9 @@ class RandomBuilding(CanvasObject):
     '''
     bx = random.random()      # center
     bh = random.random() / 2  # top
-    bw = random.choice([.01, .012, .03, .02, .023, .027, .025, .05, .07, .04])   # width
+    bw = random.choice([.015, .012, .03, .02, .023, .027, .025, .05, .07, .04])   # width
     self.l_side = Rectangle(bx - bw, bh, bw, CanvasObject._h, color=colors.building1)
-    self.r_side = Rectangle(bx, bh, bw, CanvasObject._h, color=colors.building2)
+    self.r_side = Rectangle(bx - .002, bh, bw, CanvasObject._h, color=colors.building2)
     
   def draw(self):
     self.l_side.draw()
@@ -107,7 +110,7 @@ class RandomCloud(CanvasObject):
     x = random.random()      # center
     y = random.random() / 2 - .2  # top
     self.parts = []
-    for part in range(24):
+    for part in range(12):
       delta_x = random.random() / 15
       delta_y = random.random() / 15
       w = random.random() / 10 + .05
@@ -123,3 +126,44 @@ class RandomCloud(CanvasObject):
       if part.x < -.1:
         part.x = 1.1
       part.draw()
+      
+
+class RandomTree(CanvasObject):
+  wind = 0
+  def __init__(self, size=64):
+    '''
+    subclasses shape to have access to canvas.
+    random building on wxh canvas
+    '''
+    x = random.random()      # center
+    y = .5
+    self.leaves = []
+    self.trunk = Rectangle(x + .05, y - .1, .015, .2, colors.darkred)
+    for part in range(128):
+      delta_x = random.random() / 8
+      delta_y = random.random() / 8
+      r = .01
+      self.leaves.append(Circle(x + delta_x, y - 1.5 * delta_y, 
+                                r,
+                                color=random.choice([colors.highlight, 
+                                                    colors.leaf,
+                                                    colors.leaf,
+                                                    colors.leaf,
+                                                    colors.grass])))
+    
+  def draw(self):
+    self.trunk.draw()
+    for leaf in self.leaves:
+      angle = random.random()
+      if angle > self.wind:
+        leaf.draw()
+  
+  @classmethod
+  def update_wind(self):
+    inc = random.random() - .5
+    self.wind += inc / 100
+    if self.wind > .12:
+      self.wind = .12
+    elif self.wind < 0.0:
+      self.wind = 0.0
+ 
