@@ -12,14 +12,14 @@ components:
     icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
     underline: false, icon: ''}
   name: label_phone
-  layout_properties: {grid_position: 'POHKFA,HZRNRF SJFJRO,LYGERS'}
+  layout_properties: {grid_position: 'SJFJRO,LYGERS'}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
     foreground: '', visible: true, text: 'Why do we need this?', font_size: 10, font: '',
     spacing_above: small, icon_align: left, spacing_below: medium, italic: true, background: '',
     bold: false, underline: false, icon: ''}
   name: why_phone
-  layout_properties: {grid_position: 'POHKFA,HZRNRF ARIZFO,YSQFPJ'}
+  layout_properties: {grid_position: 'SJFJRO,SJEDHR'}
   event_bindings: {click: why_phone_click}
 - type: TextBox
   properties: {role: null, width: default, align: center, hide_text: false, placeholder: '1234567890',
@@ -27,15 +27,15 @@ components:
     font: '', spacing_above: none, type: telephone, spacing_below: medium, italic: false,
     background: '', bold: false, underline: false}
   name: phone
-  layout_properties: {grid_position: 'POHKFA,GVXPJM'}
+  layout_properties: {grid_position: 'NWTPQF,EDARRZ'}
   event_bindings: {pressed_enter: phone_pressed_enter}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: Add Contact, font_size: null, font: '', spacing_above: none,
+    foreground: '', visible: true, text: Add Contact, font_size: 18, font: '', spacing_above: none,
     icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
     underline: false, icon: ''}
   name: go_button
-  layout_properties: {grid_position: 'VYLWEW,KONKYM', row_background: ''}
+  layout_properties: {grid_position: 'VYLWEW,USIQIL', row_background: ''}
   event_bindings: {click: add_connection}
 - type: Timer
   properties: {interval: 10}

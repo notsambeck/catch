@@ -84,9 +84,7 @@ def do_login(phone, password, stay_logged_in):
     elif bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
       if user['enabled']:
         anvil.users.force_login(user, remember=stay_logged_in)
-        if stay_logged_in:
-          # install a cookie that keeps user logged in on this machine for 3 years
-          anvil.server.cookies.local.set(1000, user=user)
+
         return {'success': True,
                 'enabled': True,}
       else:

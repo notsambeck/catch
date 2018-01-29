@@ -156,14 +156,14 @@ class PlayCatch (PlayCatchTemplate):
     
     # player0
     drawing.Rectangle(.1, .57, .04, .35, colors.black).draw()
-    drawing.Circle(.12, .79, .02, colors.skin).draw()
-    drawing.Circle(.09, .57, .029, colors.skin).draw()
+    drawing.Circle(.12, .79, .025, colors.skin).draw()
+    drawing.Circle(.09, .57, .035, colors.skin).draw()
 
     # player1
     if self.game != 'wall':
       drawing.Rectangle(.9, .57, .04, .35, colors.black).draw()
-      drawing.Circle(.88, .79, .02, colors.skin).draw()
-      drawing.Circle(.89, .57, .029, colors.skin).draw()
+      drawing.Circle(.88, .79, .025, colors.skin).draw()
+      drawing.Circle(.89, .57, .035, colors.skin).draw()
       
     # wall: 
     if self.game == 'wall':
@@ -247,11 +247,11 @@ class PlayCatch (PlayCatchTemplate):
       self.buildings.append(drawing.RandomBuilding())
       
     self.clouds = []
-    for i in range(12):
+    for i in range(8):
       self.clouds.append(drawing.RandomCloud())
       
     self.trees = []
-    for tree in range(4):
+    for tree in range(1):
       self.trees.append(drawing.RandomTree())
       
       
