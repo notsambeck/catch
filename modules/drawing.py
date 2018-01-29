@@ -17,9 +17,9 @@ class CanvasObject:
     cls._canvas = canvas
     cls._w = canvas.get_width()
     cls._h = canvas.get_height()
-    # if cls._h < cls._w / 3:
-    #  cls._canvas.height = '{}px'.format(cls._w // 3)
-    #   cls._h = canvas.get_height()
+    if cls._h < cls._w / 2.2:
+      cls._canvas.height = '{}px'.format(cls._w // 2.2)
+      cls._h = canvas.get_height()
     print('canvas:', cls._canvas, cls._w, cls._h)
     return cls._w, cls._h
   
@@ -91,7 +91,7 @@ class RandomBuilding(CanvasObject):
     random building on wxh canvas
     '''
     bx = random.random()      # center
-    bh = random.random() / 3  # top
+    bh = rando(0.1, 0.35)  # top
     bw = random.choice([.015, .012, .03, .02, .023, .027, .025, .05, .07, .04])   # width
     self.l_side = Rectangle(bx - bw, bh + .2, bw, CanvasObject._h, color=colors.building1)
     self.r_side = Rectangle(bx - .002, bh + .2, bw, CanvasObject._h, color=colors.building2)
@@ -107,14 +107,15 @@ class RandomCloud(CanvasObject):
     subclasses shape to have access to canvas.
     random building on wxh canvas
     '''
+    self.velocity = rando(.003, .006)
     x = random.random()      # center
-    y = random.random() / 2 - .2  # top
+    y = rando(-0.1, 0.3)  # top
     self.parts = []
     for part in range(size):
-      delta_x = random.random() / 15
-      delta_y = random.random() / 15
-      w = random.random() / 10 + .05
-      h = random.random() / 10 + .05
+      delta_x = rando(0, 0.06)
+      delta_y = rando(0, 0.06)
+      w = rando(0.03, 0.2)
+      h = rando(0.05, 0.15)
       self.parts.append(Rectangle(x + delta_x, y - delta_y, 
                                   w, h, 
                                   color=random.choice([colors.cloud1,
@@ -122,7 +123,7 @@ class RandomCloud(CanvasObject):
     
   def draw(self):
     for part in self.parts:
-      part.x -= .005
+      part.x -= self.velocity
       if part.x < -.1:
         part.x = 1.1
       part.draw()
@@ -135,9 +136,10 @@ class FarTree(CanvasObject):
     '''
     x = random.random()      # center
     y = .53 + rando(-.03, .03)
-    h = .13 + rando(-.02, .02)
-    self.trunk = Rectangle(x + .015, y, .01, .13, colors.darkred)
-    r = .02
+    delta = rando(-.01, .01)
+    h = .13 + delta
+    self.trunk = Rectangle(x + .02, y, .01, h, colors.darkred)
+    r = .03 + delta
     self.leaf = Circle(x,
                        y,
                        r,
@@ -157,7 +159,7 @@ class RandomTree(CanvasObject):
     x = rando(.1, .9)   # center
     y = .55
     self.leaves = []
-    self.trunk = Rectangle(x + .03, y, .015, .18, colors.darkred)
+    self.trunk = Rectangle(x + .03, y, .02, .18, colors.darkred)
     for part in range(size):
       delta_x = random.random() * .06
       delta_y = random.random() * .06

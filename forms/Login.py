@@ -70,15 +70,14 @@ class Login(LoginTemplate):
 
     # LOGIN
     else:
-      status = anvil.server.call('do_login',
-                                  number,
-                                  self.password.text,
-                                  self.persist.checked,)
+      status = anvil.server.call_s('do_login',
+                                    number,
+                                    self.password.text,
+                                    self.persist.checked,)
       
       # if we have full access, continue
       if status['success'] and status['enabled']:
-        Notification("Login successful...").show()
-        open_form('_play')
+        open_form('_play', user=status['user'])
 
       # if account not confirmed, go to confirmation
       elif status['success'] and not status['enabled']:

@@ -84,7 +84,7 @@ class PlayCatch (PlayCatchTemplate):
     if self.game == 'wall':
       return self.throw_wall()
     
-    if not self.i_have_ball:
+    if not self.i_have_ball or self.ball_moving:
       return False
     # tell server that ball has been thrown immediately
     throw_status = anvil.server.call_s('throw', self.game.get_id())
@@ -120,24 +120,26 @@ class PlayCatch (PlayCatchTemplate):
     
   def ball_arrived(self):
     self.ball_steps = 0
+    self.counter = 0
     self.ball_moving = False
     self.set_labels_directions()
       
   def draw(self, **event_args):
     '''
-    this method calls automatically every clock tick (timer element on Design view)
+    this method runs every clock tick (timer element on Design view)
     '''
     
     if not self.canvas_1.visible:
       return
     
+    # alias
     c = self.canvas_1
     
     self.counter += 1
     self.counter = self.counter % 500
     
     # clear the sky
-    c.clear_rect(0, 0, self.w, self.h)
+    c.clear_rect(0, 0, self.w, self.h * .65)
     
     for cloud in self.clouds:
       cloud.draw()
@@ -224,12 +226,9 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_arrived()
 
     # update from server
-    if self.game != 'wall' and self.counter % 20 == 19 and not self.ball_moving:
+    if self.game != 'wall' and self.counter % 30 == 29 and not self.ball_moving and not self.i_have_ball:
       game_live = anvil.server.call_s('get_game', self.game.get_id())
-      if game_live['success']:
-        pass
-        # print('local: {} / server: {}'.format(self.game['has_ball'], game_live['game']['has_ball']))
-      else:
+      if not game_live['success']:
         print(game_live['msg'])
         
       if game_live['success'] and game_live['game']['has_ball'] != self.game['has_ball']:
@@ -243,6 +242,9 @@ class PlayCatch (PlayCatchTemplate):
     # This method is called when the Canvas is shown on the screen
     self.w, self.h = drawing.CanvasObject.set_canvas(self.canvas_1)
     print('canvas: w={} h={}'.format(self.w, self.h))
+    self.canvas_1.height = '{}px'.format(self.h)
+    self.canvas_1.reset_context()
+    
     
     # build arrays of clouds and stuff:
     self.buildings = []

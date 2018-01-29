@@ -86,7 +86,8 @@ def do_login(phone, password, stay_logged_in):
         anvil.users.force_login(user, remember=stay_logged_in)
 
         return {'success': True,
-                'enabled': True,}
+                'enabled': True,
+                'user': user,}
       else:
         return {'success': True,
                 'enabled': False,
