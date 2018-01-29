@@ -3,7 +3,7 @@ import anvil.server
 import anvil.users
 import tables
 from tables import app_tables
-from PlayWall import PlayWall
+from PlayCatch import PlayCatch
 
 import colors
     
@@ -20,7 +20,7 @@ class GameListWall(GameListWallTemplate):
     # set self.me, self.you, self.am0
     self.me = anvil.users.get_user()
     
-    self.game_view.add_component(PlayWall())
+    self.game_view.add_component(PlayCatch('wall', self.me))
     self.game_summary.visible = False
     self.wall_active = True
     self.num_throws.text = 'Throws: {}'.format(self.me['wall_throws'])
@@ -31,7 +31,7 @@ class GameListWall(GameListWallTemplate):
     # This method is called when the link is clicked
     # with Notification('Loading...'):
     self.parent.raise_event_on_children('x-collapse')
-    self.game_view.add_component(PlayWall())
+    self.game_view.add_component(PlayCatch('wall', self.me))
     self.game_summary.visible = False
     self.wall_active = True
     

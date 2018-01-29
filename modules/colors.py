@@ -6,3 +6,11 @@ white = '#FFFFFF'
 black = '#000000'
 accent = '#9999DD'
 off = '#AA3300'
+cloud1 = "rgba(190,190,190,.25)"
+cloud2 = "rgba(210,210,210,.2)"
+building1 = '#988'
+building2 = '#667'
+skin = '#AA9900'
+
+red = '#883300'
+darkred = '#702000'

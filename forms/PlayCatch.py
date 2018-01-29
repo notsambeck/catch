@@ -2,91 +2,88 @@ from anvil import *
 import anvil.server
 import anvil.users
 import random
+import drawing
+import colors
 
-# TODO following function call and definition in ServerModule for deployment?
+# TODO: remove the related code from web_callable before deployment
+# as it may be a minor security issue
 # random_id = anvil.server.call('some_connection')
 
 # city
 
-
 class PlayCatch (PlayCatchTemplate):
-  def __init__(self, game, **properties):
+  def __init__(self, game, me, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
     
-    self.me = anvil.users.get_user()
+    self.me = me
     self.game = game
     
-    if not self.game['is_active']:
-      activate = anvil.server.call_s('make_game_active', self.game.get_id())
-      assert activate['success']
-      self.game = activate['game']
+    if game != 'wall':
+      if not self.game['is_active']:
+        activate = anvil.server.call_s('make_game_active', self.game.get_id())
+        assert activate['success']
+        self.game = activate['game']
 
-    # set permanent labels for this game instance:
+      self.am0 = self.game['player_0'] == self.me
+    else:
+      self.throws = self.me['wall_throws']
+      self.counter = 0
     
-    self.am0 = self.game['player_0'] == self.me
-    
+    # motion loop counter
     self.counter = 0
     self.buildings = []
 
-    self.set_labels_directions()    
+    self.set_labels_directions()
     
-  def make_buildings(self):
-    self.width = self.canvas_1.get_width()
-    self.height = self.canvas_1.get_height()
-    for _ in range(10):
-      self.make_building()
-    
-    print(self.width, self.height, self.canvas_1.width, self.canvas_1.height)
-      
-  def make_building(self):
-    '''make random building w x h'''
-    bx = random.randrange(0, self.width)    # center
-    bh = random.randrange(0, self.height//2)  # top
-    bw = random.choice([.10, .15, .5, .7,])  # width
-    self.buildings.append([bx, bh, bw])
-    
-  def draw_building(self, bx, bh, bw):
-    self.canvas_1.fill_style = "rgba(100,100,100,1)"
-    self.canvas_1.fill_rect(bx, bh, bw, self.height-bh)
-    self.canvas_1.fill_style = "rgba(60,60,90,1)"
-    self.canvas_1.fill_rect(bx-bw, bh, bw, self.height-bh)
-      
+ 
   def set_labels_directions(self):
-    if self.am0:
-      self.i_have_ball = self.game['has_ball'] == 0
-      if self.i_have_ball:
-        self.p1_name.text = self.game['player_1']['handle']
-      else:
-        self.p1_name.text = '{} (has the ball)'.format(self.game['player_1']['handle'])
-    else:
-      self.i_have_ball = self.game['has_ball'] == 1
-      if self.i_have_ball:
-        self.p1_name.text = self.game['player_0']['handle']
-      else:
-        self.p1_name.text = '{} (has the ball)'.format(self.game['player_0']['handle'])
-
-    self.p0_name.text = 'Me'
-
-    # TODO: either unhide ball indicators or delete
-    # self.p0_ball.selected = self.i_have_ball
-    # self.p1_ball.selected = not self.i_have_ball
-    
-    # set movement vairables
-    self.ball_moving = False
-    
-    if self.i_have_ball:
+    if self.game == 'wall':
+      self.ball_moving = False
+      
       self.ball_x = .12
       self.ball_vx = .04
-    else:
-      self.ball_x = .88
-      self.ball_vx = -.04
-      
-    # set y / y_velocity
-    self.ball_y = .76
-    self.ball_vy = .06
+      # set y / y_velocity
+      self.ball_y = .76
+      self.ball_vy = .06
  
+    else:
+      if self.am0:
+        self.i_have_ball = self.game['has_ball'] == 0
+        
+        if self.i_have_ball:
+          self.p1_name.text = self.game['player_1']['handle']
+        else:
+          self.p1_name.text = '{} (has the ball)'.format(self.game['player_1']['handle'])
+          
+      else:
+        self.i_have_ball = self.game['has_ball'] == 1
+        
+        if self.i_have_ball:
+          self.p1_name.text = self.game['player_0']['handle']
+        else:
+          self.p1_name.text = '{} (has the ball)'.format(self.game['player_0']['handle'])
+  
+      self.p0_name.text = 'Me'
+    
+      # set movement vairables
+      self.ball_moving = False
+      
+      if self.i_have_ball:
+        self.ball_x = .12
+        self.ball_vx = .04
+      else:
+        self.ball_x = .88
+        self.ball_vx = -.04
+        
+      # set y / y_velocity
+      self.ball_y = .76
+      self.ball_vy = .06
+  
   def throw_button_click(self, **event_args):
+    if self.game == 'wall':
+      return self.throw_wall()
+    
     if not self.i_have_ball:
       return False
     # tell server that ball has been thrown immediately
@@ -106,73 +103,91 @@ class PlayCatch (PlayCatchTemplate):
     self.ball_moving = True
     self.ball_steps = 0
     
+  def throw_wall(self):
+    if self.ball_moving:
+      return False
+    self.throws += 1
+    if self.throws % 10 == 0:
+      anvil.server.call_s('update_wall', self.throws)
+
+    # reset y velocity
+    self.ball_y = .76
+    self.ball_vy = .06
+    
+    # change ball status so it starts moving
+    self.ball_moving = True
+    self.ball_steps = 0
+    
   def ball_arrived(self):
+    self.ball_steps = 0
     self.ball_moving = False
     self.set_labels_directions()
       
   def draw(self, **event_args):
+    '''
+    this method calls automatically every clock tick (timer element on Design view)
+    '''
+    
+    if not self.canvas_1.visible:
+      return
+    
+    c = self.canvas_1
+    
     self.counter += 1
     self.counter = self.counter % 500
     
-    # This method is called Every [interval] seconds
-    c = self.canvas_1
-    w = c.get_width()
-    h = c.get_height()
+    # clear the sky
+    c.clear_rect(0, 0, self.w, self.h)
     
-    c.clear_rect(0, 0, w, h * 2//3)
+    for cloud in self.clouds:
+      cloud.draw()
     
-    # clouds
-    c.fill_style = "rgba(190,190,190,.25)"
-    for cloud in ((100, 20, 4, 0), (77, 45, 5, 30), (30, 120, 5, 40), (50, 120, 4, 63), (188, 103, 8, 90),
-                 (100, 60, 2, 0), (230, 405, 5, 10), (70, 200, 3, 70), (160, 60, 7, 23), (218, 39, 2, 60),
-                 (100, 60, 2, 80), (230, 405, 5, 50), (70, 200, 3, 40), (160, 60, 7, 53), (218, 39, 2, 95)):
-      x = (cloud[3] - self.counter) * w // 200
-      if x < 0:
-        x += w
-      c.fill_rect(x, h // cloud[2], cloud[0], cloud[1])
+    for bld in self.buildings:
+      bld.draw()
     
-    c.fill_style = "rgba(210,210,210,.2)"
-    for cloud in ((100, 20, 4, 0), (77, 45, 5, 30), (30, 120, 5, 40), (50, 120, 4, 63), (188, 103, 8, 90),
-                 (100, 60, 2, 0), (230, 405, 5, 10), (70, 200, 3, 70), (160, 60, 7, 23), (218, 39, 2, 60),
-                 (100, 60, 2, 80), (230, 405, 5, 50), (70, 200, 3, 40), (160, 60, 7, 53), (218, 39, 2, 95)):
-      x = (cloud[3] - self.counter) * w // 250
-      if x < -100:
-        x += w
-      c.fill_rect(x, h/2 // cloud[2], cloud[0], cloud[1])
-      
-    for b in self.buildings:
-      self.draw_building(b[0], b[1], b[2])
-
     # trees
-    c.fill_style = "rgba(100,140,70,1)"
-    c.fill_rect(0, .6*h, (w*1.2)//1, h//2)
+    drawing.Rectangle(0, .5, 1.2, .2, "rgba(90,140,70,1)").draw()
     
     # ground
-    c.fill_style = "rgba(140,160,90,1)"
-    c.fill_rect(0, h*2//3, (w*1.2)//1, h//3)
-    
-    # players
-    c.fill_style = "rgba(0,0,0,1)"
-    c.fill_rect(.1*w, .65*h, .04*w, .25*h )
-    c.fill_rect(.9*w, .65*h, .04*w, .25*h )
-    c.fill_style = '#AA9900'
-    # heads
-    c.fill_rect(.1*w, .59*h, .04*w, .08*h )
-    c.fill_rect(.9*w, .59*h, .04*w, .08*h )
-    # gloves
-    c.fill_rect(.12*w, .75*h, .03*w, .06*h )
-    c.fill_rect(.88*w, .75*h, .03*w, .06*h )
-    
+    drawing.Rectangle(0, .6, 1.2, .5, "rgba(140,160,90,1)").draw()
+
+    # player0
+    drawing.Rectangle(.1, .65, .03, .35, colors.black).draw()
+    drawing.Circle(.12, .79, .015, colors.skin).draw()
+    drawing.Circle(.09, .57, .026, colors.skin).draw()
+
+    # player1
+    if self.game != 'wall':
+      drawing.Rectangle(.9, .65, .03, .35, colors.black).draw()
+      drawing.Circle(.88, .79, .015, colors.skin).draw()
+      drawing.Circle(.89, .57, .026, colors.skin).draw()
+      
+    # wall: wall text
+    if self.game == 'wall':
+      c.fill_style = colors.white
+      c.font ='{}px sans-serif'.format(self.h//9)
+      c.fill_text('THROWS:'.format(self.throws), (self.w*.6), self.h//2)
+      c.fill_text('{}'.format(self.throws), self.w*.6, self.h*.8)
+
+      # wall
+      for delta in [.01 * i for i in range(8)]:
+        drawing.Rectangle(.46 + delta, .28+delta, .03, .67, colors.red).draw()
+        
+      # end of wall
+      red = '#702000'
+      drawing.Rectangle(.53, .36, .036, .67, colors.darkred).draw()
+
+
     # ball:
-    c.fill_style = '#FEF5E7'
-    c.fill_rect(self.ball_x * w, self.ball_y * h, .024*w, .05*h )
+    ball = drawing.Circle(self.ball_x, self.ball_y, .01).draw()
     
-    if self.i_have_ball and not self.ball_moving and self.counter % 5:
+    # 
+    if (self.game == 'wall' or self.i_have_ball) and not self.ball_moving and self.counter % 5:
       c.fill_style = '#FFFFFF'
-      c.font = '{}px sans-serif'.format(h//9)
-      c.fill_text('TAP TO THROW', w//16, h//5)
+      c.font = '{}px sans-serif'.format(self.h//9)
+      c.fill_text('TAP TO THROW', self.w//16, self.h//6)
     
-    if self.ball_moving:
+    if self.ball_moving and not self.game == 'wall':
       self.ball_steps += 1
       
       # direction
@@ -181,12 +196,26 @@ class PlayCatch (PlayCatchTemplate):
       self.ball_y -= self.ball_vy   # indexed from top
       self.ball_vy -= .0067
       
-      if self.ball_steps == 20:
-        # print('ball has arrived')
-        self.ball_arrived()
+    elif self.ball_moving:
+      self.ball_steps += 1
+      
+      # direction
+      if self.ball_steps < 10:
+        self.ball_x += self.ball_vx
+      else:
+        self.ball_x -= self.ball_vx
         
+      self.ball_y -= self.ball_vy   # indexed from top
+      self.ball_vy -= .007
+
+    if self.ball_moving:
+      if self.game != 'wall' and self.ball_steps == 20:
+        self.ball_arrived()
+      elif self.game == 'wall' and self.ball_steps == 19:
+        self.ball_arrived()
+
     # update from server
-    if self.counter % 20 == 19 and not self.ball_moving:
+    if self.game != 'wall' and self.counter % 30 == 29 and not self.ball_moving:
       game_live = anvil.server.call_s('get_game', self.game.get_id())
       if game_live['success']:
         pass
@@ -200,3 +229,19 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_moving = True
         self.ball_steps = 0
         self.ball_vy = .06
+
+  def canvas_1_show (self, **event_args):
+    # This method is called when the Canvas is shown on the screen
+    self.w, self.h = drawing.CanvasObject.set_canvas(self.canvas_1)
+    print('canvas: w={} h={}'.format(self.w, self.h))
+    
+    # build arrays of clouds and stuff:
+    self.buildings = []
+    for i in range(32):
+      self.buildings.append(drawing.RandomBuilding())
+      
+    self.clouds = []
+    for i in range(12):
+      self.clouds.append(drawing.RandomCloud())
+      
+      

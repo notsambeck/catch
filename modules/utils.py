@@ -37,13 +37,13 @@ def hash_phone(phone):
   returns:
     string: static hash
   '''
-  # does not run in browser:
+  # this does not run in browser:
   '''
   h = blake2b(digest_size=30)
   h.update(phone.encode('utf-8'))
   return h.hexdigest()
   '''
-  # does nothing:
+  # so this does nothing:
   return phone
 
 

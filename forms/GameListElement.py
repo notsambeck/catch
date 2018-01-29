@@ -90,7 +90,7 @@ class GameListElement(GameListElementTemplate):
     # This method is called when the link is clicked
     # with Notification('Loading game...'):
     self.parent.raise_event_on_children('x-collapse')
-    self.game_view.add_component(PlayCatch(self.game))
+    self.game_view.add_component(PlayCatch(self.game, self.me))
     self.game_summary.visible = False
     self.background = colors.white
     

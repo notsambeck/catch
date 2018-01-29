@@ -13,7 +13,6 @@ class PlayWall(PlayWallTemplate):
     self.me = anvil.users.get_user()
     
     self.throws = self.me['wall_throws']
-    
     self.counter = 0
 
     self.set_labels_directions()
