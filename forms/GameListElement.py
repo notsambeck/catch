@@ -14,7 +14,7 @@ class GameListElement(GameListElementTemplate):
   
   1 game per gameListElement instance
   '''
-  def __init__(self, game, **properties):
+  def __init__(self, user, game, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
     
@@ -22,7 +22,7 @@ class GameListElement(GameListElementTemplate):
     self.game = game
     
     # set self.me, self.you, self.am0
-    self.me = anvil.users.get_user()
+    self.me = user
     self.am0 = self.game['player_0'] == self.me
     if self.am0:
       self.you = self.game['player_1']['handle']

@@ -13,12 +13,12 @@ class GameListWall(GameListWallTemplate):
   
   1 game per gameListElement instance
   '''
-  def __init__(self, **properties):
+  def __init__(self, user, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
     
     # set self.me, self.you, self.am0
-    self.me = anvil.users.get_user()
+    self.me = user
     
     self.game_view.add_component(PlayCatch('wall', self.me))
     self.game_summary.visible = False

@@ -91,10 +91,10 @@ class RandomBuilding(CanvasObject):
     random building on wxh canvas
     '''
     bx = random.random()      # center
-    bh = random.random() / 2  # top
+    bh = random.random() / 3  # top
     bw = random.choice([.015, .012, .03, .02, .023, .027, .025, .05, .07, .04])   # width
-    self.l_side = Rectangle(bx - bw, bh, bw, CanvasObject._h, color=colors.building1)
-    self.r_side = Rectangle(bx - .002, bh, bw, CanvasObject._h, color=colors.building2)
+    self.l_side = Rectangle(bx - bw, bh + .2, bw, CanvasObject._h, color=colors.building1)
+    self.r_side = Rectangle(bx - .002, bh + .2, bw, CanvasObject._h, color=colors.building2)
     
   def draw(self):
     self.l_side.draw()
@@ -127,23 +127,43 @@ class RandomCloud(CanvasObject):
         part.x = 1.1
       part.draw()
       
-
+class FarTree(CanvasObject):
+  def __init__(self):
+    '''
+    subclasses shape to have access to canvas.
+    random tree on w*h canvas
+    '''
+    x = random.random()      # center
+    y = .53 + rando(-.03, .03)
+    h = .13 + rando(-.02, .02)
+    self.trunk = Rectangle(x + .015, y, .01, .13, colors.darkred)
+    r = .02
+    self.leaf = Circle(x,
+                       y,
+                       r,
+                       colors.leaf2)
+  def draw(self):
+    self.trunk.draw()
+    self.leaf.draw()
+      
+      
 class RandomTree(CanvasObject):
   wind = 0
   def __init__(self, size=64):
     '''
     subclasses shape to have access to canvas.
-    random building on wxh canvas
+    random tree on w*h canvas
     '''
-    x = random.random()      # center
+    x = rando(.1, .9)   # center
     y = .55
     self.leaves = []
-    self.trunk = Rectangle(x + .05, y, .015, .15, colors.darkred)
+    self.trunk = Rectangle(x + .03, y, .015, .18, colors.darkred)
     for part in range(size):
-      delta_x = random.random() / 15
-      delta_y = random.random() / 15
+      delta_x = random.random() * .06
+      delta_y = random.random() * .06
       r = .01
-      self.leaves.append(Circle(x + delta_x, y - 1.5 * delta_y, 
+      self.leaves.append(Circle(x + delta_x,
+                                y - 1.8 * delta_y,
                                 r,
                                 color=random.choice([
                                   colors.leaf1,
@@ -162,10 +182,21 @@ class RandomTree(CanvasObject):
   
   @classmethod
   def update_wind(self):
-    inc = random.random() - .5
-    self.wind += inc / 100
+    inc = rando(-.02, .02)
     if self.wind > .2:
       self.wind = .2
     elif self.wind < 0.0:
       self.wind = 0.0
  
+
+def rando(lo=0, hi=1):
+  '''
+  create a pseudorandom float between lo and hi
+  '''
+  assert hi > lo
+  f = random.random()
+  # scale
+  f = f * (hi - lo)
+  # push bottom edge of range to lo
+  f += lo
+  return f

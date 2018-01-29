@@ -148,6 +148,9 @@ class PlayCatch (PlayCatchTemplate):
     # ground
     drawing.Rectangle(0, .6, 1.2, .5, colors.grass).draw()
 
+    for tree in self.far_trees:
+      tree.draw()
+    
     # trees
     for tree in self.trees:
       tree.draw()
@@ -253,5 +256,9 @@ class PlayCatch (PlayCatchTemplate):
     self.trees = []
     for tree in range(1):
       self.trees.append(drawing.RandomTree())
+      
+    self.far_trees = []
+    for far_tree in range(10):
+      self.far_trees.append(drawing.FarTree())
       
       

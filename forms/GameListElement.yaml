@@ -32,6 +32,7 @@ components:
       row_spacing: 10, spacing_above: none, spacing_below: none, background: ''}
     name: game_view
     layout_properties: {}
+    components: []
 item_type: {table_id: 7128}
 custom_component: true
 events:
