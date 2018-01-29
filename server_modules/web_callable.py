@@ -12,6 +12,7 @@ import random
 
 import bcrypt
 
+debug = True
 
 def bhash(_string):
   '''
@@ -47,7 +48,8 @@ def has_stored_login():
 
 @anvil.server.callable
 def delete_cookie():
-  print('cookie deleted')
+  if debug:
+    print('cookie deleted')
   anvil.server.cookies.local.clear()
 
   
@@ -375,6 +377,8 @@ def get_games():
            'order': list of game ids in order
            'games': {game_id: game},}
   '''
+  if debug:
+    print('get_games (all)')
   me = anvil.users.get_user()
   
   if not me:
@@ -412,6 +416,8 @@ def make_game_active(game_id):
   
   return game row or False
   '''
+  if debug:
+    print('make_game_active')
   
   game = app_tables.games.get_by_id(game_id)
   me = anvil.users.get_user()
@@ -445,6 +451,8 @@ def throw(game_id):
   move ball pointer in database;
   return game row.
   '''
+  if debug:
+    print('throw')
   # print('throw() called at {}'.format(game_id))
   me = anvil.users.get_user()
   if not me:
@@ -484,6 +492,8 @@ def get_game(game_id):
     {'success': bool,
      'game': game (row)}
   '''
+  if debug:
+    print('get_game (1)')
   
   me = anvil.users.get_user()
   if not me:
@@ -505,6 +515,9 @@ def get_game(game_id):
 
 @anvil.server.callable
 def update_wall(number):
+  if debug:
+    print('update_wall')
+
   me = anvil.users.get_user()
   if not me:
     return {'success': False, 

@@ -34,40 +34,26 @@ class PlayCatch (PlayCatchTemplate):
     self.counter = 0
     self.buildings = []
 
-    self.set_labels_directions()
-    
+    self.set_labels()
  
-  def set_labels_directions(self):
+    self.set_directions()
+  
+  def set_directions(self):
+    
+    self.ball_moving = False
+    # set y / y_velocity
+    self.ball_y = .78
+    self.ball_vy = .06
+
     if self.game == 'wall':
-      self.ball_moving = False
-      
       self.ball_x = .12
       self.ball_vx = .04
-      # set y / y_velocity
-      self.ball_y = .78
-      self.ball_vy = .06
- 
+
     else:
       if self.am0:
         self.i_have_ball = self.game['has_ball'] == 0
-        
-        if self.i_have_ball:
-          self.p1_name.text = self.game['player_1']['handle']
-        else:
-          self.p1_name.text = '{} (has the ball)'.format(self.game['player_1']['handle'])
-          
       else:
         self.i_have_ball = self.game['has_ball'] == 1
-        
-        if self.i_have_ball:
-          self.p1_name.text = self.game['player_0']['handle']
-        else:
-          self.p1_name.text = '{} (has the ball)'.format(self.game['player_0']['handle'])
-  
-      self.p0_name.text = 'Me'
-    
-      # set movement vairables
-      self.ball_moving = False
       
       if self.i_have_ball:
         self.ball_x = .12
@@ -75,10 +61,20 @@ class PlayCatch (PlayCatchTemplate):
       else:
         self.ball_x = .88
         self.ball_vx = -.04
-        
-      # set y / y_velocity
-      self.ball_y = .78
-      self.ball_vy = .06
+
+  def set_labels(self):
+    if self.game == 'wall':
+      pass
+    
+    else:      
+      if self.am0:
+        self.p1_name.text = self.game['player_1']['handle']
+      else:
+        self.p1_name.text = self.game['player_0']['handle']
+
+      self.p0_name.text = 'Me'
+    
+
   
   def throw_button_click(self, **event_args):
     if self.game == 'wall':
@@ -122,7 +118,7 @@ class PlayCatch (PlayCatchTemplate):
     self.ball_steps = 0
     self.counter = 0
     self.ball_moving = False
-    self.set_labels_directions()
+    self.set_directions()
       
   def draw(self, **event_args):
     '''
@@ -139,7 +135,7 @@ class PlayCatch (PlayCatchTemplate):
     self.counter = self.counter % 500
     
     # clear the sky
-    c.clear_rect(0, 0, self.w, self.h * .65)
+    c.clear_rect(0, 0, self.w * 1.5, self.h * .65)
     
     for cloud in self.clouds:
       cloud.draw()
@@ -148,7 +144,7 @@ class PlayCatch (PlayCatchTemplate):
       bld.draw()
     
     # ground
-    drawing.Rectangle(0, .6, 1.2, .5, colors.grass).draw()
+    drawing.Rectangle(0, .6, 1.5, .5, colors.grass).draw()
 
     for tree in self.far_trees:
       tree.draw()
@@ -195,7 +191,7 @@ class PlayCatch (PlayCatchTemplate):
       c.font = '{}px sans-serif'.format(self.h//9)
       c.fill_text('TAP TO THROW', self.w//16, self.h//6)
     
-    # move ball - not wall
+    # move ball: not wall
     if self.ball_moving and not self.game == 'wall':
       self.ball_steps += 1
       
@@ -205,7 +201,7 @@ class PlayCatch (PlayCatchTemplate):
       self.ball_y -= self.ball_vy   # indexed from top
       self.ball_vy -= .0067
       
-    # move ball - wall
+    # move ball: wall
     elif self.ball_moving:
       self.ball_steps += 1
       
@@ -220,7 +216,7 @@ class PlayCatch (PlayCatchTemplate):
 
     # check arrival
     if self.ball_moving:
-      if self.game != 'wall' and self.ball_steps == 20:
+      if self.ball_steps == 20:
         self.ball_arrived()
       elif self.game == 'wall' and self.ball_steps == 19:
         self.ball_arrived()
@@ -256,11 +252,11 @@ class PlayCatch (PlayCatchTemplate):
       self.clouds.append(drawing.RandomCloud())
       
     self.trees = []
-    for tree in range(1):
+    for tree in range(0):
       self.trees.append(drawing.RandomTree())
       
     self.far_trees = []
-    for far_tree in range(10):
+    for far_tree in range(12):
       self.far_trees.append(drawing.FarTree())
       
       
