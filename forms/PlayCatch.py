@@ -63,25 +63,6 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_vx = -.04
 
   def set_labels(self):
-    if self.game == 'wall':
-      return None
-    
-
-    if self.am0:
-      self.p1_name.text = self.game['player_1']['handle']
-    else:
-      self.p1_name.text = self.game['player_0']['handle']
-      
-    # player1
-    if self.game['player_1']['color_1']:
-      self.opp_color_1 = self.game['player_1']['color_1']
-    else:
-      self.opp_color_1 = colors.black
-    if self.game['player_1']['color_2']:
-      self.opp_color_2 = self.game['player_1']['color_2']
-    else:
-      self.opp_color_2 = colors.skin
-
     # player0
     if self.me['color_1']:
       self.my_color_1 = self.me['color_1']
@@ -91,7 +72,33 @@ class PlayCatch (PlayCatchTemplate):
       self.my_color_2 = self.me['color_2']
     else:
       self.my_color_2 = colors.skin
+
+    if self.game == 'wall':
+      return None
+    
+
+    if self.am0:
+      self.p1_name.text = self.game['player_1']['handle']
+      if self.game['player_1']['color_1']:
+        self.opp_color_1 = self.game['player_1']['color_1']
+      else:
+        self.opp_color_1 = colors.black
+      if self.game['player_1']['color_2']:
+        self.opp_color_2 = self.game['player_1']['color_2']
+      else:
+        self.opp_color_2 = colors.skin
       
+    else:
+      self.p1_name.text = self.game['player_0']['handle']
+      if self.game['player_0']['color_1']:
+        self.opp_color_1 = self.game['player_0']['color_1']
+      else:
+        self.opp_color_1 = colors.black
+      if self.game['player_0']['color_2']:
+        self.opp_color_2 = self.game['player_0']['color_2']
+      else:
+        self.opp_color_2 = colors.skin
+
     self.p0_name.text = 'Me'
     
   def throw_button_click(self, **event_args):
@@ -190,7 +197,7 @@ class PlayCatch (PlayCatchTemplate):
     if self.game != 'wall':
       drawing.Rectangle(.9, .57, .04, .35, self.opp_color_1).draw()
       drawing.Circle(.88, .79, .025, self.opp_color_2).draw()
-      drawing.Circle(.89, .57, .035, self.opp_color_2).draw()
+      drawing.Circle(.88, .57, .035, self.opp_color_2).draw()
       
     # wall: 
     if self.game == 'wall':
