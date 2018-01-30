@@ -35,6 +35,7 @@ components:
       row_spacing: 10, spacing_above: small, spacing_below: small, background: ''}
     name: game_view
     layout_properties: {grid_position: 'DBHMUX,XKHIAS', full_width_row: true}
+    event_bindings: {show: game_view_show}
 container:
   type: ColumnPanel
   properties: {role: null, width: default, border: 'True', foreground: '', visible: true,

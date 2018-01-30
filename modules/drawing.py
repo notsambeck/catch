@@ -15,11 +15,9 @@ class CanvasObject:
     '''
     takes self (i.e. class) and a canvas; returns width, height'''
     cls._canvas = canvas
-    cls._w = canvas.get_width()
+    cls._w = min(int(canvas.get_width()), 900)
+    cls._canvas.height = '{}px'.format(cls._w // 2)
     cls._h = canvas.get_height()
-    if cls._h < cls._w / 2.2:
-      cls._canvas.height = '{}px'.format(cls._w // 2.2)
-      cls._h = canvas.get_height()
     print('canvas:', cls._canvas, cls._w, cls._h)
     return cls._w, cls._h
   
