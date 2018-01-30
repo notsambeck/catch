@@ -35,7 +35,6 @@ class PlayCatch (PlayCatchTemplate):
     self.buildings = []
 
     self.set_labels()
- 
     self.set_directions()
   
   def set_directions(self):
@@ -75,10 +74,9 @@ class PlayCatch (PlayCatchTemplate):
 
     if self.game == 'wall':
       return None
-    
 
     if self.am0:
-      self.p1_name.text = self.game['player_1']['handle']
+      self.p1_name = self.game['player_1']['handle']
       if self.game['player_1']['color_1']:
         self.opp_color_1 = self.game['player_1']['color_1']
       else:
@@ -89,7 +87,7 @@ class PlayCatch (PlayCatchTemplate):
         self.opp_color_2 = colors.skin
       
     else:
-      self.p1_name.text = self.game['player_0']['handle']
+      self.p1_name = self.game['player_0']['handle']
       if self.game['player_0']['color_1']:
         self.opp_color_1 = self.game['player_0']['color_1']
       else:
@@ -99,7 +97,6 @@ class PlayCatch (PlayCatchTemplate):
       else:
         self.opp_color_2 = colors.skin
 
-    self.p0_name.text = 'Me'
     
   def throw_button_click(self, **event_args):
     if self.game == 'wall':
@@ -182,7 +179,7 @@ class PlayCatch (PlayCatchTemplate):
     drawing.RandomTree.update_wind()
     
     # body
-    drawing.Rectangle(.1, .57, .04, .35, self.my_color_1).draw()
+    drawing.Rectangle(.1, .57, .04, .3, self.my_color_1).draw()
     # head
     drawing.Circle(.09, .57, .035, self.my_color_2).draw()
     # hand
@@ -195,10 +192,10 @@ class PlayCatch (PlayCatchTemplate):
     
     # player1
     if self.game != 'wall':
-      drawing.Rectangle(.9, .57, .04, .35, self.opp_color_1).draw()
+      drawing.Rectangle(.9, .57, .04, .3, self.opp_color_1).draw()
       drawing.Circle(.88, .79, .025, self.opp_color_2).draw()
       drawing.Circle(.88, .57, .035, self.opp_color_2).draw()
-      
+    
     # wall: 
     if self.game == 'wall':
       # wall
@@ -206,23 +203,33 @@ class PlayCatch (PlayCatchTemplate):
         drawing.Rectangle(.46 + delta * 2, .28 + delta, .03, .6, colors.red).draw()
         
       # end of wall
-      red = '#702000'
       drawing.Rectangle(.62, .36, .03, .6, colors.darkred).draw()
-      
-      # wall text
-      c.fill_style = colors.white
-      c.font ='{}px sans-serif'.format(self.h//10)
-      c.fill_text('THROWS:'.format(self.throws), (self.w*.55), self.h * .7)
-      c.fill_text('{}'.format(self.throws), self.w*.65, self.h*.86)
-
+    
+    c.fill_style = colors.white
+    
     # ball:
     ball = drawing.Circle(self.ball_x, self.ball_y, .019).draw()
+
+    # text:
+    c.font = '{}px sans-serif'.format(self.h//10)
     
+    pad = 6
+    c.text_align = 'left'
+    c.text_baseline = 'top'
     # tap to throw text
     if (self.game == 'wall' or self.i_have_ball) and not self.ball_moving and self.counter % 5:
-      c.fill_style = '#FFFFFF'
-      c.font = '{}px sans-serif'.format(self.h//9)
-      c.fill_text('TAP TO THROW', self.w//16, self.h//6)
+      c.fill_text('TAP TO THROW', pad, pad)
+    
+    c.font = '{}px sans-serif'.format(self.h//16)
+    c.text_align = 'right'
+    c.text_baseline = 'bottom'
+
+    if self.game == 'wall':
+      c.fill_text('THROWS: {}'.format(self.throws), self.w - pad, self.h - pad)
+    else:
+      c.fill_text(self.p1_name, self.w - pad, self.h - pad)
+      c.text_align = 'left'
+      c.fill_text('Me', pad, self.h - pad)
     
     # move ball: not wall
     if self.ball_moving and not self.game == 'wall':
