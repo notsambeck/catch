@@ -6,7 +6,7 @@ from tables import app_tables
 from utils import is_valid_color
 import colors
 
-class _my_account (_my_accountTemplate):
+class MyAccountScreen (MyAccountScreenTemplate):
   def __init__(self, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
@@ -51,7 +51,7 @@ class _my_account (_my_accountTemplate):
     # This method is called when the button is clicked
     anvil.server.call('delete_cookie')
     anvil.users.logout()
-    open_form('_login')
+    open_form('LoginScreen')
 
   def password_button_click (self, **event_args):
     # This method is called when the button is clicked
@@ -62,7 +62,7 @@ class _my_account (_my_accountTemplate):
 
   def button_1_click (self, **event_args):
     # This method is called when the button is clicked
-    open_form('_play', self.me)
+    open_form('PlayScreen', self.me)
 
   def color_set_button_click (self, **event_args):
     # This method is called when the button is clicked

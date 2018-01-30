@@ -22,13 +22,13 @@ class ConfirmAccount (ConfirmAccountTemplate):
       Notification('You did not enter a confirmation code', title='Enter code').show()
       return False
 
-    confirmed = anvil.server.call('confirm_account', self.confirmation_code.text, self.phone)
-    if confirmed['success']:
+    resp = anvil.server.call('confirm_account', self.confirmation_code.text, self.phone)
+    if resp['success']:
       Notification('Account confirmed.', title='Success!')
-      open_form('_play')
+      open_form('PlayScreen')
     else:
-      alert(confirmed['msg'])
-      if confirmed['goto_login']:
+      alert(resp['msg'])
+      if resp['goto_login']:
         open_form(Login())
 
   def resend_button_click (self, **event_args):

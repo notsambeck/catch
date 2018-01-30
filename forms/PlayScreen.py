@@ -11,9 +11,9 @@ import colors
 
 def error_handler(err):
   Notification(str(err), title='Uncaught Error').show()
-  open_form('_login')
+  open_form('LoginScreen')
 
-class _play (_playTemplate):
+class PlayScreen (PlayScreenTemplate):
   def __init__(self, user, game=None, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
@@ -80,7 +80,7 @@ class _play (_playTemplate):
     # This method is called when the button is clicked
     anvil.server.call('delete_cookie')
     anvil.users.logout()
-    open_form('_login')
+    open_form('LoginScreen')
 
   def button_1_click (self, **event_args):
     # This method is called when the ADD CONTACTS button is clicked
@@ -94,7 +94,7 @@ class _play (_playTemplate):
 
   def account_click (self, **event_args):
     # This method is called when the button is clicked
-    open_form('_my_account')
+    open_form('MyAccountScreen')
 
   def timer_1_tick(self, **event_args):
     # This method is called Every [interval] seconds

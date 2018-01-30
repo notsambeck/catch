@@ -77,7 +77,7 @@ class Login(LoginTemplate):
       
       # if we have full access, continue
       if status['success'] and status['enabled']:
-        open_form('_play', user=status['user'])
+        open_form('PlayScreen', user=status['user'])
 
       # if account not confirmed, go to confirmation
       elif status['success'] and not status['enabled']:
