@@ -64,15 +64,35 @@ class PlayCatch (PlayCatchTemplate):
 
   def set_labels(self):
     if self.game == 'wall':
-      pass
+      return None
     
-    else:      
-      if self.am0:
-        self.p1_name.text = self.game['player_1']['handle']
-      else:
-        self.p1_name.text = self.game['player_0']['handle']
 
-      self.p0_name.text = 'Me'
+    if self.am0:
+      self.p1_name.text = self.game['player_1']['handle']
+    else:
+      self.p1_name.text = self.game['player_0']['handle']
+      
+    # player1
+    if self.game['player_1']['color_1']:
+      self.opp_color_1 = self.game['player_1']['color_1']
+    else:
+      self.opp_color_1 = colors.black
+    if self.game['player_1']['color_2']:
+      self.opp_color_2 = self.game['player_1']['color_2']
+    else:
+      self.opp_color_2 = colors.skin
+
+    # player0
+    if self.me['color_1']:
+      self.my_color_1 = self.me['color_1']
+    else:
+      self.my_color_1 = colors.black
+    if self.me['color_2']:
+      self.my_color_2 = self.me['color_2']
+    else:
+      self.my_color_2 = colors.skin
+      
+    self.p0_name.text = 'Me'
     
   def throw_button_click(self, **event_args):
     if self.game == 'wall':
@@ -154,33 +174,23 @@ class PlayCatch (PlayCatchTemplate):
       
     drawing.RandomTree.update_wind()
     
-    # player0
-    if self.me['color_1']:
-      my_color_1 = self.me['color_1']
-    else:
-      my_color_1 = colors.black
-    if self.me['color_2']:
-      my_color_2 = self.me['color_2']
-    else:
-      my_color_2 = colors.skin
-       
     # body
-    drawing.Rectangle(.1, .57, .04, .35, my_color_1).draw()
+    drawing.Rectangle(.1, .57, .04, .35, self.my_color_1).draw()
     # head
-    drawing.Circle(.09, .57, .035, my_color_2).draw()
+    drawing.Circle(.09, .57, .035, self.my_color_2).draw()
     # hand
     if self.ball_moving and self.ball_steps == 1:
-      drawing.Circle(.12, .77, .025, my_color_2).draw()
+      drawing.Circle(.12, .77, .025, self.my_color_2).draw()
     elif self.ball_moving and self.ball_steps == 2:
-      drawing.Circle(.14, .75, .025, my_color_2).draw()
+      drawing.Circle(.14, .75, .025, self.my_color_2).draw()
     else:
-      drawing.Circle(.11, .79, .025, my_color_2).draw()
+      drawing.Circle(.11, .79, .025, self.my_color_2).draw()
     
     # player1
     if self.game != 'wall':
-      drawing.Rectangle(.9, .57, .04, .35, colors.black).draw()
-      drawing.Circle(.88, .79, .025, colors.skin).draw()
-      drawing.Circle(.89, .57, .035, colors.skin).draw()
+      drawing.Rectangle(.9, .57, .04, .35, self.opp_color_1).draw()
+      drawing.Circle(.88, .79, .025, self.opp_color_2).draw()
+      drawing.Circle(.89, .57, .035, self.opp_color_2).draw()
       
     # wall: 
     if self.game == 'wall':
