@@ -521,15 +521,16 @@ def update_wall(number):
     print('update_wall')
 
   me = anvil.users.get_user()
-  # me = app_tables.user_games.get_by_id(me.get_id())
-  print(me)
+  print(number)
+  print(me['wall_throws'])
 
   if not me:
     return {'success': False, 
             'msg': 'Not logged in.',}
   
   print('setting')
-  me.update(wall_throws=number)
+  me['wall_throws'] = number
+  # me.update(wall_throws=number)
   print('set')
   return {'success': True}
 

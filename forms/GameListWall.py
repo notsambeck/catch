@@ -36,7 +36,7 @@ class GameListWall(GameListWallTemplate):
   def collapse(self, **kwargs):
     if self.wall_active:
       throws = self.game_view.get_components()[0].throws
-      print(throws)
+      # print(throws)
       resp = anvil.server.call_s('update_wall', throws)
       print('wall update confirmed')
       print(resp['success'])
