@@ -10,8 +10,6 @@ import colors
 class GameListWall(GameListWallTemplate):
   '''
   GameListElement renders an entire row (game) as a status grid entry
-  
-  1 game per gameListElement instance
   '''
   def __init__(self, user, **properties):
     # You must call self.init_components() before doing anything else in this function
@@ -37,7 +35,11 @@ class GameListWall(GameListWallTemplate):
     
   def collapse(self, **kwargs):
     if self.wall_active:
-      anvil.server.call_s('update_wall', self.game_view.get_components()[0].throws)
+      throws = self.game_view.get_components()[0].throws
+      print(throws)
+      resp = anvil.server.call_s('update_wall', throws)
+      print('wall update confirmed')
+      print(resp['success'])
     self.game_view.clear()
     self.game_summary.visible = True
     self.wall_active = False

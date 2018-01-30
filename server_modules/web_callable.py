@@ -471,12 +471,14 @@ def throw(game_id):
     return {'success': False,
             'msg': 'you did not have the ball'}
 
+  print('setting:')
   with tables.Transaction() as txn:
 
     game['has_ball'] = abs(1 - game['has_ball'])  # flip who has ball
     game['throws'] += 1
     game['last_throw_time'] = datetime.now()
 
+  print('set')
   return {'success': True,
           'game': game}
 
@@ -519,11 +521,16 @@ def update_wall(number):
     print('update_wall')
 
   me = anvil.users.get_user()
+  # me = app_tables.user_games.get_by_id(me.get_id())
+  print(me)
+
   if not me:
     return {'success': False, 
-            'msg': 'Not logged in.'}
+            'msg': 'Not logged in.',}
   
-  me['wall_throws'] = number
+  print('setting')
+  me.update(wall_throws=number)
+  print('set')
   return {'success': True}
 
 
@@ -535,7 +542,7 @@ def update_colors(color1, color2):
   me = anvil.users.get_user()
   if not me:
     return {'success': False, 
-            'msg': 'Not logged in.'}
+            'msg': 'Not logged in.',}
   
   me['color_1'] = color1
   me['color_2'] = color2

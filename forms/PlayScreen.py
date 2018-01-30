@@ -10,7 +10,8 @@ from GameListWall import GameListWall
 import colors
 
 def error_handler(err):
-  Notification(str(err), title='Uncaught Error').show()
+  # TODO: change this behaviour
+  Notification(str(err), title='Error - back to login').show()
   open_form('LoginScreen')
 
 class PlayScreen (PlayScreenTemplate):
