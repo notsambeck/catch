@@ -13,6 +13,7 @@ components:
     name: top_contacts
     layout_properties: {grid_position: 'WTMRGI,VMPLHM', full_width_row: true}
     event_bindings: {show: top_contacts_show}
+  event_bindings: {show: content_panel_show}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: Catch, font_size: 22, font: '', spacing_above: small, icon_align: left,

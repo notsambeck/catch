@@ -10,7 +10,7 @@ from GameListWall import GameListWall
 import colors
 
 def error_handler(err):
-  alert(str(err), title='Uncaught Error')
+  Notification(str(err), title='Uncaught Error').show()
   open_form('_login')
 
 class _play (_playTemplate):
@@ -25,7 +25,6 @@ class _play (_playTemplate):
     self.handle.text = 'user: {}'.format(name)   # for menu bar
     print(name)
     
-    self.content_panel.add_component(GameListWall(self.me))
     
     self.games = None
     self.game_views = {}
@@ -101,11 +100,8 @@ class _play (_playTemplate):
     # This method is called Every [interval] seconds
     self.update_connections()
 
-  def top_contacts_show (self, **event_args):
+  def content_panel_show (self, **event_args):
     # This method is called when the column panel is shown on the screen
+    self.content_panel.add_component(GameListWall(self.me))
     self.update_connections()
     self.content_panel.add_component(GameListContacts())
-
-
-
-
