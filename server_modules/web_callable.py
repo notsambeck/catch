@@ -526,6 +526,22 @@ def update_wall(number):
   me['wall_throws'] = number
   return {'success': True}
 
+
+@anvil.server.callable
+def update_colors(color1, color2):
+  if debug:
+    print('update_colors')
+
+  me = anvil.users.get_user()
+  if not me:
+    return {'success': False, 
+            'msg': 'Not logged in.'}
+  
+  me['color_1'] = color1
+  me['color_2'] = color2
+  return {'success': True,
+          'user': me,}
+
 '''
 @anvil.server.callable
 def some_connection():

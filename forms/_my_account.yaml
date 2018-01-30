@@ -52,44 +52,53 @@ components:
       layout_properties: {grid_position: 'PSOPTF,LSUDKP'}
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
-        visible: true, text: color 1, font_size: null, font: '', spacing_above: small,
+        visible: true, text: Hex color 1, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: color1
       layout_properties: {grid_position: 'LHIFPN,XGKQXW'}
     - type: TextBox
-      properties: {role: null, width: default, align: left, hide_text: false, placeholder: '#AA9900',
-        border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+      properties: {role: null, width: default, align: left, hide_text: false, placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
-      name: text_box_3
+      name: enter_color_1
       layout_properties: {grid_position: 'LHIFPN,EMXWFA'}
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '#fefcfc',
-        visible: true, text: color 2, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+        visible: true, text: 'Hex color 2
+
+          ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false, icon: ''}
       name: color2
       layout_properties: {grid_position: 'TVJLMY,JRBJAV'}
     - type: TextBox
-      properties: {role: null, width: default, align: left, hide_text: false, placeholder: '#000000',
-        border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+      properties: {role: null, width: default, align: left, hide_text: false, placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
-      name: text_box_4
+      name: enter_color_2
       layout_properties: {grid_position: 'TVJLMY,KFDVQG'}
+    - type: Button
+      properties: {role: null, width: default, align: left, border: '', enabled: true,
+        foreground: '', visible: true, text: set colors, font_size: null, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
+      name: color_set_button
+      layout_properties: {grid_position: 'OUWCAH,GGDGLR'}
+      event_bindings: {click: color_set_button_click}
     - type: Spacer
       properties: {height: 32}
       name: spacer_4
       layout_properties: {grid_position: 'YJXASR,VETKQK'}
     - type: Button
       properties: {role: null, width: default, align: left, border: '', enabled: true,
-        foreground: '', visible: true, text: 'change password:', font_size: null,
-        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        foreground: '', visible: true, text: change password, font_size: null, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
         background: '', bold: false, underline: false, icon: ''}
-      name: reset_button
-      layout_properties: {grid_position: 'FCHOVQ,YNOGYZ'}
-      event_bindings: {click: button_2_click}
+      name: password_reset_button
+      layout_properties: {grid_position: 'FCHOVQ,RKQNKD'}
+      event_bindings: {click: password_button_click}
     - type: TextBox
       properties: {role: null, width: default, align: left, hide_text: false, placeholder: '',
         border: '', enabled: true, foreground: '', visible: false, text: new password,

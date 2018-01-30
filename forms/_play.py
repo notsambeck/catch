@@ -30,18 +30,21 @@ class _play (_playTemplate):
     self.games = None
     self.game_views = {}
     self.game_list = []
-    self.update_connections()
-    
-    self.content_panel.add_component(GameListContacts())
+
     self.top_contacts.add_component(GameListContacts())
     
     set_default_error_handling(error_handler)
     
   def update_connections(self):
-    print('update_connections()')
-    server = anvil.server.call_s('get_games')
-    print(server['msg'])
+    try:
+      server = anvil.server.call_s('get_games')
+    except anvil.server.SessionExpiredError:
+      print('session expired; resetting session')
+      anvil.server.reset_session()
+      server = anvil.server.call_s('get_games')
+
     
+    print(server['msg'])
     if not server['success']:
       print('update failed', server['msg'])
       return None
@@ -97,6 +100,12 @@ class _play (_playTemplate):
   def timer_1_tick(self, **event_args):
     # This method is called Every [interval] seconds
     self.update_connections()
+
+  def top_contacts_show (self, **event_args):
+    # This method is called when the column panel is shown on the screen
+    self.update_connections()
+    self.content_panel.add_component(GameListContacts())
+
 
 
 

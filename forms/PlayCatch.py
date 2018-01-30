@@ -74,8 +74,6 @@ class PlayCatch (PlayCatchTemplate):
 
       self.p0_name.text = 'Me'
     
-
-  
   def throw_button_click(self, **event_args):
     if self.game == 'wall':
       return self.throw_wall()
@@ -90,6 +88,7 @@ class PlayCatch (PlayCatchTemplate):
       return False
     else:
       self.game = throw_status['game']
+      self.parent.parent.parent.update(throw_status['game'])
 
     # reset y velocity
     self.ball_y = .78
@@ -156,10 +155,27 @@ class PlayCatch (PlayCatchTemplate):
     drawing.RandomTree.update_wind()
     
     # player0
-    drawing.Rectangle(.1, .57, .04, .35, colors.black).draw()
-    drawing.Circle(.12, .79, .025, colors.skin).draw()
-    drawing.Circle(.09, .57, .035, colors.skin).draw()
-
+    if self.me['color_1']:
+      my_color_1 = self.me['color_1']
+    else:
+      my_color_1 = colors.black
+    if self.me['color_2']:
+      my_color_2 = self.me['color_2']
+    else:
+      my_color_2 = colors.skin
+       
+    # body
+    drawing.Rectangle(.1, .57, .04, .35, my_color_1).draw()
+    # head
+    drawing.Circle(.09, .57, .035, my_color_2).draw()
+    # hand
+    if self.ball_moving and self.ball_steps == 1:
+      drawing.Circle(.12, .77, .025, my_color_2).draw()
+    elif self.ball_moving and self.ball_steps == 2:
+      drawing.Circle(.14, .75, .025, my_color_2).draw()
+    else:
+      drawing.Circle(.11, .79, .025, my_color_2).draw()
+    
     # player1
     if self.game != 'wall':
       drawing.Rectangle(.9, .57, .04, .35, colors.black).draw()
@@ -182,7 +198,7 @@ class PlayCatch (PlayCatchTemplate):
       c.fill_text('THROWS:'.format(self.throws), (self.w*.55), self.h * .7)
       c.fill_text('{}'.format(self.throws), self.w*.65, self.h*.86)
 
-   # ball:
+    # ball:
     ball = drawing.Circle(self.ball_x, self.ball_y, .019).draw()
     
     # tap to throw text

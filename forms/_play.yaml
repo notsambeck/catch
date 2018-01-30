@@ -12,6 +12,7 @@ components:
       background: ''}
     name: top_contacts
     layout_properties: {grid_position: 'WTMRGI,VMPLHM', full_width_row: true}
+    event_bindings: {show: top_contacts_show}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',
     visible: true, text: Catch, font_size: 22, font: '', spacing_above: small, icon_align: left,
@@ -52,7 +53,7 @@ components:
   layout_properties: {slot: sidebar}
   event_bindings: {click: account_click}
 - type: Timer
-  properties: {interval: 30}
+  properties: {interval: 10}
   name: timer_1
   event_bindings: {tick: timer_1_tick}
 container:

@@ -52,3 +52,20 @@ def generate_code(length=5):
   code = ''.join([str(random.randrange(0, 10)) for _ in range(length)])
   assert isinstance(code, str) and len(code) == length
   return code
+
+
+def is_valid_color(string):
+  '''
+  check if a string is a valid color
+  if valid:
+    returns clean string of color
+  else:
+    returns False
+  '''
+  string = string.strip('''# '"''').lower()
+  if not (len(string) == 3 or len(string) == 6):
+    return False
+  for char in string:
+    if char not in '1234567890abcdef':
+      return False
+  return string

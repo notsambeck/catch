@@ -138,8 +138,10 @@ class FarTree(CanvasObject):
     y = .53 + rando(-.03, .03)
     delta = rando(-.01, .01)
     h = .13 + delta
-    self.trunk = Rectangle(x + .02, y, .01, h, colors.darkred)
     r = .03 + delta
+    w = .01
+    self.trunk = Rectangle(x + r - w/2, y, w, h, colors.darkred)
+
     self.leaf = Circle(x,
                        y,
                        r,
