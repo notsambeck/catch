@@ -5,7 +5,7 @@ container:
     background: ''}
 components:
 - type: LinearPanel
-  properties: {role: null, width: default, border: '', foreground: '', visible: true,
+  properties: {role: game-container, width: default, border: '', foreground: '', visible: true,
     row_spacing: 10, spacing_above: small, spacing_below: small, background: ''}
   name: card_content
   layout_properties: {grid_position: 'EJLVNM,PNQTCR', full_width_row: true}
@@ -28,8 +28,8 @@ components:
       data_bindings: []
     event_bindings: {click: expand}
   - type: LinearPanel
-    properties: {role: null, width: default, border: '', foreground: '', visible: true,
-      row_spacing: 10, spacing_above: none, spacing_below: none, background: ''}
+    properties: {role: game-container, width: default, border: '', foreground: '',
+      visible: true, row_spacing: 10, spacing_above: none, spacing_below: none, background: ''}
     name: game_view
     layout_properties: {}
     components: []

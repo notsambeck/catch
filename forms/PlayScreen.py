@@ -10,8 +10,8 @@ from GameListWall import GameListWall
 import colors
 
 def error_handler(err):
-  # TODO: change this behaviour
-  Notification(str(err), title='Error - back to login').show()
+  # TODO: change this behaviour for release
+  Notification(str(err), title='Error bypassed').show(timeout=.5)
   open_form('LoginScreen')
 
 class PlayScreen (PlayScreenTemplate):
