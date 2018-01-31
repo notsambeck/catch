@@ -302,7 +302,7 @@ def confirm_account(code, phone):
     anvil.users.force_login(me)
     
     # pre-activate games that dummy was in already
-    existing_game_refs = app_tables.user_games.search(user=me)
+    existing_game_refs = app_tables.games.search(player_1=me)
     
     for row in existing_game_refs:
       row['game']['p1_enabled'] = True
@@ -351,19 +351,16 @@ def add_connection(phone):
     pass
     # print('add hypothetical connection to {}'.format(phone))
     
+  my_games = get_games(server=True)  # get a dict of games by id
+
   # protect whole operation from simultaneous adding
   with tables.Transaction() as txn:
     # search for pre-existing games
-
-    my_games = app_tables.user_games.search(user=me)
-    for row in my_games:
-      if row['game']['player_1'] == other_user or row['game']['player_0'] == other_user:
+    
+    for _id, game in my_games.items():
+      if game['player_1'] == other_user or game['player_0'] == other_user:
         
-        if row['game']['p1_enabled']:
-          throws = -1
-        else:
-          throws = -2
-        # success is not really 'True' but same result
+        # success is not really True, but same result
         return {
           'success': True,
           'enabled': row['game']['p1_enabled'],
@@ -379,10 +376,7 @@ def add_connection(phone):
       p1_enabled=other_user['enabled'],
       throws=other_user['enabled'] - 2,
       last_throw_time=datetime.now(),)
-    
-    app_tables.user_games.add_row(game=game, user=me)
-    app_tables.user_games.add_row(game=game, user=other_user)
-      
+          
     return {'success': True,
             'enabled': game['p1_enabled'],
             'msg': 'new game created',
@@ -390,7 +384,7 @@ def add_connection(phone):
 
 
 @anvil.server.callable
-def get_games():
+def get_games(server=False):
   '''
   get all the connections for current user
   
@@ -422,6 +416,9 @@ def get_games():
     
     order += waiting
     assert len(order) == len(games)
+    
+    if server:
+      return games
     
     return {'success': True,
             'msg': 'retreived {} games'.format(len(games)),

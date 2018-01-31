@@ -26,9 +26,10 @@ class PlayCatch (PlayCatchTemplate):
         self.game = activate['game']
 
       self.am0 = self.game['player_0'] == self.me
+      
+    # else game == wall
     else:
       self.throws = self.me['wall_throws']
-      self.counter = 0
     
     # motion loop counter
     self.counter = 0
@@ -75,6 +76,7 @@ class PlayCatch (PlayCatchTemplate):
     if self.game == 'wall':
       return None
 
+    # i am player_0
     if self.am0:
       self.p1_name = self.game['player_1']['handle']
       if self.game['player_1']['color_1']:
@@ -86,6 +88,7 @@ class PlayCatch (PlayCatchTemplate):
       else:
         self.opp_color_2 = colors.skin
       
+    # i am player_1
     else:
       self.p1_name = self.game['player_0']['handle']
       if self.game['player_0']['color_1']:
@@ -125,7 +128,7 @@ class PlayCatch (PlayCatchTemplate):
     if self.ball_moving:
       return False
     self.throws += 1
-    if self.throws % 10 == 0:
+    if self.throws % 5 == 0:
       anvil.server.call_s('update_wall', self.throws)
 
     # reset y velocity

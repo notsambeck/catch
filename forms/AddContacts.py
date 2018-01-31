@@ -54,8 +54,6 @@ class AddContacts (AddContactsTemplate):
         if not new_conn['success']:
           alert(new_conn['msg'])
           return False
-        
-        self.game_list_panel.get_components()[0].add_connection(new_conn['game'])
 
   def why_phone_click(self, **event_args):
     # This method is called when the why_phone button is clicked
