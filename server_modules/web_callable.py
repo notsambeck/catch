@@ -34,13 +34,14 @@ def has_stored_login():
   if user:
     print('already logged in')
     return True
-  else:
-    print('not previously logged in...')
-  
+
+  print('not previously logged in...')
   me = anvil.server.cookies.local.get('user')
+  
   if me:
     print('cookie exists for {}'.format(me.get_id()))
     return me
+  
   else:
     print('no login cookie stored')
     return False
