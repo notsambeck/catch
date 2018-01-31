@@ -10,7 +10,7 @@ secrets:
     value: {? '' : cqWdFNq3GjkC/bDxRH2nWcyujrSceJH0g1tSA+uML9h4aeNBmg5h5UJteqx8VT7AOVYvL9mNdOW7bt3cVDR6vQgbE0N5li7FqvbffjYtpzWsytC0zfgHb1EdLqEBDJu35TqPrpfhSay6WO+zNdc360o=}
     type: secret
 name: Catch
-startup_form: LoginScreen
+startup_form: Login
 renamed: true
 runtime_options: {server_version: python3-full}
 services:

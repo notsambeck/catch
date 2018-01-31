@@ -400,6 +400,8 @@ def get_games():
     
     order += waiting
     assert len(order) == len(games)
+    anvil.server.session['games'] = games
+    anvil.server.session['needs_update'] = 
     
     return {'success': True,
             'msg': 'retreived {} games'.format(len(games)),
