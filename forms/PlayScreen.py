@@ -11,7 +11,7 @@ import colors
 
 def error_handler(err):
   # TODO: change this behaviour for release
-  Notification(str(err), title='Error bypassed').show(timeout=.5)
+  Notification(str(err), title='Error bypassed').show()
   open_form('LoginScreen')
 
 class PlayScreen (PlayScreenTemplate):

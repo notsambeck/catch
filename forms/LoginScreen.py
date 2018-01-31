@@ -22,4 +22,3 @@ class LoginScreen (LoginScreenTemplate):
     else:
       print('not logged in')
       self.content_panel.add_component(Login())
-

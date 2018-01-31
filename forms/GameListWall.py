@@ -20,7 +20,7 @@ class GameListWall(GameListWallTemplate):
     
     self.game_summary.visible = False
     self.wall_active = True
-    self.num_throws.text = 'Throws: {}'.format(self.me['wall_throws'])
+    self.num_throws.text = 'WALL!   Throws: {}'.format(self.me['wall_throws'])
  
     self.set_event_handler('x-collapse', self.collapse)
     
