@@ -423,6 +423,7 @@ def get_games(server=False):
     return {'success': True,
             'msg': 'retreived {} games'.format(len(games)),
             'order': order,
+            'wall_throws': me['wall_throws'],
             'games': games,}
 
 

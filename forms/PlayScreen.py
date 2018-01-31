@@ -26,7 +26,6 @@ class PlayScreen (PlayScreenTemplate):
     self.handle.text = 'user: {}'.format(name)   # for menu bar
     print(name)
     
-    
     self.games = None
     self.game_views = {}
     self.game_list = []
@@ -79,7 +78,7 @@ class PlayScreen (PlayScreenTemplate):
         print('updated game_list')
     
   def logout_button_click (self, **event_args):
-    # This method is called when the button is clicked
+    # This method is called when the button is clicked    
     anvil.server.call('delete_cookie')
     anvil.users.logout()
     open_form('LoginScreen')
@@ -105,5 +104,6 @@ class PlayScreen (PlayScreenTemplate):
   def content_panel_show (self, **event_args):
     # This method is called when the column panel is shown on the screen
     self.content_panel.add_component(GameListWall(self.me))
+    
     self.update_connections()
     self.content_panel.add_component(GameListContacts())

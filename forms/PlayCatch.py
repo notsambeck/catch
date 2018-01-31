@@ -12,12 +12,13 @@ import colors
 # city
 
 class PlayCatch (PlayCatchTemplate):
-  def __init__(self, game, me, **properties):
+  def __init__(self, game, me, wrapper, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
     
     self.me = me
     self.game = game
+    self.wrapper = wrapper
     
     if game != 'wall':
       if not self.game['is_active']:
@@ -29,7 +30,7 @@ class PlayCatch (PlayCatchTemplate):
       
     # else game == wall
     else:
-      self.throws = self.me['wall_throws']
+      self.throws = self.wrapper.throws
     
     # motion loop counter
     self.counter = 0
@@ -128,7 +129,8 @@ class PlayCatch (PlayCatchTemplate):
     if self.ball_moving:
       return False
     self.throws += 1
-    if self.throws % 5 == 0:
+    self.wrapper.throws = self.throws
+    if self.throws % 10 == 0:
       anvil.server.call_s('update_wall', self.throws)
 
     # reset y velocity
@@ -282,8 +284,7 @@ class PlayCatch (PlayCatchTemplate):
     print('canvas: w={} h={}'.format(self.w, self.h))
     self.canvas_1.height = '{}px'.format(self.h)
     self.canvas_1.reset_context()
-    
-    
+
     # build arrays of clouds and stuff:
     self.buildings = []
     for i in range(24):
