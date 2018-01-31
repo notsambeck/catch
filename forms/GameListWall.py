@@ -14,23 +14,28 @@ class GameListWall(GameListWallTemplate):
   def __init__(self, user, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
+    self.set_event_handler('x-collapse', self.collapse)
     
     # set self.me, self.you, self.am0
     self.me = user
     self.throws = self.me['wall_throws']
     
     self.game_summary.visible = False
+    self.game_view.visible = False
     self.wall_active = True
     self.num_throws.text = 'WALL!      Throws: {}'.format(self.throws)
  
-    self.set_event_handler('x-collapse', self.collapse)
+    self.expand()
     
   def expand(self, **event_args):
     # This method is called when the link is clicked
     # with Notification('Loading...'):
-    self.parent.raise_event_on_children('x-collapse')
+    if self.parent:
+      self.parent.raise_event_on_children('x-collapse')
     self.game_view.visible = True
     self.game_summary.visible = False
+    self.child = PlayCatch('wall', self.me, self)
+    self.game_view.add_component(self.child)
     self.wall_active = True
     
   def collapse(self, **kwargs):
@@ -42,11 +47,3 @@ class GameListWall(GameListWallTemplate):
     self.game_view.clear()
     self.game_summary.visible = True
     self.wall_active = False
-
-  def game_view_show (self, **event_args):
-    # This method is called when the linear panel is shown on the screen
-    self.child = PlayCatch('wall', self.me, self)
-    self.game_view.add_component(self.child)
-
-
-

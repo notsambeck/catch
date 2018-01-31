@@ -33,3 +33,4 @@ container:
   properties: {role: game-list, width: default, border: 'True', foreground: '', visible: true,
     row_spacing: 10, wrap_on: never, spacing_above: none, col_widths: '{}', spacing_below: none,
     background: ''}
+  event_bindings: {show: form_show}

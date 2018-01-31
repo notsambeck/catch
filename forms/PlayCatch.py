@@ -5,6 +5,12 @@ import random
 import drawing
 import colors
 
+
+def error_handler(err):
+  # TODO: change this behaviour for release
+  Notification(str(err), title='Error bypassed').show()
+  open_form('LoginScreen')
+
 # TODO: remove the related code from web_callable before deployment
 # as it may be a minor security issue
 # random_id = anvil.server.call('some_connection')
@@ -15,6 +21,8 @@ class PlayCatch (PlayCatchTemplate):
   def __init__(self, game, me, wrapper, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
+    
+    set_default_error_handling(error_handler)
     
     self.me = me
     self.game = game
@@ -38,6 +46,9 @@ class PlayCatch (PlayCatchTemplate):
 
     self.set_labels()
     self.set_directions()
+    
+    self.skip_a_beat = True
+    self.canvas_1.visible = True
   
   def set_directions(self):
     
@@ -129,6 +140,8 @@ class PlayCatch (PlayCatchTemplate):
     if not self.canvas_1.visible:
       return
     
+    self.canvas_1.reset_context()
+
     # alias
     c = self.canvas_1
     
