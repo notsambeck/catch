@@ -59,7 +59,7 @@ class PlayScreen (PlayScreenTemplate):
     else:
       # successfully got games from server + there are already games
       if server['order'] == self.game_list:
-        for i, _id in enumerate(self.game_list):
+        for _id in self.game_list:
           server_game = server['games'][_id]
           local_game = self.games[_id]
           if server_game['throws'] != local_game['throws']:

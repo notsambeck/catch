@@ -57,6 +57,7 @@ def delete_cookie():
 def do_login(phone, password, stay_logged_in):
   '''
   set anvil.session['user'] to user with this phone number if password hash matches
+  stores user info in memory at anvil.server.session['me']
   
   args:
     phone: string: phone number
@@ -86,7 +87,8 @@ def do_login(phone, password, stay_logged_in):
     elif bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
       if user['enabled']:
         anvil.users.force_login(user, remember=stay_logged_in)
-
+        anvil.server.session['me'] = user
+        
         return {'success': True,
                 'enabled': True,
                 'user': user,}
@@ -107,12 +109,31 @@ def do_login(phone, password, stay_logged_in):
             'enabled': False,
             'msg': "account for {} does not exist".format(phone),}
 
+ 
+@anvil.server.callable
+def start_session():
+  '''
+  start a new session for returning user.
+  stores user info in memory at anvil.server.session['me']
+  '''
+  me = anvil.users.get_user(allow_remembered=True)
+  if me:
+    anvil.server.session['me'] = me
+    return {'success': True,
+           'user': me}
+  else:
+    return {'success': False,}
+  
 
 @anvil.server.callable
 def create_user(phone, password, handle):
   '''
   Create a new user from pre-validated inputs
   Hashes password and phone number for storage.
+  Sends Twilio authorization message
+  
+  TODO: this function cannot be user authenticated - it's for new users.
+  does it need to have a Captcha or something?
   
   args: 
     phone: string
@@ -185,6 +206,7 @@ def create_dummy(phone):
     {success: True if success; False if user exists,
      msg: string explains status,
   '''
+  assert anvil.server.session['me']
   assert isinstance(phone, str)
 
   phone = is_valid_number(phone)
@@ -235,7 +257,7 @@ def get_user_id_by_phone(phone):
     None: if user does not exist
     '''
   # only works for logged in user
-  if not anvil.users.get_user():
+  if not anvil.server.session['me']:
     return {'success': False,
             'msg': 'not logged in'}
   
@@ -310,7 +332,7 @@ def add_connection(phone):
      'msg': status description,
      'game': game (row reference),}
   '''
-  me = anvil.users.get_user()
+  me = anvil.server.session['me']
   if not me:
     return {
       'success': False,
@@ -379,8 +401,8 @@ def get_games():
   '''
   if debug:
     print('get_games (all)')
-  me = anvil.users.get_user()
-  
+    
+  me = anvil.server.session['me']
   if not me:
     return {'success': False, 
             'msg': 'Not logged in.'}
@@ -400,8 +422,6 @@ def get_games():
     
     order += waiting
     assert len(order) == len(games)
-    anvil.server.session['games'] = games
-    anvil.server.session['needs_update'] = 
     
     return {'success': True,
             'msg': 'retreived {} games'.format(len(games)),
@@ -420,9 +440,13 @@ def make_game_active(game_id):
   '''
   if debug:
     print('make_game_active')
-  
+    
+  me = anvil.server.session['me']
+  if not me:
+    return {'success': False,
+           'msg': 'not logged in'}
+    
   game = app_tables.games.get_by_id(game_id)
-  me = anvil.users.get_user()
   
   if game['player_0'] == me:
     has_ball = 0
@@ -456,7 +480,8 @@ def throw(game_id):
   if debug:
     print('throw')
   # print('throw() called at {}'.format(game_id))
-  me = anvil.users.get_user()
+  
+  me = anvil.server.session['me']
   if not me:
     return {'success': False, 
             'msg': 'Not logged in.'}
@@ -497,9 +522,9 @@ def get_game(game_id):
      'game': game (row)}
   '''
   if debug:
-    print('get_game (1)')
+    print('get_game (single)')
   
-  me = anvil.users.get_user()
+  me = anvil.server.session['me']
   if not me:
     return {'success': False, 
             'msg': 'Not logged in.'}
@@ -522,18 +547,13 @@ def update_wall(number):
   if debug:
     print('update_wall')
 
-  me = anvil.users.get_user()
-  print(number)
-  print(me['wall_throws'])
-
+  me = anvil.server.session['me']
   if not me:
     return {'success': False, 
             'msg': 'Not logged in.',}
-  
-  print('setting')
+
   me['wall_throws'] = number
   # me.update(wall_throws=number)
-  print('set')
   return {'success': True}
 
 
@@ -542,7 +562,7 @@ def update_colors(color1, color2):
   if debug:
     print('update_colors')
 
-  me = anvil.users.get_user()
+  me = anvil.server.session['me']
   if not me:
     return {'success': False, 
             'msg': 'Not logged in.',}

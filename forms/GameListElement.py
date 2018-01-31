@@ -46,13 +46,15 @@ class GameListElement(GameListElementTemplate):
       time = self.game['last_throw_time']
       time = time.replace(tzinfo=None)
       now = datetime.utcnow()
+      
+      # TODO: fix 23 hours bug here
       delta = now - time
       if delta.days > 1:
         timestring = '{} days ago'.format(delta.days)
       elif delta.days == 1:
         timestring = '1 day ago'
       else:
-        if delta.seconds > 6000:
+        if delta.seconds > 3600:
           timestring = '{} hours ago'.format(delta.seconds // 3600)
         else:
           timestring = '{} minutes ago'.format(delta.seconds // 60)
@@ -82,7 +84,7 @@ class GameListElement(GameListElementTemplate):
   def update(self, updated_game):
     if self.game['throws'] != updated_game['throws'] or self.game['p1_enabled'] != updated_game['p1_enabled']:
       self.game = updated_game
-      self.set_labels()
+    self.set_labels()
 
   def expand(self, **event_args):
     if not self.game['p1_enabled']:

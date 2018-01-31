@@ -97,7 +97,6 @@ class PlayCatch (PlayCatchTemplate):
       else:
         self.opp_color_2 = colors.skin
 
-    
   def throw_button_click(self, **event_args):
     if self.game == 'wall':
       return self.throw_wall()

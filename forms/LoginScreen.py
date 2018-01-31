@@ -15,10 +15,10 @@ class LoginScreen (LoginScreenTemplate):
     
   def form_show(self, **event_args):
     # This method is called when the HTML panel is shown on the screen
-    me = anvil.users.get_user(allow_remembered=True)
-    if me:
+    sess = anvil.server.call('start_session')
+    if sess['success']:
       print('already logged in')
-      open_form('PlayScreen', user=me)
+      open_form('PlayScreen', user=sess['user'])
     else:
       print('not logged in')
       self.content_panel.add_component(Login())
