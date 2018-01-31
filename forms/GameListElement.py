@@ -34,14 +34,13 @@ class GameListElement(GameListElementTemplate):
         self.you = self.game['player_0']['phone_hash']
 
     self.set_labels()
-    
     self.set_event_handler('x-collapse', self.collapse)
     
   def set_labels(self):
     # clear
     self.background = colors.white
  
-    # Normal status for ongoing game
+    # is_active is status for any ongoing game (not highlighted only)
     if self.game['is_active']:
       time = self.game['last_throw_time']
       time = time.replace(tzinfo=None)
@@ -49,6 +48,7 @@ class GameListElement(GameListElementTemplate):
       
       # TODO: fix 23 hours bug here
       delta = now - time
+      print(delta)
       if delta.days > 1:
         timestring = '{} days ago'.format(delta.days)
       elif delta.days == 1:

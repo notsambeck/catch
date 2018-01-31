@@ -44,7 +44,7 @@ class PlayScreen (PlayScreenTemplate):
       server = anvil.server.call_s('get_games')
 
     
-    print(server['msg'])
+    print(server['msg'])  # retrieved 5 games
     if not server['success']:
       print('update failed', server['msg'])
       return None
@@ -56,14 +56,15 @@ class PlayScreen (PlayScreenTemplate):
         self.game_views[_id] = GameListElement(self.me, self.games[_id])
         self.content_panel.add_component(self.game_views[_id])
       print('made new game list')    
+      
     else:
       # successfully got games from server + there are already games
       if server['order'] == self.game_list:
         for _id in self.game_list:
           server_game = server['games'][_id]
-          local_game = self.games[_id]
-          if server_game['throws'] != local_game['throws']:
-            self.game_views[_id].update(server_game)
+          # local_game = self.games[_id]
+          # if server_game['throws'] != local_game['throws']:   # update only after throws
+          self.game_views[_id].update(server_game)
         print('quick updated game_list')
       # we have games; there are updated games. Clear and start over
       else:

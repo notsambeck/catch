@@ -184,7 +184,7 @@ def create_user(phone, password, handle):
       password_hash=bhash(password),
       phone_hash=hash_phone(phone),
       handle=handle,
-      account_created=datetime.now(),
+      account_created=datetime.utcnow(),
       confirmations_sent=0,
       twilio_code=generate_code(),
     )
@@ -227,7 +227,7 @@ def create_dummy(phone):
       enabled=False,
       dummy=True,
       phone_hash=hash_phone(phone),
-      account_created=datetime.now(),
+      account_created=datetime.utcnow(),
       confirmations_sent=0,
       twilio_code=generate_code(),
     )
@@ -369,13 +369,13 @@ def add_connection(phone):
     
     # no existing connection; make one
     game = app_tables.games.add_row(
-      connection_time=datetime.now(),
+      connection_time=datetime.utcnow(),
       is_active=False,
       player_0=me,
       player_1=other_user,
       p1_enabled=other_user['enabled'],
       throws=other_user['enabled'] - 2,
-      last_throw_time=datetime.now(),)
+      last_throw_time=datetime.utcnow(),)
           
     return {'success': True,
             'enabled': game['p1_enabled'],
@@ -460,7 +460,7 @@ def make_game_active(game_id):
   with tables.Transaction() as txn:
     game['is_active'] = True
     game['has_ball'] = has_ball
-    game['game_start_time'] = datetime.now()
+    game['game_start_time'] = datetime.utcnow()
     game['throws'] = 0
   # print('set game', game['player_1']['handle'], 'vs', game['player_2']['handle'], '.is_active to:', game['is_active'])
   return {'success': True,
@@ -500,7 +500,7 @@ def throw(game_id):
 
     game['has_ball'] = abs(1 - game['has_ball'])  # flip who has ball
     game['throws'] += 1
-    game['last_throw_time'] = datetime.now()
+    game['last_throw_time'] = datetime.utcnow()
 
   print('set')
   return {'success': True,
