@@ -118,10 +118,13 @@ def start_session():
   stores user info in memory at anvil.server.session['me']
   '''
   me = anvil.users.get_user(allow_remembered=True)
+  
   if me:
+    anvil.users.force_login(me, remember=True)
     anvil.server.session['me'] = me
     return {'success': True,
            'user': me}
+  
   else:
     return {'success': False,}
   
