@@ -32,6 +32,38 @@ class GameListElement(GameListElementTemplate):
       self.you = self.game['player_0']['handle']
       if not self.you:
         self.you = self.game['player_0']['phone_hash']
+             
+    # player0
+    if self.me['color_1']:
+      self.my_color_1 = self.me['color_1']
+    else:
+      self.my_color_1 = colors.black
+    if self.me['color_2']:
+      self.my_color_2 = self.me['color_2']
+    else:
+      self.my_color_2 = colors.skin
+      
+    # i am player_0
+    if self.am0:
+      if self.game['player_1']['color_1']:
+        self.opp_color_1 = self.game['player_1']['color_1']
+      else:
+        self.opp_color_1 = colors.black
+      if self.game['player_1']['color_2']:
+        self.opp_color_2 = self.game['player_1']['color_2']
+      else:
+        self.opp_color_2 = colors.skin
+      
+    # i am player_1
+    else:
+      if self.game['player_0']['color_1']:
+        self.opp_color_1 = self.game['player_0']['color_1']
+      else:
+        self.opp_color_1 = colors.black
+      if self.game['player_0']['color_2']:
+        self.opp_color_2 = self.game['player_0']['color_2']
+      else:
+        self.opp_color_2 = colors.skin
 
     self.set_labels()
     self.set_event_handler('x-collapse', self.collapse)

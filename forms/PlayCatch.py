@@ -64,42 +64,16 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_vx = -.04
 
   def set_labels(self):
-    # player0
-    if self.me['color_1']:
-      self.my_color_1 = self.me['color_1']
-    else:
-      self.my_color_1 = colors.black
-    if self.me['color_2']:
-      self.my_color_2 = self.me['color_2']
-    else:
-      self.my_color_2 = colors.skin
-
+    self.my_color_1 = self.me['color_1']
+    self.my_color_2 = self.me['color_2']
+    
     if self.game == 'wall':
       return None
+    
+    self.p1_name = self.wrapper.you
 
-    # i am player_0
-    if self.am0:
-      self.p1_name = self.game['player_1']['handle']
-      if self.game['player_1']['color_1']:
-        self.opp_color_1 = self.game['player_1']['color_1']
-      else:
-        self.opp_color_1 = colors.black
-      if self.game['player_1']['color_2']:
-        self.opp_color_2 = self.game['player_1']['color_2']
-      else:
-        self.opp_color_2 = colors.skin
-      
-    # i am player_1
-    else:
-      self.p1_name = self.game['player_0']['handle']
-      if self.game['player_0']['color_1']:
-        self.opp_color_1 = self.game['player_0']['color_1']
-      else:
-        self.opp_color_1 = colors.black
-      if self.game['player_0']['color_2']:
-        self.opp_color_2 = self.game['player_0']['color_2']
-      else:
-        self.opp_color_2 = colors.skin
+    self.opp_color_1 = self.wrapper.opp_color_1
+    self.opp_color_2 = self.wrapper.opp_color_2
 
   def throw_button_click(self, **event_args):
     if self.game == 'wall':
@@ -115,7 +89,7 @@ class PlayCatch (PlayCatchTemplate):
       return False
     else:
       self.game = throw_status['game']
-      self.parent.parent.parent.update(throw_status['game'])
+      self.wrapper.update(throw_status['game'])
 
     # reset y velocity
     self.ball_y = .78

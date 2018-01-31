@@ -28,7 +28,6 @@ class GameListWall(GameListWallTemplate):
   def expand(self, **event_args):
     # This method is called when the link is clicked
     # with Notification('Loading...'):
-    self.num_throws.text = 'WALL!      Throws: {}'.format(self.throws)
     self.parent.raise_event_on_children('x-collapse')
     self.game_view.visible = True
     self.game_summary.visible = False
@@ -36,16 +35,18 @@ class GameListWall(GameListWallTemplate):
     
   def collapse(self, **kwargs):
     if self.wall_active:
-      self.throws = self.game_view.get_components()[0].throws
+      self.throws = self.child.throws
       # print(throws)
       anvil.server.call_s('update_wall', self.throws)
+    self.num_throws.text = 'WALL!      Throws: {}'.format(self.throws)
     self.game_view.clear()
     self.game_summary.visible = True
     self.wall_active = False
 
   def game_view_show (self, **event_args):
     # This method is called when the linear panel is shown on the screen
-    self.game_view.add_component(PlayCatch('wall', self.me, self))
+    self.child = PlayCatch('wall', self.me, self)
+    self.game_view.add_component(self.child)
 
 
 
