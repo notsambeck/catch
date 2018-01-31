@@ -39,6 +39,7 @@ class PlayScreen (PlayScreenTemplate):
       server = anvil.server.call_s('get_games')
     except anvil.server.SessionExpiredError:
       print('session expired; resetting session')
+      anvil.server.reset_session()
       anvil.server.call('start_session')
       server = anvil.server.call_s('get_games')
 
