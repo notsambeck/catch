@@ -33,14 +33,14 @@ def has_stored_login():
   user = anvil.users.get_user(allow_remembered=True)
   if user:
     print('already logged in')
-    return True
+    return user
 
   print('not previously logged in...')
-  me = anvil.server.cookies.local.get('user')
+  user = anvil.server.cookies.local.get('user')
   
-  if me:
-    print('cookie exists for {}'.format(me.get_id()))
-    return me
+  if user:
+    print('cookie exists for {}'.format(user.get_id()))
+    return user
   
   else:
     print('no login cookie stored')
@@ -124,7 +124,16 @@ def start_session():
     anvil.users.force_login(me, remember=True)
     anvil.server.session['me'] = me
     return {'success': True,
-           'user': me}
+           'user': me,
+           'msg': 'remembered'}
+
+  me = anvil.server.cookies.local.get('user')
+  
+  if me:
+    print('cookie exists for {}'.format(me.get_id()))
+    return {'success': True,
+           'user': me,
+           'msg': 'cookie'}
   
   else:
     return {'success': False,}
@@ -307,11 +316,11 @@ def confirm_account(code, phone):
     anvil.users.force_login(me)
     
     # pre-activate games that dummy was in already
-    existing_game_refs = app_tables.games.search(player_1=me)
+    existing_games = app_tables.games.search(player_1=me)
     
-    for row in existing_game_refs:
-      row['game']['p1_enabled'] = True
-      row['game']['throws'] = -1
+    for game in existing_games:
+      game['p1_enabled'] = True
+      game['throws'] = -1
   
     return {'success': True, 
             'msg': 'confirmed',}
@@ -341,13 +350,15 @@ def add_connection(phone):
   if not me:
     return {
       'success': False,
-      'msg': 'Not logged in.',}
+      'msg': 'Not logged in.',
+    }
   
   other_user = app_tables.users.get(phone_hash=hash_phone(phone))
   if not other_user:
     return {
       'success': False,
-      'msg': 'other player did not have an account',}
+      'msg': 'other player did not have an account',
+    }
   
   if other_user['handle']:
     # print('add connection to', other_user['handle'])
