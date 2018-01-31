@@ -20,5 +20,9 @@ class LoginScreen (LoginScreenTemplate):
       print('already logged in')
       open_form('PlayScreen', user=sess['user'])
     else:
-      print('not logged in')
-      self.content_panel.add_component(Login())
+      cooky = anvil.server.call('has_stored_login')
+      if cooky:
+        open_form('PlayScreen', user=cooky)
+      else:
+        print('not logged in')
+        self.content_panel.add_component(Login())

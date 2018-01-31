@@ -88,6 +88,7 @@ def do_login(phone, password, stay_logged_in):
       if user['enabled']:
         anvil.users.force_login(user, remember=stay_logged_in)
         anvil.server.session['me'] = user
+        anvil.server.cookies.local['user'] = user   # backup login
         
         return {'success': True,
                 'enabled': True,
