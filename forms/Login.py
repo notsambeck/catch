@@ -5,6 +5,10 @@ import anvil.users
 from utils import is_valid_number
 from ConfirmAccount import ConfirmAccount
 
+from utils import ErrorHandler
+error_handler = ErrorHandler(alert)
+
+
 class Login(LoginTemplate):
   def __init__(self, **properties):
     # You must call self.init_components() before doing anything else in this function

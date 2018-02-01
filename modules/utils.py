@@ -1,8 +1,31 @@
-# import anvil.server
+import anvil.server
 # import anvil.users
 # import tables
 # from tables import app_tables
 import random
+
+
+class ErrorHandler:
+  def __init__(self, display_function):
+    '''
+    error handler that is called by an error, does display_function
+    display_function could be Notification, alert, or print(python3)/future.print_function(python2.7)
+    
+    
+    '''
+    self.display_function = display_function
+  
+  def __call__(self, err):
+    self.display_function(err)
+    anvil.server.reset_session()
+    me = anvil.server.call('start_session')
+    if me:
+      open_form('PlayScreen', me)
+    else:
+      open_form('LoginScreen')
+
+
+
 
 def is_valid_number(number):
   '''

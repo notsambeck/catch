@@ -6,14 +6,8 @@ from tables import app_tables
 from utils import is_valid_color
 import colors
 
-
-def error_handler(err):
-  # TODO: change this behaviour for release
-  me = anvil.server.call('start_session')
-  if me:
-    open_form('PlayScreen', me)
-  else:
-    open_form('LoginScreen')
+from utils import ErrorHandler
+error_handler = ErrorHandler(alert)
 
 
 class MyAccountScreen (MyAccountScreenTemplate):
@@ -26,12 +20,16 @@ class MyAccountScreen (MyAccountScreenTemplate):
     # self.content_panel.width = default by default
     # self.w = int(str([char for char in self.content_panel.width if char in '1234567890']))
     set_default_error_handling(error_handler)
+    
     self.me = anvil.users.get_user()
+    
     self.handle_label.text = self.me['handle']
     self.phone_number_label.text = self.me['phone_hash']
     my_games = anvil.server.call_s('get_games')
+    
     if not my_games['success']:
-      return False
+      Notification(my_games['msg']).show()
+    
     throws = 0
     for game in my_games['order']:
       throws += my_games['games'][game]['throws']

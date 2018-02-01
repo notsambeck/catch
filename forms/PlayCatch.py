@@ -5,16 +5,9 @@ import random
 import drawing
 import colors
 
+from utils import ErrorHandler
+error_handler = ErrorHandler(alert)
 
-def error_handler(err):
-  # TODO: change this behaviour for release
-  me = anvil.server.call('start_session')
-  if me:
-    open_form('PlayScreen', me)
-  else:
-    open_form('LoginScreen')
-
-    
 # TODO: remove the related code from web_callable before deployment
 # as it may be a minor security issue
 # random_id = anvil.server.call('some_connection')
@@ -42,7 +35,7 @@ class PlayCatch (PlayCatchTemplate):
       
     # else game == wall
     else:
-      self.throws = self.wrapper.throws
+      self.throws = self.me['wall_throws']
     
     # motion loop counter
     self.counter = 0

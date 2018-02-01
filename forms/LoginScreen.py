@@ -5,14 +5,8 @@ import tables
 from tables import app_tables
 from Login import Login
 
-
-def error_handler(err):
-  # TODO: change this behaviour for release
-  me = anvil.server.call('start_session')
-  if me:
-    open_form('PlayScreen', me)
-  else:
-    open_form('LoginScreen')
+from utils import ErrorHandler
+error_handler = ErrorHandler(alert)
 
 
 class LoginScreen (LoginScreenTemplate):
@@ -25,4 +19,4 @@ class LoginScreen (LoginScreenTemplate):
     
     # anvil.server.call('delete_cookie')
     anvil.server.reset_session()
-    
+ 

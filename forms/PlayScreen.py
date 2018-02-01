@@ -8,15 +8,8 @@ from GameListElement import GameListElement
 from GameListWall import GameListWall
 
 import colors
-
-
-def error_handler(err):
-  # TODO: change this behaviour for release
-  me = anvil.server.call('start_session')
-  if me:
-    open_form('PlayScreen', me)
-  else:
-    open_form('LoginScreen')
+from utils import ErrorHandler
+error_handler = ErrorHandler(alert)
 
 
 class PlayScreen (PlayScreenTemplate):
