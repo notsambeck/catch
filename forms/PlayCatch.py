@@ -195,7 +195,10 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_style = colors.white
     
     # ball:
-    ball = drawing.Circle(self.ball_x, self.ball_y, .019).draw()
+    if self.counter % 5 and (self.game == 'wall' or (self.game != 'wall' and self.i_have_ball)):
+      ball = drawing.Circle(self.ball_x, self.ball_y, .022).draw()
+    else:
+      ball = drawing.Circle(self.ball_x, self.ball_y, .017).draw()
 
     # text:
     c.font = '{}px sans-serif'.format(self.h//16)
