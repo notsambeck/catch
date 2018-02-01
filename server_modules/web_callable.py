@@ -25,6 +25,8 @@ def bhash(_string):
 @anvil.server.callable
 def has_stored_login():
   '''
+  TODO: This is a duplicate of start_session; merge
+  
   check for cookie with user id. encrypted, so this by itself is adequate security.
   if cookie exists, user is loged in.
   returns:
@@ -36,7 +38,7 @@ def has_stored_login():
     return user
 
   print('not previously logged in...')
-  user = anvil.server.cookies.local.get('user')
+  me = anvil.server.cookies.local.get('user', False)
   
   if user:
     print('cookie exists for {}'.format(user.get_id()))
@@ -115,6 +117,7 @@ def do_login(phone, password, stay_logged_in):
 @anvil.server.callable
 def start_session():
   '''
+  TODO: mergge with has_saved_login (above)
   start a new session for returning user.
   stores user info in memory at anvil.server.session['me']
   '''
@@ -129,7 +132,7 @@ def start_session():
            'user': me,
            'msg': 'remembered'}
 
-  me = anvil.server.cookies.local.get('user')
+  me = anvil.server.cookies.local.get('user', False)
   
   if me:
     print('cookie exists for {}'.format(me.get_id()))
@@ -225,7 +228,7 @@ def create_dummy(phone):
     {success: True if success; False if user exists,
      msg: string explains status,
   '''
-  assert anvil.server.session['me']
+  assert anvil.server.session.get('me', False)
   assert isinstance(phone, str)
 
   phone = is_valid_number(phone)
