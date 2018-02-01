@@ -8,13 +8,7 @@ from GameListElement import GameListElement
 from GameListWall import GameListWall
 
 import colors
-
-
-def error_handler(err):
-  # TODO: change this behaviour for release
-  Notification(str(err), title='Error bypassed').show()
-  open_form('LoginScreen')
-
+from utils import error_handler
 
 class PlayScreen (PlayScreenTemplate):
   def __init__(self, user, game=None, **properties):

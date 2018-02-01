@@ -5,11 +5,7 @@ import random
 import drawing
 import colors
 
-
-def error_handler(err):
-  # TODO: change this behaviour for release
-  Notification(str(err), title='Error bypassed').show()
-  open_form('LoginScreen')
+from utils import error_handler
 
 # TODO: remove the related code from web_callable before deployment
 # as it may be a minor security issue
