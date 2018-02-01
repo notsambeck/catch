@@ -6,6 +6,16 @@ from tables import app_tables
 from utils import is_valid_color
 import colors
 
+
+def error_handler(err):
+  # TODO: change this behaviour for release
+  me = anvil.server.call('start_session')
+  if me:
+    open_form('PlayScreen', me)
+  else:
+    open_form('LoginScreen')
+
+
 class MyAccountScreen (MyAccountScreenTemplate):
   def __init__(self, **properties):
     # You must call self.init_components() before doing anything else in this function
@@ -15,7 +25,7 @@ class MyAccountScreen (MyAccountScreenTemplate):
 
     # self.content_panel.width = default by default
     # self.w = int(str([char for char in self.content_panel.width if char in '1234567890']))
-    
+    set_default_error_handling(error_handler)
     self.me = anvil.users.get_user()
     self.handle_label.text = self.me['handle']
     self.phone_number_label.text = self.me['phone_hash']

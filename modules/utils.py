@@ -2,17 +2,7 @@
 # import anvil.users
 # import tables
 # from tables import app_tables
-import anvil.server
 import random
-
-def error_handler(err):
-  # TODO: change this behaviour for release
-  me = anvil.server.call('start_session')
-  if me:
-    open_form('PlayScreen', me)
-  else:
-    open_form('LoginScreen')
-
 
 def is_valid_number(number):
   '''

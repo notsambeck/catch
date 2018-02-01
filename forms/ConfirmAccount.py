@@ -25,7 +25,7 @@ class ConfirmAccount (ConfirmAccountTemplate):
     resp = anvil.server.call('confirm_account', self.confirmation_code.text, self.phone)
     if resp['success']:
       Notification('Account confirmed.', title='Success!')
-      open_form('PlayScreen')
+      open_form('PlayScreen', resp['user'])
     else:
       alert(resp['msg'])
       if resp['goto_login']:

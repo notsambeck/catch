@@ -5,8 +5,16 @@ import random
 import drawing
 import colors
 
-from utils import error_handler
 
+def error_handler(err):
+  # TODO: change this behaviour for release
+  me = anvil.server.call('start_session')
+  if me:
+    open_form('PlayScreen', me)
+  else:
+    open_form('LoginScreen')
+
+    
 # TODO: remove the related code from web_callable before deployment
 # as it may be a minor security issue
 # random_id = anvil.server.call('some_connection')
@@ -47,7 +55,6 @@ class PlayCatch (PlayCatchTemplate):
     self.canvas_1.visible = True
   
   def set_directions(self):
-    
     self.ball_moving = False
     # set y / y_velocity
     self.ball_y = .78
@@ -56,8 +63,9 @@ class PlayCatch (PlayCatchTemplate):
     if self.game == 'wall':
       self.ball_x = .12
       self.ball_vx = .04
-
+  
     else:
+      
       if self.am0:
         self.i_have_ball = self.game['has_ball'] == 0
       else:
@@ -71,8 +79,8 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_vx = -.04
 
   def set_labels(self):
-    self.my_color_1 = self.me['color_1']
-    self.my_color_2 = self.me['color_2']
+    self.my_color_1 = self.me['color_1'] or colors.black
+    self.my_color_2 = self.me['color_2'] or colors.skin
     
     if self.game == 'wall':
       return None
@@ -209,7 +217,7 @@ class PlayCatch (PlayCatchTemplate):
       c.text_align = 'left'
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(self.throws), pad, pad)
-      c.fill_text('RANK: {}'.format(1000 // self.throws), pad, pad + self.h // 14)
+      c.fill_text('RANK: {}'.format(1000 // (self.throws + 1)), pad, pad + self.h // 14)
       if self.throws < 3:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
@@ -222,7 +230,7 @@ class PlayCatch (PlayCatchTemplate):
       c.fill_text('Me', pad, self.h - pad)
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(self.game['throws']), pad, pad)
-      c.fill_text('RANK: {}'.format(1000 // self.game['throws']), pad, pad + self.h // 14)
+      c.fill_text('RANK: {}'.format(1000 // (self.game['throws'] + 1)), pad, pad + self.h // 14)
       if self.i_have_ball and self.game['throws'] < 2 and not self.ball_moving and self.counter % 5:
         c.text_align = 'center'
         c.text_baseline = 'bottom'

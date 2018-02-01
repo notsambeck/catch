@@ -187,7 +187,8 @@ def create_user(phone, password, handle):
         handle=handle,
         password_hash=bhash(password),
         twilio_code=generate_code(),
-        confirmations_sent=0,)
+        confirmations_sent=0,
+        wall_throws=0,)
   
   # OR:
   # account does not exist
@@ -200,6 +201,7 @@ def create_user(phone, password, handle):
       handle=handle,
       account_created=datetime.utcnow(),
       confirmations_sent=0,
+      wall_throws=0,
       twilio_code=generate_code(),
     )
     
@@ -323,7 +325,9 @@ def confirm_account(code, phone):
       game['throws'] = -1
   
     return {'success': True, 
-            'msg': 'confirmed',}
+            'msg': 'confirmed',
+            'goto_login': False,
+            'user': me,}
   
   else:
     return {'success': False,

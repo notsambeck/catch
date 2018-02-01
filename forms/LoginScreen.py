@@ -5,7 +5,15 @@ import tables
 from tables import app_tables
 from Login import Login
 
-from utils import error_handler
+
+def error_handler(err):
+  # TODO: change this behaviour for release
+  me = anvil.server.call('start_session')
+  if me:
+    open_form('PlayScreen', me)
+  else:
+    open_form('LoginScreen')
+
 
 class LoginScreen (LoginScreenTemplate):
   def __init__(self, **properties):
