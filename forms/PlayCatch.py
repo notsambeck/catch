@@ -231,10 +231,10 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(self.game['throws']), pad, pad)
       c.fill_text('RANK: {}'.format(1000 // (self.game['throws'] + 1)), pad, pad + self.h // 14)
-      if self.i_have_ball and self.game['throws'] < 2 and not self.ball_moving and self.counter % 5:
+      if self.i_have_ball and self.game['throws'] < 4 and not self.ball_moving and self.counter % 5:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
-        c.fill_text('TAP TO THROW', c.get_width() // 2, pad)
+        c.fill_text('TAP TO THROW', self.w // 2, self.h - pad)
     
     # move ball: not wall
     if self.ball_moving and not self.game == 'wall':

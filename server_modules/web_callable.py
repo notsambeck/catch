@@ -123,6 +123,8 @@ def start_session():
   if me:
     anvil.users.force_login(me, remember=True)
     anvil.server.session['me'] = me
+    me = anvil.server.cookies.local['user'] = me
+
     return {'success': True,
            'user': me,
            'msg': 'remembered'}
@@ -131,6 +133,7 @@ def start_session():
   
   if me:
     print('cookie exists for {}'.format(me.get_id()))
+    me = anvil.server.cookies.local['user'] = me
     return {'success': True,
            'user': me,
            'msg': 'cookie'}
@@ -316,6 +319,8 @@ def confirm_account(code, phone):
   if code == me['twilio_code']:
     me['enabled'] = True
     anvil.users.force_login(me)
+    start_session()
+    
     
     # pre-activate games that dummy was in already
     existing_games = app_tables.games.search(player_1=me)
