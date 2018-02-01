@@ -228,7 +228,13 @@ def create_dummy(phone):
     {success: True if success; False if user exists,
      msg: string explains status,
   '''
-  assert anvil.server.session.get('me', False)
+  me = anvil.server.session.get('me', False)
+  if not me:
+    return {
+      'success': False,
+      'msg': 'not logged in',
+    }
+  
   assert isinstance(phone, str)
 
   phone = is_valid_number(phone)
@@ -279,9 +285,13 @@ def get_user_id_by_phone(phone):
     None: if user does not exist
     '''
   # only works for logged in user
-  if not anvil.server.session['me']:
-    return {'success': False,
-            'msg': 'not logged in'}
+  me = anvil.server.session.get('me', False)
+  if not me:
+    return {
+      'success': False,
+      'msg': 'not logged in',
+    }
+  
   
   u = app_tables.users.get(phone_hash=hash_phone(phone))  # needs to be called with keyword arg for table column name
   if u:
@@ -358,12 +368,13 @@ def add_connection(phone):
      'msg': status description,
      'game': game (row reference),}
   '''
-  me = anvil.server.session['me']
+  me = anvil.server.session.get('me', False)
   if not me:
     return {
       'success': False,
-      'msg': 'Not logged in.',
+      'msg': 'not logged in',
     }
+  
   
   other_user = app_tables.users.get(phone_hash=hash_phone(phone))
   if not other_user:
@@ -424,11 +435,13 @@ def get_games(server=False):
   if debug:
     print('get_games (all)')
     
-  me = anvil.server.session['me']
+  me = anvil.server.session.get('me', False)
   if not me:
-    return {'success': False, 
-            'msg': 'Not logged in.'}
-  
+    return {
+      'success': False,
+      'msg': 'not logged in',
+    }
+   
   else:
     games = {}
     order = []
@@ -467,11 +480,13 @@ def make_game_active(game_id):
   if debug:
     print('make_game_active')
     
-  me = anvil.server.session['me']
+  me = anvil.server.session.get('me', False)
   if not me:
-    return {'success': False,
-           'msg': 'not logged in'}
-    
+    return {
+      'success': False,
+      'msg': 'not logged in',
+    }
+      
   game = app_tables.games.get_by_id(game_id)
   
   if game['player_0'] == me:
@@ -507,11 +522,13 @@ def throw(game_id):
     print('throw')
   # print('throw() called at {}'.format(game_id))
   
-  me = anvil.server.session['me']
+  me = anvil.server.session.get('me', False)
   if not me:
-    return {'success': False, 
-            'msg': 'Not logged in.'}
-
+    return {
+      'success': False,
+      'msg': 'not logged in',
+    }
+  
   game = app_tables.games.get_by_id(game_id)
   if not game['is_active']:
     return {'success': False, 
@@ -549,12 +566,14 @@ def get_game(game_id):
   '''
   if debug:
     print('get_game (single)')
-  
-  me = anvil.server.session['me']
-  if not me:
-    return {'success': False, 
-            'msg': 'Not logged in.'}
 
+  me = anvil.server.session.get('me', False)
+  if not me:
+    return {
+      'success': False,
+      'msg': 'not logged in',
+    }
+  
   game = app_tables.games.get_by_id(game_id)
   
   if not (game['player_0'] == me or game['player_1'] == me):
@@ -573,11 +592,13 @@ def update_wall(number):
   if debug:
     print('update_wall')
 
-  me = anvil.server.session['me']
+  me = anvil.server.session.get('me', False)
   if not me:
-    return {'success': False, 
-            'msg': 'Not logged in.',}
-
+    return {
+      'success': False,
+      'msg': 'not logged in',
+    }
+  
   me['wall_throws'] = number
   # me.update(wall_throws=number)
   return {'success': True}
@@ -588,11 +609,13 @@ def update_colors(color1, color2):
   if debug:
     print('update_colors')
 
-  me = anvil.server.session['me']
+  me = anvil.server.session.get('me', False)
   if not me:
-    return {'success': False, 
-            'msg': 'Not logged in.',}
-  
+    return {
+      'success': False,
+      'msg': 'not logged in',
+    }
+
   me['color_1'] = color1
   me['color_2'] = color2
   return {'success': True,
