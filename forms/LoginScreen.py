@@ -13,6 +13,7 @@ class LoginScreen (LoginScreenTemplate):
     self.init_components(**properties)
     
     set_default_error_handling(error_handler)
+    self.content_panel.add_component(Login())
     
     # anvil.server.call('delete_cookie')
     anvil.server.reset_session()

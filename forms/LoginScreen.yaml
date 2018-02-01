@@ -3,14 +3,7 @@ components:
   properties: {col_widths: '{}'}
   name: content_panel
   layout_properties: {slot: default}
-  components:
-  - type: Label
-    properties: {role: null, width: default, align: center, border: '', foreground: '',
-      visible: true, text: Catch, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-      underline: false, icon: ''}
-    name: label_1
-    layout_properties: {slot: title, grid_position: 'LWKNPN,ODCRUY'}
+  components: []
 - type: Label
   properties: {}
   name: logged_in_label

@@ -9,7 +9,6 @@ class Handler (HandlerTemplate):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
 
-
   def form_show (self, **event_args):
     # This method is called when the column panel is shown on the screen
     sess = anvil.server.call('start_session')
@@ -22,6 +21,6 @@ class Handler (HandlerTemplate):
         open_form('PlayScreen', user=cooky)
       else:
         print('not logged in')
-        self.content_panel.add_component(Login())
+        open_form('LoginScreen')
 
 
