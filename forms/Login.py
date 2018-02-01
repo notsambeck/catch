@@ -39,6 +39,7 @@ class Login(LoginTemplate):
     This method is called when the submit button is clicked.
     Returns True on successful exit, else False'''
 
+    anvil.server.reset_session()
     number = is_valid_number(self.phone.text)
   
     if not number:
