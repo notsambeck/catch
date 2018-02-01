@@ -196,7 +196,7 @@ class PlayCatch (PlayCatchTemplate):
     
     # ball:
     if self.counter % 5 and (self.game == 'wall' or (self.game != 'wall' and self.i_have_ball)):
-      ball = drawing.Circle(self.ball_x, self.ball_y, .022).draw()
+      ball = drawing.Circle(self.ball_x -.001, self.ball_y, .019).draw()
     else:
       ball = drawing.Circle(self.ball_x, self.ball_y, .017).draw()
 
