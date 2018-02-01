@@ -11,6 +11,7 @@ class Handler (HandlerTemplate):
 
   def form_show (self, **event_args):
     # This method is called when the column panel is shown on the screen
+    anvil.server.reset_session()
     sess = anvil.server.call('start_session')
     if sess['success']:
       print('already logged in')
