@@ -198,25 +198,32 @@ class PlayCatch (PlayCatchTemplate):
     ball = drawing.Circle(self.ball_x, self.ball_y, .019).draw()
 
     # text:
-    c.font = '{}px sans-serif'.format(self.h//10)
-    
-    pad = 6
-    c.text_align = 'left'
-    c.text_baseline = 'top'
-    # tap to throw text
-    if (self.game == 'wall' or self.i_have_ball) and not self.ball_moving and self.counter % 5:
-      c.fill_text('TAP TO THROW', pad, pad)
-    
     c.font = '{}px sans-serif'.format(self.h//16)
-    c.text_align = 'right'
-    c.text_baseline = 'bottom'
+    pad = 7
 
+    # tap to throw text
     if self.game == 'wall':
-      c.fill_text('THROWS: {}'.format(self.throws), self.w - pad, self.h - pad)
+      c.text_align = 'left'
+      c.text_baseline = 'top'
+      c.fill_text('THROWS: {}'.format(self.throws), pad, pad)
+      c.fill_text('RANK: {}'.format(1000 // self.throws), pad, pad + self.h // 14)
+      if self.throws < 3:
+        c.text_align = 'center'
+        c.text_baseline = 'bottom'
+        c.fill_text('TAP TO THROW', c.get_width() // 2, pad)
     else:
+      c.text_align = 'right'
+      c.text_baseline = 'bottom'
       c.fill_text(self.p1_name, self.w - pad, self.h - pad)
       c.text_align = 'left'
       c.fill_text('Me', pad, self.h - pad)
+      c.text_baseline = 'top'
+      c.fill_text('THROWS: {}'.format(self.game['throws']), pad, pad)
+      c.fill_text('RANK: {}'.format(1000 // self.game['throws']), pad, pad + self.h // 14)
+      if self.i_have_ball and self.game['throws'] < 2 and not self.ball_moving and self.counter % 5:
+        c.text_align = 'center'
+        c.text_baseline = 'bottom'
+        c.fill_text('TAP TO THROW', c.get_width() // 2, pad)
     
     # move ball: not wall
     if self.ball_moving and not self.game == 'wall':
