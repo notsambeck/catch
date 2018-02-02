@@ -130,9 +130,9 @@ def start_session():
     print('cookie exists for {}'.format(my_id))
     
     # clear cookie and make new one
-    anvil.server.cookies.local.clear()
     me = app_tables.users.get_by_id(my_id)
     if row_login(me, True):
+      anvil.server.cookies.local.clear()
       return {'success': True,
               'user': me,
               'msg': 'cookie found, logging in (WEIRD!)'}
