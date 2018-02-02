@@ -24,10 +24,10 @@ class GameListContacts (GameListContactsTemplate):
     
   def expand(self, **event_args):
     # This method is called when the link is clicked
-    with Notification('Loading...'):
-      self.parent.raise_event_on_children('x-collapse')
-      self.game_view.add_component(AddContacts())
-      self.game_summary.visible = False
+    # self.parent.raise_event_on_children('x-collapse')
+    get_open_form().collapse_except_id('bottom_contacts')
+    self.game_view.add_component(AddContacts())
+    self.game_summary.visible = False
       
   def collapse(self, **kwargs):
     self.game_view.clear()

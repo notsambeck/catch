@@ -70,7 +70,7 @@ class PlayCatch (PlayCatchTemplate):
   def set_labels(self):
     self.my_color_1 = self.wrapper.my_color_1
     self.my_color_2 = self.wrapper.my_color_2
-    print('PlayCatch', self.my_color_1)
+    # print('PlayCatch', self.my_color_1)
     
     if self.game == 'wall':
       return True
@@ -256,7 +256,7 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_arrived()
 
     # update from server
-    if self.game != 'wall' and self.counter % 30 == 29 and not self.ball_moving and not self.i_have_ball:
+    if self.game != 'wall' and self.counter % 20 == 19 and not self.ball_moving and not self.i_have_ball:
       game_live = anvil.server.call_s('get_game', self.game.get_id())
       if not game_live['success']:
         print(game_live['msg'])
@@ -271,7 +271,7 @@ class PlayCatch (PlayCatchTemplate):
   def canvas_1_show (self, **event_args):
     # This method is called when the Canvas is shown on the screen
     self.w, self.h = drawing.CanvasObject.set_canvas(self.canvas_1)
-    print('canvas: w={} h={}'.format(self.w, self.h))
+    # print('canvas: w={} h={}'.format(self.w, self.h))
     self.canvas_1.height = '{}px'.format(self.h)
     self.canvas_1.reset_context()
 

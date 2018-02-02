@@ -12,7 +12,7 @@ debug = True
 
 
 @anvil.server.callable
-def get_games(wall_throws=0, server=False):
+def get_games(wall_throws=0, server=False, quick=False):
   '''
   get all the connections for current user
   
@@ -33,14 +33,31 @@ def get_games(wall_throws=0, server=False):
       'msg': 'not logged in',
     }
    
-  else:
-    me['wall_throws'] = max(wall_throws, me['wall_throws'])
-    games = {}
-    order = []
-    waiting = []
-    
-    with tables.Transaction() as txn:
-      for game in app_tables.games.search(tables.order_by('throws', ascending=False)):
+  me['wall_throws'] = max(wall_throws, me['wall_throws'])
+  games = {}
+  order = []
+  waiting = []
+
+
+
+  with tables.Transaction() as txn:
+    # update from stored game list instead of searching
+    if anvil.server.session.get('order', False) and quick:
+      games_to_send = {}
+      msg = 'quick retreived {} games'
+      for _id in anvil.server.session['order']:
+        cache = anvil.server.session['cached_games'][_id]
+        live = app_tables.games.get_by_id(_id)
+        if cache != live:
+          games_to_send[_id] = live
+          anvil.server.session['cached_games'][_id] = live
+        else:
+          games_to_send[_id] = False
+          
+    else:
+      game_list = [game for game in app_tables.games.search(tables.order_by('throws', ascending=False))]
+      msg = 'retreived all {} games'
+      for game in game_list:
         if game['player_0'] == me or game['player_1'] == me:
           _id = game.get_id()
           if not game['p1_enabled']:
@@ -48,18 +65,23 @@ def get_games(wall_throws=0, server=False):
           else:
             order.append(_id)
           games[_id] = game
-    
-    order += waiting
-    assert len(order) == len(games)
-    
-    if server:
-      return games
-    
-    return {'success': True,
-            'msg': 'retreived {} games'.format(len(games)),
-            'order': order,
-            'wall_throws': me['wall_throws'],
-            'games': games,}
+      games_to_send = games
+  
+  order += waiting
+  msg = msg.format(len(order))
+  
+  anvil.server.session['order'] = order   # [_id]
+  anvil.server.session['cached_games'] = games   # {_id: game}
+  
+  # internal use to generate game list for new user
+  if server:
+    return games
+
+  return {'success': True,
+          'msg': msg,
+          'order': order,
+          'wall_throws': me['wall_throws'],
+          'games': games,}
 
 
 @anvil.server.callable
@@ -113,7 +135,7 @@ def throw(game_id):
   return game row.
   '''
   if debug:
-    print('throw')
+    print('throw()')
   # print('throw() called at {}'.format(game_id))
   
   me = anvil.server.session.get('me', False)
@@ -135,14 +157,14 @@ def throw(game_id):
     return {'success': False,
             'msg': 'you did not have the ball'}
 
-  print('setting:')
+  # print('setting:')
   with tables.Transaction() as txn:
 
     game['has_ball'] = abs(1 - game['has_ball'])  # flip who has ball
     game['throws'] += 1
     game['last_throw_time'] = datetime.utcnow()
 
-  print('set')
+  # print('set')
   return {'success': True,
           'game': game}
 
@@ -173,7 +195,7 @@ def get_game(game_id):
   if not (game['player_0'] == me or game['player_1'] == me):
     print('attempted to throw in someone elses game')
     return {'success': False, 
-            'msg': 'You are not in that game.'}
+            'msg': 'You are not in that game, cheater.'}
   
   else:
     # print(game['has_ball'], ' has the ball')

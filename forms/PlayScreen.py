@@ -17,29 +17,32 @@ class PlayScreen (PlayScreenTemplate):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
 
+    set_default_error_handling(error_handler)
     self.top_contacts.visible = False
     
     self.me = user
     name = self.me['handle']
     self.wall_throws = self.me['wall_throws']
     self.handle.text = 'user: {}'.format(name)   # for menu bar
+    self.active_view = 'wall'
     
     self.game_views = {}  # {game_id: GameListElement(games row)) 
     self.game_list = []   # list of game_ids IN DISPLAY ORDER
 
+    self.update_loop = 0   # quick update counter
     self.top_contacts.add_component(GameListContacts())
     
-    set_default_error_handling(error_handler)
-    
   def update_connections(self):
+    quick = bool(self.update_loop % 12)
+    self.update_loop += 1
     try:
-      server = anvil.server.call_s('get_games', wall_throws=self.wall_throws)
+      server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
       self.wall_throws = server['wall_throws']
     except anvil.server.SessionExpiredError:
-      print('session expired; resetting session')
+      print('WARNING: session expired; resetting...')
       anvil.server.reset_session()
       anvil.server.call('start_session')
-      server = anvil.server.call_s('get_games', wall_throws=self.wall_throws)
+      server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
       self.wall_throws = server['wall_throws']
 
     print(server['msg'])    # retrieved n games
@@ -47,17 +50,10 @@ class PlayScreen (PlayScreenTemplate):
       print('update failed', server['msg'])
       return None
     
-    elif not self.game_list:
-      self.game_list = server['order']
-      for _id in self.game_list:
-        self.game_views[_id] = GameListElement(self.me, server['games'][_id])
-        self.content_panel.add_component(self.game_views[_id])
-      print('made new game list')    
-      
     else:
       # successfully got games from server + there are already games
-      if server['order'] == self.game_list:
-        for _id in self.game_list:
+      if server['order'] == self.game_list[1:-1]:  # game_list includes wall and bottom_contacts
+        for _id in server['order']:
           server_game = server['games'][_id]
           self.game_views[_id].update(server_game)
         print('quick updated game_list')
@@ -65,16 +61,23 @@ class PlayScreen (PlayScreenTemplate):
       # local game_list is out of date. Clear and start over
       else:
         self.content_panel.clear()
-        self.game_list = server['order']
-        self.content_panel.add_component(GameListWall(self.me))
-        for _id in self.game_list:
+        self.game_views['wall'] = GameListWall(self.me)
+        self.content_panel.add_component(self.game_views['wall'])
+        
+        for _id in server['order']:
           self.game_views[_id] = GameListElement(self.me, server['games'][_id])  # make the panel
           self.content_panel.add_component(self.game_views[_id])            # attach to this form
-        self.content_panel.add_component(GameListContacts())
-        print('updated game_list')
+        
+        self.game_views['bottom_contacts'] = GameListContacts()
+        self.content_panel.add_component(self.game_views['bottom_contacts'])
+        
+        self.game_list = ['wall'] + server['order'] + ['bottom_contacts']
+        self.game_views[self.active_view].expand()
+        print('made new game_list')
         
   def add_game(self, game):
     # game has been added at the server; just update from there as per usual
+    self.update_loop = 0
     self.timer_1_tick()
     
   def logout_button_click (self, **event_args):
@@ -104,7 +107,11 @@ class PlayScreen (PlayScreenTemplate):
 
   def content_panel_show (self, **event_args):
     # This method is called when the column panel is shown on the screen
-    self.content_panel.add_component(GameListWall(self.me))
-    
     self.update_connections()
-    self.content_panel.add_component(GameListContacts())
+    
+  def collapse_except_id(self, game_id):
+    # formerly: self.parent.raise_event_on_children('x-collapse')
+    self.active_view = game_id
+    for _id in self.game_list:
+      if _id != game_id:
+        self.game_views[_id].collapse()

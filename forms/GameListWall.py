@@ -34,13 +34,11 @@ class GameListWall(GameListWallTemplate):
       self.my_color_2 = colors.skin
     # print('GameListWall', self.my_color_1)
 
-    self.expand()
     
   def expand(self, **event_args):
     # This method is called when the link is clicked
     # with Notification('Loading...'):
-    if self.parent:
-      self.parent.raise_event_on_children('x-collapse')
+    get_open_form().collapse_except_id('wall')
     self.game_view.visible = True
     self.game_summary.visible = False
     self.child = PlayCatch('wall', self.me, self)
