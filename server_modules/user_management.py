@@ -48,42 +48,49 @@ def start_session():
   '''
   me = anvil.server.session.get('me', False)
   if me:
-    if row_login(me):
+    if row_login(me, anvil.server.session['remember']):
       return {'success': True,
               'user': me,
-              'msg': 'no action: already logged in',}
+              'msg': 'already logged in',}
   
   me = anvil.users.get_user(allow_remembered=True)
   if me:
-    if row_login(me):
+    if row_login(me, False):
       return {'success': True,
               'user': me,
               'msg': 'get user (remembered)'}
   
-  # not remembered; is there another cookie? this should be impossible;
+  # not remembered; is there another cookie? 
   # the same cookie system should have worked above?
-  me = anvil.server.cookies.local.get('user', False)
-  if me:
-    print('\n WARNING! force_login(allow_remembered=True) failed!')
-    print('but cookie exists for {}'.format(me.get_id()))
-    if row_login(me):
+  my_id = anvil.server.cookies.local.get('user_id', False)
+  if my_id:
+    print('force_login() failed but cookie exists for {}'.format(my_id))
+    
+    # clear cookie and make new (so format could be changed in the future)
+    anvil.server.cookies.local.clear()
+    me = app_tables.users.get_by_id(my_id)
+    if row_login(me, True):
       return {'success': True,
               'user': me,
               'msg': 'cookie found, logging in (WEIRD!)'}
   
+  # in case of bad cookie:
+  anvil.server.cookies.local.clear()
   return {'success': False,
           'msg': 'no login information found, go to login',}
 
 
-def row_login(user_row):
+def row_login(user_row, remember):
   '''
   does the actions to start new session for a user row
   '''
   if debug:
-    print('row_login: {}'.format(str(user_row)))
-  anvil.users.force_login(user_row)
+    print('row_login: user={} remember={}'.format(str(user_row), str(remember)))
+  anvil.users.force_login(user_row, remember=remember)
   anvil.server.session['me'] = user_row
-  anvil.server.cookies.local.set(1000, user=user_row)
+  anvil.server.session['remember'] = remember
+  if remember:
+    anvil.server.cookies.local.set(3650, user_id=user_row.get_id())
   return True
 
 
@@ -128,10 +135,11 @@ def do_login(phone, password, stay_logged_in):
     # check password
     elif bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
       if user['enabled']:
-        row_login(user)
+        row_login(user, stay_logged_in)
         return {'success': True,
                 'enabled': True,
-                'user': user,}
+                'user': user,
+                'msg': 'stay_logged_in={}'.format(str(stay_logged_in)),}
       else:
         return {'success': True,
                 'enabled': False,

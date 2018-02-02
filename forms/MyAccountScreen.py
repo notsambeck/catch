@@ -7,7 +7,7 @@ from utils import is_valid_color
 import colors
 
 from utils import ErrorHandler
-error_handler = ErrorHandler(alert)
+error_handler = ErrorHandler(alert, open_form)
 
 
 class MyAccountScreen (MyAccountScreenTemplate):

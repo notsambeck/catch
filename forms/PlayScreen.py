@@ -9,7 +9,7 @@ from GameListWall import GameListWall
 
 import colors
 from utils import ErrorHandler
-error_handler = ErrorHandler(alert)
+error_handler = ErrorHandler(alert, open_form)
 
 
 class PlayScreen (PlayScreenTemplate):
@@ -22,7 +22,7 @@ class PlayScreen (PlayScreenTemplate):
     self.me = user
     name = self.me['handle']
     self.handle.text = 'user: {}'.format(name)   # for menu bar
-    print(name)
+    print(name, self.me['wall_throws'], int(self.me['wall_throws']), self.me['color_1'])
     
     self.games = None
     self.game_views = {}

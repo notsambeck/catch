@@ -6,7 +6,7 @@ import drawing
 import colors
 
 from utils import ErrorHandler
-error_handler = ErrorHandler(alert)
+error_handler = ErrorHandler(alert, open_form)
 
 # TODO: remove the related code from web_callable before deployment
 # as it may be a minor security issue
@@ -35,7 +35,7 @@ class PlayCatch (PlayCatchTemplate):
       
     # else game == wall
     else:
-      self.throws = self.me['wall_throws']
+      self.throws = int(self.me['wall_throws'])
     
     # motion loop counter
     self.counter = 0
@@ -44,7 +44,6 @@ class PlayCatch (PlayCatchTemplate):
     self.set_labels()
     self.set_directions()
     
-    self.skip_a_beat = True
     self.canvas_1.visible = True
   
   def set_directions(self):
@@ -72,14 +71,14 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_vx = -.04
 
   def set_labels(self):
-    self.my_color_1 = self.me['color_1'] or colors.black
-    self.my_color_2 = self.me['color_2'] or colors.skin
+    self.my_color_1 = self.wrapper.my_color_1
+    self.my_color_2 = self.wrapper.my_color_2
+    print('PlayCatch', self.my_color_1)
     
     if self.game == 'wall':
-      return None
+      return True
     
     self.p1_name = self.wrapper.you
-
     self.opp_color_1 = self.wrapper.opp_color_1
     self.opp_color_2 = self.wrapper.opp_color_2
 

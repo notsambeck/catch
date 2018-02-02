@@ -6,7 +6,7 @@ from utils import is_valid_number
 from ConfirmAccount import ConfirmAccount
 
 from utils import ErrorHandler
-error_handler = ErrorHandler(alert)
+error_handler = ErrorHandler(alert, open_form)
 
 
 class Login(LoginTemplate):

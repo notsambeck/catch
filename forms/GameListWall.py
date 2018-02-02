@@ -25,6 +25,16 @@ class GameListWall(GameListWallTemplate):
     self.wall_active = True
     self.num_throws.text = 'WALL!      Throws: {}'.format(self.throws)
  
+    if self.me['color_1']:
+      self.my_color_1 = self.me['color_1']
+    else:
+      self.my_color_1 = colors.black
+    if self.me['color_2']:
+      self.my_color_2 = self.me['color_2']
+    else:
+      self.my_color_2 = colors.skin
+    print('GameListWall', self.my_color_1)
+
     self.expand()
     
   def expand(self, **event_args):

@@ -6,23 +6,26 @@ import random
 
 
 class ErrorHandler:
-  def __init__(self, display_function):
+  def __init__(self, display_function, route_function):
     '''
-    error handler that is called by an error, does display_function
+    error handler that is called by an error, 
+    does display_function
+    routes using route_function
+    
     display_function could be Notification, alert, or print(python3)/future.print_function(python2.7)
-    
-    
+    route function should be open_form
     '''
     self.display_function = display_function
+    self.route_function = route_function
   
   def __call__(self, err):
     self.display_function(err)
     anvil.server.reset_session()
     me = anvil.server.call('start_session')
     if me:
-      open_form('PlayScreen', me)
+      self.route_function('PlayScreen', me)
     else:
-      open_form('LoginScreen')
+      self.route_function('LoginScreen')
 
 
 
