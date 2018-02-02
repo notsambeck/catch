@@ -22,11 +22,10 @@ class PlayScreen (PlayScreenTemplate):
     self.me = user
     name = self.me['handle']
     self.handle.text = 'user: {}'.format(name)   # for menu bar
-    print(name, self.me['wall_throws'], int(self.me['wall_throws']), self.me['color_1'])
+    # print(name, self.me['wall_throws'], int(self.me['wall_throws']), self.me['color_1'])
     
-    self.games = None
-    self.game_views = {}
-    self.game_list = []
+    self.game_views = {}  # {game_id: GameListElement(games row)) 
+    self.game_list = []   # list of game_ids IN DISPLAY ORDER
 
     self.top_contacts.add_component(GameListContacts())
     
@@ -41,17 +40,15 @@ class PlayScreen (PlayScreenTemplate):
       anvil.server.call('start_session')
       server = anvil.server.call_s('get_games')
 
-    
-    print(server['msg'])  # retrieved 5 games
+    print(server['msg'])    # retrieved n games
     if not server['success']:
       print('update failed', server['msg'])
       return None
     
     elif not self.game_list:
-      self.games = server['games']
       self.game_list = server['order']
       for _id in self.game_list:
-        self.game_views[_id] = GameListElement(self.me, self.games[_id])
+        self.game_views[_id] = GameListElement(self.me, server['games'][_id])
         self.content_panel.add_component(self.game_views[_id])
       print('made new game list')    
       
@@ -60,21 +57,27 @@ class PlayScreen (PlayScreenTemplate):
       if server['order'] == self.game_list:
         for _id in self.game_list:
           server_game = server['games'][_id]
-          # local_game = self.games[_id]
-          # if server_game['throws'] != local_game['throws']:   # update only after throws
           self.game_views[_id].update(server_game)
         print('quick updated game_list')
+        
       # we have games; there are updated games. Clear and start over
       else:
         self.content_panel.clear()
-        self.games = server['games']
         self.game_list = server['order']
         self.content_panel.add_component(GameListWall(self.me))
         for _id in self.game_list:
-          self.game_views[_id] = GameListElement(self.me, self.games[_id])  # make the panel
+          self.game_views[_id] = GameListElement(self.me, server['games'][_id])  # make the panel
           self.content_panel.add_component(self.game_views[_id])            # attach to this form
         self.content_panel.add_component(GameListContacts())
         print('updated game_list')
+        
+  def add_game(self, game):
+    self.game_list.append(game.get_id())
+    self.game_views[game.get_id()] = game
+    self.content_panel.get_components()[-1].remove_from_parent()  # remove add contacts from end
+    self.content_panel.add_component(game)
+    self.content_panel.add_component(GameListContacts())
+    
     
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked    

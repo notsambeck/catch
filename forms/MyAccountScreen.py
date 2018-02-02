@@ -68,10 +68,6 @@ class MyAccountScreen (MyAccountScreenTemplate):
     self.reset_go_button.visible = True
     self.reset_go_button.enabled = False
 
-  def button_1_click (self, **event_args):
-    # This method is called when the button is clicked
-    open_form('PlayScreen', self.me)
-
   def color_set_button_click (self, **event_args):
     # This method is called when the button is clicked
     if not is_valid_color(self.enter_color_1.text) or not is_valid_color(self.enter_color_2.text):
@@ -84,3 +80,8 @@ class MyAccountScreen (MyAccountScreenTemplate):
     update = anvil.server.call('update_colors', self.enter_color_1.text, self.enter_color_2.text)
     if update['success']:
       self.me = update['user']
+
+  def back_to_games_button_click (self, **event_args):
+    # This method is called when the button is clicked
+    open_form('PlayScreen', self.me)
+

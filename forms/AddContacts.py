@@ -31,19 +31,20 @@ class AddContacts (AddContactsTemplate):
     if new_conn['success']:
       if new_conn['enabled']:
         Notification(new_conn['msg']).show()
+        get_open_form().add_game(new_conn['game'])
       else:
-        # new connection exists but not enabled. remind them to play
-        c = confirm("{} was already invited to play Catch, but hasn't tried it. Remind them?".format(phone))
+        # new connection exists but not enabled. remind them to play?
+        c = confirm("{} was already invited to play Catch, but hasn't activated their account. Remind them?".format(phone))
         if c:
           alert('''Let's play Catch, it's mad popular!
                 https://playcatch.anvilapp.net''',
-                title='Copy and paste this message')
+                title='Copy this message and text it!')
     else:
       c = confirm('{} does not have an account. Invite them to play Catch?'.format(phone))
       if c:
         alert('''Let's play Catch. Hey... it's free.
             https://playcatch.anvilapp.net''',
-            title='Copy and paste this message')
+            title='Copy this message and text it!')
         dummy = anvil.server.call('create_dummy', phone)
         
         if not dummy['success']:
