@@ -8,6 +8,7 @@ from utils import is_valid_number, hash_phone, generate_code
 from twilio_auth import send_authorization_message
 
 from datetime import datetime
+from game_management import get_games
 
 import bcrypt
 
@@ -20,6 +21,74 @@ def bhash(_string):
   used for encrypting passwords only
   '''
   return bcrypt.hashpw(_string.encode('utf-8'), bcrypt.gensalt(12)).decode()
+
+
+@anvil.server.callable
+def add_connection(phone):
+  '''
+  adds a connection to graph from current logged in to user with phone number
+  user ('me') is player 0, other_user is player 1
+  
+  args:
+    phone: other_user's phone number
+    
+  returns:
+    {'success': bool,
+     'enabled': bool,
+     'msg': status description,
+     'game': game (row reference),}
+  '''
+  me = anvil.server.session.get('me', False)
+  if not me:
+    return {
+      'success': False,
+      'msg': 'not logged in',
+    }
+  
+  other_user = app_tables.users.get(phone_hash=hash_phone(phone))
+  if not other_user:
+    return {
+      'success': False,
+      'msg': 'other player did not have an account',
+    }
+  
+  if other_user['handle']:
+    # print('add connection to', other_user['handle'])
+    pass
+  else:
+    pass
+    # print('add hypothetical connection to {}'.format(phone))
+    
+  my_games = get_games(server=True)  # get a dict of games by id
+
+  # protect whole operation from simultaneous adding
+  with tables.Transaction() as txn:
+    # search for pre-existing games
+    
+    for _id, game in my_games.items():
+      if game['player_1'] == other_user or game['player_0'] == other_user:
+        
+        # this used to return True.
+        return {
+          'success': False,
+          'enabled': game['p1_enabled'],
+          'msg': 'game already exists',
+          'game': game,}
+  
+    # no existing connection; make one
+    game = app_tables.games.add_row(
+      connection_time=datetime.utcnow(),
+      is_active=False,
+      player_0=me,
+      player_1=other_user,
+      p1_enabled=other_user['enabled'],
+      throws=other_user['enabled'] - 2,
+      last_throw_time=datetime.utcnow(),)
+            
+    return {'success': True,
+            'enabled': game['p1_enabled'],
+            'msg': 'new game created',
+            'game': game,}
 
 
 @anvil.server.callable
@@ -53,20 +122,14 @@ def start_session():
               'user': me,
               'msg': 'already logged in',}
   
-  me = anvil.users.get_user(allow_remembered=True)
-  if me:
-    if row_login(me, False):
-      return {'success': True,
-              'user': me,
-              'msg': 'get user (remembered)'}
+  # not live session; is there a cookie?
+  # if so log back in and remember.
   
-  # not remembered; is there another cookie? 
-  # the same cookie system should have worked above?
   my_id = anvil.server.cookies.local.get('user_id', False)
   if my_id:
-    print('force_login() failed but cookie exists for {}'.format(my_id))
+    print('cookie exists for {}'.format(my_id))
     
-    # clear cookie and make new (so format could be changed in the future)
+    # clear cookie and make new one
     anvil.server.cookies.local.clear()
     me = app_tables.users.get_by_id(my_id)
     if row_login(me, True):
@@ -85,8 +148,8 @@ def row_login(user_row, remember):
   does the actions to start new session for a user row
   '''
   if debug:
-    print('row_login: user={} remember={}'.format(str(user_row), str(remember)))
-  anvil.users.force_login(user_row, remember=remember)
+    print('row_login: user={} remember={}'.format(user_row['handle'], str(remember)))
+  anvil.users.force_login(user_row, remember=False)
   anvil.server.session['me'] = user_row
   anvil.server.session['remember'] = remember
   if remember:
@@ -99,6 +162,7 @@ def delete_cookie():
   if debug:
     print('cookie deleted')
   anvil.server.cookies.local.clear()
+  anvil.users.logout()
 
   
 @anvil.server.callable
@@ -231,7 +295,8 @@ def create_user(phone, password, handle):
 def create_dummy(phone):
   '''
   Create a new dummy user from phone number
-  Hashes phone number for storage.
+  AND
+  connects logged in user to dummy if successful
   
   args: 
     phone: string
@@ -247,8 +312,6 @@ def create_dummy(phone):
       'msg': 'not logged in',
     }
   
-  assert isinstance(phone, str)
-
   phone = is_valid_number(phone)
   if not phone:                    # invalid number
     return {
@@ -273,8 +336,7 @@ def create_dummy(phone):
     )
     
     if user:
-      return {'success': True,
-              'msg': 'Success, user must login to confirm account.'}
+      return add_connection(phone)
     
     else:
       return {'success': False,
@@ -282,9 +344,10 @@ def create_dummy(phone):
 
 
 @anvil.server.callable
-def get_user_id_by_phone(phone):
+def get_user_id_status_by_phone(phone):
   '''
-  Gets a user_id.
+  Gets a user_id by phone number
+  
   Note that this function returns user_id, 
   however, anvil.users.get_user() returns ENTIRE ROW for current user.
   
@@ -292,9 +355,11 @@ def get_user_id_by_phone(phone):
     string: phone number
   
   returns:
-    string: user_id
-    or
-    None: if user does not exist
+    {'success': bool,
+    'exists': bool,
+    'enabled': bool,
+    'msg': status message,
+    'user_id': user_id if success}
     '''
   # only works for logged in user
   me = anvil.server.session.get('me', False)
@@ -304,13 +369,17 @@ def get_user_id_by_phone(phone):
       'msg': 'not logged in',
     }
   
-  
   u = app_tables.users.get(phone_hash=hash_phone(phone))  # needs to be called with keyword arg for table column name
   if u:
     return {'success': True,
-            'user_id': u.get_id(),}
+            'exists': True,
+            'enabled': u['enabled'],
+            'user_id': u.get_id(),
+           'msg': 'user exists',}
   else:
     return {'success': True,
+            'exists': False,
+            'enabled': False,
             'msg': 'user does not exist',}
 
 

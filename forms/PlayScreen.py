@@ -72,6 +72,9 @@ class PlayScreen (PlayScreenTemplate):
         print('updated game_list')
         
   def add_game(self, game):
+    # game is added at the server; just update from there.
+    self.timer_1_tick()
+    '''
     _id = game.get_id()
     print('adding game {}'.format(_id))
     self.game_list.append(_id)
@@ -79,11 +82,13 @@ class PlayScreen (PlayScreenTemplate):
     self.content_panel.get_components()[-1].remove_from_parent()
     self.content_panel.add_component(self.game_views[_id])
     self.content_panel.add_component(GameListContacts())
+    '''
     
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked    
     anvil.server.call('delete_cookie')
     anvil.users.logout()
+    anvil.server.reset_session()
     open_form('LoginScreen')
 
   def button_1_click (self, **event_args):

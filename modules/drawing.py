@@ -54,7 +54,7 @@ class Rectangle(CanvasObject):
     
     
 class Circle(CanvasObject):
-  def __init__(self, x, y, r, color='#fff'):
+  def __init__(self, x, y, r, color='#fff', filled=True):
     '''
     draw a cirlce starting at x, y, 
     with radius r'''
@@ -62,26 +62,30 @@ class Circle(CanvasObject):
     self.y = y
     self.r = r
     self.color = color
+    self.filled = filled
 
   def draw(self):
     '''
-    create rectangle, filled by default
+    create circle, filled by default
     args:
-      x, y, expressed as FLOATS 0.0 -> 1.0
+      x, y, at center; expressed as FLOATS 0.0 -> 1.0
       r, radius as % of width
       color
     ''' 
-    CanvasObject._canvas.fill_style = self.color
     CanvasObject._canvas.begin_path()
     CanvasObject._canvas.arc(
-      round((self.x +self.r) * CanvasObject._w), 
-      round((self.y) * CanvasObject._h),
+      round((self.x + self.r) * CanvasObject._w), 
+      round((self.y + self.r) * CanvasObject._h),
       round(self.r * CanvasObject._w),
       0, 6.3,   # TODO: this is probably supposed to be degrees?
     )
     CanvasObject._canvas.close_path()
-    CanvasObject._canvas.fill()
-
+    if self.filled:
+      CanvasObject._canvas.fill_style = self.color
+      CanvasObject._canvas.fill()
+    else:
+      CanvasObject._canvas.stroke_style = self.color
+      CanvasObject._canvas.stroke()
    
 class RandomBuilding(CanvasObject):
   def __init__(self):

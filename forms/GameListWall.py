@@ -33,7 +33,7 @@ class GameListWall(GameListWallTemplate):
       self.my_color_2 = self.me['color_2']
     else:
       self.my_color_2 = colors.skin
-    print('GameListWall', self.my_color_1)
+    # print('GameListWall', self.my_color_1)
 
     self.expand()
     

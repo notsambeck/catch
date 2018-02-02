@@ -36,12 +36,12 @@ class GameListElement(GameListElementTemplate):
         self.you = self.game['player_0']['phone_hash']
              
     # me: colors
-    print(self.me['color_1'])
+    # print(self.me['color_1'])
     if self.me['color_1']:
       self.my_color_1 = self.me['color_1']
     else:
       self.my_color_1 = colors.black
-    print(self.me['color_2'])
+    # print(self.me['color_2'])
     if self.me['color_2']:
       self.my_color_2 = self.me['color_2']
     else:
@@ -84,7 +84,7 @@ class GameListElement(GameListElementTemplate):
       
       # TODO: fix 23 hours bug here
       delta = now - time
-      print(delta)
+      # print(delta)
       if delta.days > 1:
         timestring = '{} days ago'.format(delta.days)
       elif delta.days == 1:

@@ -195,10 +195,12 @@ class PlayCatch (PlayCatchTemplate):
     c.fill_style = colors.white
     
     # ball:
-    if self.counter % 5 and (self.game == 'wall' or (self.game != 'wall' and self.i_have_ball)):
-      ball = drawing.Circle(self.ball_x -.001, self.ball_y, .019).draw()
-    else:
-      ball = drawing.Circle(self.ball_x, self.ball_y, .017).draw()
+    ball_r = .017
+    ball = drawing.Circle(self.ball_x, self.ball_y, ball_r).draw()
+    
+    if not self.ball_moving and (self.game == 'wall' or (self.game != 'wall' and self.i_have_ball)):
+      for i in range(self.counter % 4):
+        ball = drawing.Circle(self.ball_x - .002 * i, self.ball_y - .001 * i, ball_r + i * .002, filled=False).draw()
 
     # text:
     c.font = '{}px sans-serif'.format(self.h//16)
@@ -210,10 +212,10 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(self.throws), pad, pad)
       c.fill_text('RANK: {}'.format(1000 // (self.throws + 1)), pad, pad + self.h // 14)
-      if self.throws < 3:
+      if self.throws <= 3:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
-        c.fill_text('TAP TO THROW', c.get_width() // 2, pad)
+        c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
     else:
       c.text_align = 'right'
       c.text_baseline = 'bottom'

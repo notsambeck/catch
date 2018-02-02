@@ -26,37 +26,42 @@ class AddContacts (AddContactsTemplate):
       return False
     
     # valid phone number: check if user exists
-    new_conn = anvil.server.call('add_connection', phone)
+    user_check = anvil.server.call_s('get_user_id_status_by_phone', phone)
+    if not user_check['success']:
+      Notification(user_check['msg']).show()
+      return False
 
-    if new_conn['success']:
-      get_open_form().add_game(new_conn['game'])
-      if new_conn['enabled']:
-        Notification(new_conn['msg']).show()
-      else:
-        # new connection exists but not enabled. remind them to play?
-        c = confirm("{} was already invited to play Catch, but hasn't activated their account. Remind them?".format(phone))
-        if c:
-          alert('''Let's play Catch, it's mad popular!
-                https://playcatch.anvilapp.net''',
-                title='Copy this message and text it!')
-    else:
-      c = confirm('{} does not have an account. Invite them to play Catch?'.format(phone))
+    elif user_check['exists'] and user_check['enabled']:
+      connection = anvil.server.call('add_connection', phone)
+      Notification(connection['msg']).show()
+      get_open_form().add_game(connection['game'])
+    
+    elif user_check['exists'] and not user_check['enabled']:
+      # new connection exists but not enabled. remind them to play?
+      connection = anvil.server.call('add_connection', phone)
+      Notification(connection['msg']).show()
+      get_open_form().add_game(connection['game'])
+      
+      c = confirm("{} was already invited to play Catch, but hasn't activated their account. Remind them?".format(phone))
+      if c:
+        alert('''Let's play Catch, it's wicked popular!
+              https://playcatch.anvilapp.net''',
+              title='Copy this message and text it!')
+
+      
+    elif not user_check['exists']:
+      c = confirm('{} does not have an account. Do you want to invite them?'.format(phone))
       if c:
         alert('''Let's play Catch. Hey... it's free.
             https://playcatch.anvilapp.net''',
-            title='Copy this message and text it!')
-        dummy = anvil.server.call('create_dummy', phone)
-        
-        if not dummy['success']:
-          alert(dummy['msg'])
-          return False
-        
-        new_conn = anvil.server.call('add_connection', phone)
-        get_open_form().add_game(new_conn['game'])
-        
-        if not new_conn['success']:
-          alert(new_conn['msg'])
-          return False
+            title='Copy this message and text it!')  
+        dummy_connection = anvil.server.call('create_dummy', phone)
+        Notification(dummy_connection['msg']).show()
+        get_open_form().add_game(dummy_connection['game'])
+      
+    else:
+      Notification(user_check['msg']).show()
+
 
   def why_phone_click(self, **event_args):
     # This method is called when the why_phone button is clicked
