@@ -94,3 +94,16 @@ def is_valid_color(string):
     if char not in '1234567890abcdef':
       return False
   return string
+
+
+def rando(lo=0, hi=1):
+  '''
+  create a pseudorandom float between lo and hi
+  '''
+  assert hi > lo
+  f = random.random()
+  # scale
+  f = f * (hi - lo)
+  # push bottom edge of range to lo
+  f += lo
+  return f

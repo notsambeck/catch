@@ -132,15 +132,14 @@ def start_session():
     # clear cookie and make new one
     me = app_tables.users.get_by_id(my_id)
     if row_login(me, True):
-      anvil.server.cookies.local.clear()
       return {'success': True,
               'user': me,
               'msg': 'cookie found, logging in (WEIRD!)'}
   
   # in case of bad cookie:
-  anvil.server.cookies.local.clear()
+  anvil.server.cookies.local.clear()  
   return {'success': False,
-          'msg': 'no login information found, go to login',}
+          'msg': 'no login information found, please log in',}
 
 
 def row_login(user_row, remember):
@@ -152,8 +151,10 @@ def row_login(user_row, remember):
   anvil.users.force_login(user_row, remember=False)
   anvil.server.session['me'] = user_row
   anvil.server.session['remember'] = remember
+
   if remember:
-    anvil.server.cookies.local.set(3650, user_id=user_row.get_id())
+    anvil.server.cookies.local.set(365, user_id=user_row.get_id())
+
   return True
 
 

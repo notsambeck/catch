@@ -4,6 +4,7 @@ import anvil.users
 import random
 import drawing
 import colors
+from utils import rando
 
 from utils import ErrorHandler
 error_handler = ErrorHandler(alert, open_form)

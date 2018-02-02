@@ -1,5 +1,6 @@
 import random
 import colors
+from utils import rando
 
 '''
 html5 canvas drawing methods, for use in PlayCatch (and subclasses)
@@ -194,16 +195,3 @@ class RandomTree(CanvasObject):
       self.wind = .2
     elif self.wind < 0.0:
       self.wind = 0.0
- 
-
-def rando(lo=0, hi=1):
-  '''
-  create a pseudorandom float between lo and hi
-  '''
-  assert hi > lo
-  f = random.random()
-  # scale
-  f = f * (hi - lo)
-  # push bottom edge of range to lo
-  f += lo
-  return f
