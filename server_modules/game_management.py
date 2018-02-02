@@ -24,7 +24,7 @@ def get_games(wall_throws=0, server=False, quick=False):
            'games': {game_id: game},}
   '''
   if debug:
-    print('get_games (all)')
+    print('get_games(quick={})'.format(str(quick)))
     
   me = anvil.server.session.get('me', False)
   if not me:
@@ -38,25 +38,16 @@ def get_games(wall_throws=0, server=False, quick=False):
   order = []
   waiting = []
 
-
-
   with tables.Transaction() as txn:
     # update from stored game list instead of searching
     if anvil.server.session.get('order', False) and quick:
-      games_to_send = {}
-      msg = 'quick retreived {} games'
-      for _id in anvil.server.session['order']:
-        cache = anvil.server.session['cached_games'][_id]
-        live = app_tables.games.get_by_id(_id)
-        if cache != live:
-          games_to_send[_id] = live
-          anvil.server.session['cached_games'][_id] = live
-        else:
-          games_to_send[_id] = False
-          
+      games = {_id: app_tables.games.get_by_id(_id) for _id in anvil.server.session['order']}
+      msg = 'quick retrieved {} games'
+      order = anvil.server.session['order']
+      
     else:
       game_list = [game for game in app_tables.games.search(tables.order_by('throws', ascending=False))]
-      msg = 'retreived all {} games'
+      msg = 'retrieved all {} games'
       for game in game_list:
         if game['player_0'] == me or game['player_1'] == me:
           _id = game.get_id()
@@ -65,13 +56,11 @@ def get_games(wall_throws=0, server=False, quick=False):
           else:
             order.append(_id)
           games[_id] = game
-      games_to_send = games
   
   order += waiting
   msg = msg.format(len(order))
   
   anvil.server.session['order'] = order   # [_id]
-  anvil.server.session['cached_games'] = games   # {_id: game}
   
   # internal use to generate game list for new user
   if server:

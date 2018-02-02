@@ -72,6 +72,7 @@ class PlayScreen (PlayScreenTemplate):
         self.content_panel.add_component(self.game_views['bottom_contacts'])
         
         self.game_list = ['wall'] + server['order'] + ['bottom_contacts']
+        
         self.game_views[self.active_view].expand()
         print('made new game_list')
         
