@@ -26,6 +26,8 @@ def get_games(wall_throws=0, server=False, quick=False):
   if debug:
     print('get_games(quick={})'.format(str(quick)))
     
+  start_time = datetime.utcnow()
+    
   me = anvil.server.session.get('me', False)
   if not me:
     return {
@@ -42,12 +44,12 @@ def get_games(wall_throws=0, server=False, quick=False):
     # update from stored game list instead of searching
     if anvil.server.session.get('order', False) and quick:
       games = {_id: app_tables.games.get_by_id(_id) for _id in anvil.server.session['order']}
-      msg = 'quick retrieved {} games'
+      msg = 'quick retrieved {} games in {}'
       order = anvil.server.session['order']
       
     else:
       game_list = [game for game in app_tables.games.search(tables.order_by('throws', ascending=False))]
-      msg = 'retrieved all {} games'
+      msg = 'retrieved all {} games in {}'
       for game in game_list:
         if game['player_0'] == me or game['player_1'] == me:
           _id = game.get_id()
@@ -59,7 +61,7 @@ def get_games(wall_throws=0, server=False, quick=False):
   
         order += waiting
  
-  msg = msg.format(len(order))
+  msg = msg.format(len(order), datetime.utcnow()-start_time)
   anvil.server.session['order'] = order   # [_id]
   
   # internal use to generate game list for new user
