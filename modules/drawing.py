@@ -155,23 +155,23 @@ class FarTree(CanvasObject):
     self.leaf.draw()
       
       
-class RandomTree(CanvasObject):
-  wind = 0
-  def __init__(self, size=64):
+class BigTree(CanvasObject):
+  wind = .2
+  def __init__(self, size=128):
     '''
     subclasses shape to have access to canvas.
     random tree on w*h canvas
     '''
-    x = rando(.1, .9)   # center
-    y = .55
+    x = .01   # center
+    y = .25
     self.leaves = []
-    self.trunk = Rectangle(x + .03, y, .02, .18, colors.darkred)
+    self.trunk = Rectangle(x + .03, y, .04, .53, colors.darkred)
     for part in range(size):
-      delta_x = random.random() * .06
-      delta_y = random.random() * .06
-      r = .01
+      delta_x = rando(-0.2, 0.2)
+      delta_y = rando(-0.2, 0.2)
+      r = .03
       self.leaves.append(Circle(x + delta_x,
-                                y - 1.8 * delta_y,
+                                y + delta_y,
                                 r,
                                 color=random.choice([
                                   colors.leaf1,
@@ -184,14 +184,12 @@ class RandomTree(CanvasObject):
   def draw(self):
     self.trunk.draw()
     for leaf in self.leaves:
-      angle = random.random()
-      if angle > self.wind:
-        leaf.draw()
+      leaf.draw()
   
   @classmethod
   def update_wind(self):
-    inc = rando(-.02, .02)
-    if self.wind > .2:
-      self.wind = .2
+    inc = rando(-.1, .1)
+    if self.wind > 1:
+      self.wind = .8
     elif self.wind < 0.0:
       self.wind = 0.0

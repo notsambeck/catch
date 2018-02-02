@@ -153,12 +153,6 @@ class PlayCatch (PlayCatchTemplate):
     for tree in self.far_trees:
       tree.draw()
     
-    # trees
-    for tree in self.trees:
-      tree.draw()
-      
-    drawing.RandomTree.update_wind()
-    
     # body
     drawing.Rectangle(.1, .57, .04, .3, self.my_color_1).draw()
     # head
@@ -181,10 +175,12 @@ class PlayCatch (PlayCatchTemplate):
     if self.game == 'wall':
       # wall
       for delta in [.01 * i for i in range(8)]:
-        drawing.Rectangle(.46 + delta * 2, .28 + delta, .03, .6, colors.red).draw()
+        drawing.Rectangle(.48 + delta, .33 + delta, .03, .5, colors.red).draw()
         
       # end of wall
-      drawing.Rectangle(.62, .36, .03, .6, colors.darkred).draw()
+      drawing.Rectangle(.56, .41, .03, .5, colors.darkred).draw()
+      
+      self.tree.draw()
     
     c.fill_style = colors.white
     
@@ -207,7 +203,7 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(throws), pad, pad)
       c.fill_text('RANK: {}'.format(1000 // (throws + 1)), pad, pad + self.h // 14)
-      if throws <= 4:
+      if throws <= 3 and self.counter % 5:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
@@ -283,11 +279,10 @@ class PlayCatch (PlayCatchTemplate):
     self.clouds = []
     for i in range(8):
       self.clouds.append(drawing.RandomCloud())
-      
-    self.trees = []
-    for tree in range(0):
-      self.trees.append(drawing.RandomTree())
-      
+     
+    if self.game == 'wall':
+      self.tree = drawing.BigTree()
+          
     self.far_trees = []
     for far_tree in range(12):
       self.far_trees.append(drawing.FarTree())
