@@ -32,10 +32,6 @@ class PlayCatch (PlayCatchTemplate):
         self.game = activate['game']
 
       self.am0 = self.game['player_0'] == self.me
-      
-    # else game == wall
-    else:
-      self.throws = int(self.me['wall_throws'])
     
     # motion loop counter
     self.counter = 0
@@ -109,11 +105,8 @@ class PlayCatch (PlayCatchTemplate):
   def throw_wall(self):
     if self.ball_moving:
       return False
-    self.throws += 1
-    self.wrapper.throws = self.throws
-    if self.throws % 10 == 0:
-      anvil.server.call_s('update_wall', self.throws)
-
+    get_open_form().wall_throws += 1    # PlayScreen.wall_throws stays updated
+    
     # reset y velocity
     self.ball_y = .78
     self.ball_vy = .06
@@ -206,13 +199,14 @@ class PlayCatch (PlayCatchTemplate):
     c.font = '{}px sans-serif'.format(self.h//16)
     pad = 7
 
-    # tap to throw text
+    # wall text
     if self.game == 'wall':
+      throws = get_open_form().wall_throws
       c.text_align = 'left'
       c.text_baseline = 'top'
-      c.fill_text('THROWS: {}'.format(self.throws), pad, pad)
-      c.fill_text('RANK: {}'.format(1000 // (self.throws + 1)), pad, pad + self.h // 14)
-      if self.throws <= 3:
+      c.fill_text('THROWS: {}'.format(throws), pad, pad)
+      c.fill_text('RANK: {}'.format(1000 // (throws + 1)), pad, pad + self.h // 14)
+      if throws <= 4:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
@@ -225,7 +219,7 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(self.game['throws']), pad, pad)
       c.fill_text('RANK: {}'.format(1000 // (self.game['throws'] + 1)), pad, pad + self.h // 14)
-      if self.i_have_ball and self.game['throws'] < 4 and not self.ball_moving and self.counter % 5:
+      if self.i_have_ball and self.game['throws'] <= 4 and not self.ball_moving and self.counter % 5:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
         c.fill_text('TAP TO THROW', self.w // 2, self.h - pad)

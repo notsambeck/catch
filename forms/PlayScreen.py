@@ -21,8 +21,8 @@ class PlayScreen (PlayScreenTemplate):
     
     self.me = user
     name = self.me['handle']
+    self.wall_throws = self.me['wall_throws']
     self.handle.text = 'user: {}'.format(name)   # for menu bar
-    # print(name, self.me['wall_throws'], int(self.me['wall_throws']), self.me['color_1'])
     
     self.game_views = {}  # {game_id: GameListElement(games row)) 
     self.game_list = []   # list of game_ids IN DISPLAY ORDER
@@ -33,12 +33,14 @@ class PlayScreen (PlayScreenTemplate):
     
   def update_connections(self):
     try:
-      server = anvil.server.call_s('get_games')
+      server = anvil.server.call_s('get_games', wall_throws=self.wall_throws)
+      self.wall_throws = server['wall_throws']
     except anvil.server.SessionExpiredError:
       print('session expired; resetting session')
       anvil.server.reset_session()
       anvil.server.call('start_session')
-      server = anvil.server.call_s('get_games')
+      server = anvil.server.call_s('get_games', wall_throws=self.wall_throws)
+      self.wall_throws = server['wall_throws']
 
     print(server['msg'])    # retrieved n games
     if not server['success']:
@@ -72,17 +74,8 @@ class PlayScreen (PlayScreenTemplate):
         print('updated game_list')
         
   def add_game(self, game):
-    # game is added at the server; just update from there.
+    # game has been added at the server; just update from there as per usual
     self.timer_1_tick()
-    '''
-    _id = game.get_id()
-    print('adding game {}'.format(_id))
-    self.game_list.append(_id)
-    self.game_views[_id] = GameListElement(self.me, game)
-    self.content_panel.get_components()[-1].remove_from_parent()
-    self.content_panel.add_component(self.game_views[_id])
-    self.content_panel.add_component(GameListContacts())
-    '''
     
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked    

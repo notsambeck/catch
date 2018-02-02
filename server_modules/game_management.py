@@ -12,9 +12,11 @@ debug = True
 
 
 @anvil.server.callable
-def get_games(server=False):
+def get_games(wall_throws=0, server=False):
   '''
   get all the connections for current user
+  
+  also updates wall_throws
   
   returns {'success': bool,
            'msg': status message,
@@ -32,6 +34,7 @@ def get_games(server=False):
     }
    
   else:
+    me['wall_throws'] = max(wall_throws, me['wall_throws'])
     games = {}
     order = []
     waiting = []
