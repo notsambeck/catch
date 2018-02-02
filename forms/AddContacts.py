@@ -29,9 +29,9 @@ class AddContacts (AddContactsTemplate):
     new_conn = anvil.server.call('add_connection', phone)
 
     if new_conn['success']:
+      get_open_form().add_game(new_conn['game'])
       if new_conn['enabled']:
         Notification(new_conn['msg']).show()
-        get_open_form().add_game(new_conn['game'])
       else:
         # new connection exists but not enabled. remind them to play?
         c = confirm("{} was already invited to play Catch, but hasn't activated their account. Remind them?".format(phone))
@@ -52,6 +52,8 @@ class AddContacts (AddContactsTemplate):
           return False
         
         new_conn = anvil.server.call('add_connection', phone)
+        get_open_form().add_game(new_conn['game'])
+        
         if not new_conn['success']:
           alert(new_conn['msg'])
           return False

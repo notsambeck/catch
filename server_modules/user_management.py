@@ -274,7 +274,7 @@ def create_dummy(phone):
     
     if user:
       return {'success': True,
-              'msg': 'Success, confirmation not sent because spam.'}
+              'msg': 'Success, user must login to confirm account.'}
     
     else:
       return {'success': False,

@@ -60,7 +60,7 @@ class PlayScreen (PlayScreenTemplate):
           self.game_views[_id].update(server_game)
         print('quick updated game_list')
         
-      # we have games; there are updated games. Clear and start over
+      # local game_list is out of date. Clear and start over
       else:
         self.content_panel.clear()
         self.game_list = server['order']
@@ -72,12 +72,13 @@ class PlayScreen (PlayScreenTemplate):
         print('updated game_list')
         
   def add_game(self, game):
-    self.game_list.append(game.get_id())
-    self.game_views[game.get_id()] = game
-    self.content_panel.get_components()[-1].remove_from_parent()  # remove add contacts from end
-    self.content_panel.add_component(game)
+    _id = game.get_id()
+    print('adding game {}'.format(_id))
+    self.game_list.append(_id)
+    self.game_views[_id] = GameListElement(self.me, game)
+    self.content_panel.get_components()[-1].remove_from_parent()
+    self.content_panel.add_component(self.game_views[_id])
     self.content_panel.add_component(GameListContacts())
-    
     
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked    

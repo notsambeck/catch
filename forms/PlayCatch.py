@@ -21,9 +21,9 @@ class PlayCatch (PlayCatchTemplate):
     
     set_default_error_handling(error_handler)
     
-    self.me = me
-    self.game = game
-    self.wrapper = wrapper
+    self.me = me             # user row (dictionary-like)
+    self.game = game         # Game (dictionary-like)
+    self.wrapper = wrapper   # GameListElement that holds this game
     
     if game != 'wall':
       if not self.game['is_active']:

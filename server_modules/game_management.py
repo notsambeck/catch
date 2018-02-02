@@ -56,12 +56,12 @@ def add_connection(phone):
     for _id, game in my_games.items():
       if game['player_1'] == other_user or game['player_0'] == other_user:
         
-        # success is not really True, but same result
+        # this used to return True.
         return {
-          'success': True,
-          'enabled': row['game']['p1_enabled'],
+          'success': False,
+          'enabled': game['p1_enabled'],
           'msg': 'game already exists',
-          'game': row['game'],}
+          'game': game,}
     
     # no existing connection; make one
     game = app_tables.games.add_row(
@@ -103,14 +103,16 @@ def get_games(server=False):
     games = {}
     order = []
     waiting = []
-    for game in app_tables.games.search(tables.order_by('throws', ascending=False)):
-      if game['player_0'] == me or game['player_1'] == me:
-        _id = game.get_id()
-        if not game['p1_enabled']:
-          waiting.append(_id)
-        else:
-          order.append(_id)
-        games[_id] = game
+    
+    with tables.Transaction() as txn:
+      for game in app_tables.games.search(tables.order_by('throws', ascending=False)):
+        if game['player_0'] == me or game['player_1'] == me:
+          _id = game.get_id()
+          if not game['p1_enabled']:
+            waiting.append(_id)
+          else:
+            order.append(_id)
+          games[_id] = game
     
     order += waiting
     assert len(order) == len(games)

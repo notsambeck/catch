@@ -25,15 +25,17 @@ class GameListElement(GameListElementTemplate):
     self.me = user
     self.am0 = self.game['player_0'] == self.me
     if self.am0:
-      self.you = self.game['player_1']['handle']
-      if not self.you:
+      if self.game['p1_enabled']:
+        self.you = self.game['player_1']['handle']
+      else:
         self.you = self.game['player_1']['phone_hash']
     else:
-      self.you = self.game['player_0']['handle']
-      if not self.you:
+      if self.game['p1_enabled']:
+        self.you = self.game['player_0']['handle']
+      else:
         self.you = self.game['player_0']['phone_hash']
              
-    # player0
+    # me: colors
     print(self.me['color_1'])
     if self.me['color_1']:
       self.my_color_1 = self.me['color_1']
@@ -45,7 +47,7 @@ class GameListElement(GameListElementTemplate):
     else:
       self.my_color_2 = colors.skin
       
-    # i am player_0
+    # opp: colors if am0
     if self.am0:
       if self.game['player_1']['color_1']:
         self.opp_color_1 = self.game['player_1']['color_1']
@@ -56,7 +58,7 @@ class GameListElement(GameListElementTemplate):
       else:
         self.opp_color_2 = colors.skin
       
-    # i am player_1
+    # opp: colors if not am0
     else:
       if self.game['player_0']['color_1']:
         self.opp_color_1 = self.game['player_0']['color_1']
