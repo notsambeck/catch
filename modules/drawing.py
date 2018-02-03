@@ -116,10 +116,10 @@ class RandomCloud(CanvasObject):
     y = rando(-0.1, 0.3)  # top
     self.parts = []
     for part in range(size):
-      delta_x = rando(0, 0.06)
-      delta_y = rando(0, 0.06)
-      w = rando(0.03, 0.2)
-      h = rando(0.05, 0.15)
+      delta_x = rando(0, 0.1)
+      delta_y = rando(0, 0.1)
+      w = rando(0.06, 0.22)
+      h = rando(0.08, 0.15)
       self.parts.append(Rectangle(x + delta_x, y - delta_y, 
                                   w, h, 
                                   color=random.choice([colors.cloud1,
@@ -157,7 +157,7 @@ class FarTree(CanvasObject):
       
 class BigTree(CanvasObject):
   wind = .2
-  def __init__(self, size=128):
+  def __init__(self, size=16):
     '''
     subclasses shape to have access to canvas.
     random tree on w*h canvas
@@ -168,17 +168,21 @@ class BigTree(CanvasObject):
     self.apple_vx = 0
     self.apple_x = .13
     self.apple_y = .2
+    self.apple_r = .023
+    
     self.bonk = False
     self.apple_falling = False
+    
     self.leaves = []
+    
     self.trunk = Rectangle(x + .03, y, .04, .53, colors.darkred)
-    self.apple1 = Circle(.015, .35, .022, colors.apple)
-    self.apple2 = Circle(.04, .15, .022, colors.apple)
-    self.apple = Circle(self.apple_x, self.apple_y, .02, colors.apple)
+    self.apple1 = Circle(.015, .35, self.apple_r, colors.apple)
+    self.apple2 = Circle(.04, .15, self.apple_r, colors.apple)
+    self.apple = Circle(self.apple_x, self.apple_y, self.apple_r, colors.apple)
     for part in range(size):
-      delta_x = rando(-0.2, 0.2)
-      delta_y = rando(-0.2, 0.2)
-      r = .03
+      delta_x = rando(-0.3, 0.1)
+      delta_y = rando(-0.2, 0.1)
+      r = .1
       self.leaves.append(Circle(x + delta_x,
                                 y + delta_y,
                                 r,
@@ -195,14 +199,14 @@ class BigTree(CanvasObject):
     self.apple_y += self.apple_vy
     self.apple_vy += .031
     self.apple_x += self.apple_vx
-    self.apple = Circle(self.apple_x, self.apple_y, .02, colors.apple)
+    self.apple = Circle(self.apple_x, self.apple_y, self.apple_r, colors.apple)
     if .45 < self.apple_y and not self.bonk:
       self.bonk = True
       self.apple_vx = .02
       self.apple_vy = -.06
-    elif self.apple_y > .85:
+    elif self.apple_y > .8:
       self.apple_vy = 0
-      self.apple_vx *= .8
+      self.apple_vx *= .85
       if self.apple_vx < .01:
         self.apple_falling = False
     

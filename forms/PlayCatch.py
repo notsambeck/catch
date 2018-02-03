@@ -106,6 +106,7 @@ class PlayCatch (PlayCatchTemplate):
   def throw_wall(self):
     if self.ball_moving:
       return False
+    
     get_open_form().wall_throws += 1    # PlayScreen.wall_throws stays updated
     
     # reset y velocity
@@ -116,12 +117,13 @@ class PlayCatch (PlayCatchTemplate):
     self.ball_moving = True
     self.ball_steps = 0
     
-  def ball_arrived(self):
-    self.ball_steps = 0
     self.apple_counter += 1
     if self.game == 'wall' and self.apple_counter == 2:
       print('launch apple')
       self.tree.apple_falling = True
+
+  def ball_arrived(self):
+    self.ball_steps = 0
     self.counter = 0
     self.ball_moving = False
     self.set_directions()
@@ -207,10 +209,15 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(throws), pad, pad)
       c.fill_text('RANK: {}'.format(1000 // (throws + 1)), pad, pad + self.h // 14)
-      if throws <= 3 and self.counter % 5:
+      if throws < 3 and self.counter % 5:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
+      if self.apple_counter == 4:
+        c.text_align = 'center'
+        c.text_baseline = 'middle'
+        c.fill_style = ''
+        c.fill_text('Maybe I should invest in TossCoin', c.get_width() // 2, self.h // 2)
     else:
       c.text_align = 'right'
       c.text_baseline = 'bottom'
