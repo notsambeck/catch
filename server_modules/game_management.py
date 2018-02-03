@@ -58,11 +58,11 @@ def get_games(wall_throws=0, server=False, quick=False):
           else:
             order.append(_id)
           games[_id] = game
-  
-        order += waiting
- 
+      # endfor
+      order += waiting
+      anvil.server.session['order'] = order   # [_id]
+    
   msg = msg.format(len(order), datetime.utcnow()-start_time)
-  anvil.server.session['order'] = order   # [_id]
   
   # internal use to generate game list for new user
   if server:

@@ -41,7 +41,7 @@ class PlayScreen (PlayScreenTemplate):
     except anvil.server.SessionExpiredError:
       error_handler('session expired error from get_games')  
     
-    self.wall_throws = server['wall_throws']
+    self.wall_throws = max(self.wall_throws, server['wall_throws'])
 
     print(server['msg'])    # retrieved n games
     if not server['success']:

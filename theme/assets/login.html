@@ -87,7 +87,7 @@
  }
 
  body.anvil-show-banner .nav {
-     top: 50px;
+     top: 0px;
  }
 
  .nav .title, .nav .menu-btn {
@@ -157,7 +157,7 @@
  }
 
  body.anvil-show-banner .body {
-     padding-top: 112px; /* 62px navbar + 50px "Anvil free" banner */
+     padding-top: 0px; /* 62px navbar + 50px "Anvil free" banner */
  }
 
  .sidebar {
@@ -294,11 +294,11 @@
      }
 
      .sidebar.floating {
-	 top: 62px;
+	 top: 0px;
      }
 
      body.anvil-show-banner .sidebar.floating {
-	 top: 112px;
+	 top: 0px;
      }
 
      .cards {
@@ -316,7 +316,7 @@
  }
 
  body.anvil-show-banner .sidebar.floating {
-     top: 112px;
+     top: 0px;
  }
 
 
@@ -348,16 +348,6 @@
 <!-- Put body before nav so that it sits underneath -->
 
 <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
-    <div class="sidebar" anvil-drop-redirect=">.drop-here">
-	<div anvil-slot-repeat="sidebar" class="sidebar-elt">
-	    <div anvil-drop-here class="drop-here"></div>
-	    <div anvil-slot class="content"></div>
-	</div>
-	<div class="sidebar-elt anvil-designer-only drop-here" anvil-drop-slot="sidebar">
-	    <div class="content placeholder"><i class="glyphicon glyphicon-plus"></i></div>
-	</div>
-    </div>
-    <div class="sidebar-click-guard"></div>
 
     <div class="cards anvil-measure-content">
 	<div anvil-if-slot-empty="default"
@@ -373,18 +363,4 @@
 	    <img src="https://anvil.works/template-assets/column-panel-icon.png" style="height: 30px; margin-right: -7px; margin-top: -5px"> ColumnPanel components to create new cards.
 	</div>
     </div>
-</div>
-
-<div class="nav" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
-
-    <div class="nav-right" anvil-drop-redirect=".nav-elt">
-	<div anvil-slot-repeat="nav-right" class="nav-elt">
-	    <div anvil-drop-here class="drop-here"></div>
-	</div>
-    </div>
-
-    <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
-	Drop a title here
-    </div>
-    <div anvil-slot="title" class="title"></div>
 </div>
