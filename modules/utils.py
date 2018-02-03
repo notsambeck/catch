@@ -6,7 +6,7 @@ import random
 
 
 class ErrorHandler:
-  def __init__(self, display_function, route_function):
+  def __init__(self, display_function, route_function, my_id=None):
     '''
     error handler that is called by an error, 
     does display_function
@@ -17,12 +17,25 @@ class ErrorHandler:
     '''
     self.display_function = display_function
     self.route_function = route_function
+    self.my_id = my_id
+    self.debug = True
   
   def __call__(self, err):
+    if self.display_function and self.debug:
+      self.display_function('DEBUG MSG: Bumped from server. {}'.format(str(err)))
+    if self.debug:
+      print('reset_session()')
     anvil.server.reset_session()
-    if self.display_function:
-      self.display_function('DEBUG: Bumped from server, refreshing. {}'.format(str(err)))
-    self.route_function('NewSessionHandler')
+    if self.debug:
+      print('start_session({})'.format(str(self.my_id)))
+    sess = anvil.server.call('start_session', self.my_id)
+    if sess['success']:
+      if self.debug:
+        print(sess['msg'])
+      open_form('PlayScreen', user=sess['user'])
+    else:
+      print('fail: {}'.format(sess['msg']))
+      open_form('LoginScreen')
 
 
 def is_valid_number(number):

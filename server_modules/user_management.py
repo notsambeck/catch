@@ -92,7 +92,7 @@ def add_connection(phone):
 
 
 @anvil.server.callable
-def start_session():
+def start_session(my_id=None):
   '''
   start a new session for returning user.
   
@@ -120,7 +120,7 @@ def start_session():
   
   me = anvil.server.session.get('me', False)
   if debug:
-    print('me stored for session: {}'.format(str(me)))
+    print('me stored in anvil.server.session: {}'.format(str(me)))
   if me:
     row_login(me, anvil.server.session['remember_me'])
     if debug:
@@ -129,6 +129,18 @@ def start_session():
     return {'success': True,
             'user': me,
             'msg': 'restart current session',}
+  
+  if debug:
+    print('my_id passed by browser: {}'.format(str(my_id)))
+  if my_id:
+    me = app_tables.users.get_by_id(my_id)
+    row_login(me, False)
+    if debug:
+      print('new session from browser')
+        
+    return {'success': True,
+            'user': me,
+            'msg': 'new session - browser remembered id',}
   
   # not live session; is there a cookie?
   # if so log back in and remember.

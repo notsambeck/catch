@@ -39,7 +39,9 @@ class PlayScreen (PlayScreenTemplate):
     try:
       server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
     except anvil.server.SessionExpiredError:
-      error_handler('session expired error from get_games')  
+      error_handler('session expired error: get_games()')
+      self.timer_1.interval = 100
+      return
     
     self.wall_throws = max(self.wall_throws, server['wall_throws'])
 
