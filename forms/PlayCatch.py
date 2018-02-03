@@ -182,7 +182,7 @@ class PlayCatch (PlayCatchTemplate):
       # end of wall
       drawing.Rectangle(.56, .4, .03, .5, colors.darkred).draw()
       
-      if self.apple_counter == 2 and self.counter == 6:
+      if self.apple_counter == 2 and self.ball_steps == 6:
         print('launch apple')
         self.tree.apple_falling = True
 

@@ -181,8 +181,8 @@ class BigTree(CanvasObject):
     self.apple = Circle(self.apple_x, self.apple_y, self.apple_r, colors.apple)
     for part in range(size):
       delta_x = rando(-0.3, 0.1)
-      delta_y = rando(-0.2, 0.1)
-      r = .1
+      delta_y = rando(-0.2, 0.05)
+      r = .07
       self.leaves.append(Circle(x + delta_x,
                                 y + delta_y,
                                 r,
