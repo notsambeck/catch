@@ -19,14 +19,8 @@ class ErrorHandler:
     self.route_function = route_function
   
   def __call__(self, err):
-    self.display_function(str(err))
-    anvil.server.reset_session()
-    me = anvil.server.call('start_session')
-    if me['success']:
-      self.route_function('PlayScreen', me['user'])
-    else:
-      self.display_function(me['msg'])
-      self.route_function('LoginScreen')
+    self.display_function('DEBUG: Bumped from server, refreshing. {}'.format(str(err)))
+    self.route_function('NewSessionHandler')
 
 
 def is_valid_number(number):
