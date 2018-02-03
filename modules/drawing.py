@@ -164,8 +164,17 @@ class BigTree(CanvasObject):
     '''
     x = .01   # center
     y = .25
+    self.apple_vy = 0
+    self.apple_vx = 0
+    self.apple_x = .13
+    self.apple_y = .2
+    self.bonk = False
+    self.apple_falling = False
     self.leaves = []
     self.trunk = Rectangle(x + .03, y, .04, .53, colors.darkred)
+    self.apple1 = Circle(.015, .35, .022, colors.apple)
+    self.apple2 = Circle(.04, .15, .022, colors.apple)
+    self.apple = Circle(self.apple_x, self.apple_y, .02, colors.apple)
     for part in range(size):
       delta_x = rando(-0.2, 0.2)
       delta_y = rando(-0.2, 0.2)
@@ -181,10 +190,32 @@ class BigTree(CanvasObject):
                                   colors.leaf5,
                                 ])))
     
+  def fall(self):
+    # print('falling...')
+    self.apple_y += self.apple_vy
+    self.apple_vy += .031
+    self.apple_x += self.apple_vx
+    self.apple = Circle(self.apple_x, self.apple_y, .02, colors.apple)
+    if .45 < self.apple_y and not self.bonk:
+      self.bonk = True
+      self.apple_vx = .02
+      self.apple_vy = -.06
+    elif self.apple_y > .85:
+      self.apple_vy = 0
+      self.apple_vx *= .8
+      if self.apple_vx < .01:
+        self.apple_falling = False
+    
+    
   def draw(self):
+    if self.apple_falling:
+      self.fall()
+    self.apple2.draw()
     self.trunk.draw()
     for leaf in self.leaves:
       leaf.draw()
+    self.apple1.draw()
+    self.apple.draw()
   
   @classmethod
   def update_wind(self):

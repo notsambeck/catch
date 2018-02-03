@@ -36,7 +36,7 @@ class PlayCatch (PlayCatchTemplate):
     
     # motion loop counter
     self.counter = 0
-    self.buildings = []
+    self.apple_counter = 0
 
     self.set_labels()
     self.set_directions()
@@ -118,6 +118,10 @@ class PlayCatch (PlayCatchTemplate):
     
   def ball_arrived(self):
     self.ball_steps = 0
+    self.apple_counter += 1
+    if self.game == 'wall' and self.apple_counter == 2:
+      print('launch apple')
+      self.tree.apple_falling = True
     self.counter = 0
     self.ball_moving = False
     self.set_directions()

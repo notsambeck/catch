@@ -13,6 +13,7 @@ building1 = '#988'
 building2 = '#667'
 skin = '#AA9900'
 
+apple = '#AADD00'
 red = '#883300'
 darkred = '#602000'
 grass = "rgba(90,140,70,1)"
