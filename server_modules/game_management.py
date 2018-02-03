@@ -8,7 +8,7 @@ from utils import is_valid_number, hash_phone, generate_code
 from twilio_auth import send_authorization_message
 
 from datetime import datetime
-debug = True
+debug = False
 
 
 @anvil.server.callable

@@ -46,7 +46,7 @@ class PlayScreen (PlayScreenTemplate):
     
     self.wall_throws = max(self.wall_throws, server['wall_throws'])
 
-    print(server['msg'])    # retrieved n games
+    # print(server['msg'])    # retrieved n games
     if not server['success']:
       print('update failed', server['msg'])
       return None
@@ -57,7 +57,7 @@ class PlayScreen (PlayScreenTemplate):
         for _id in server['order']:
           server_game = server['games'][_id]
           self.game_views[_id].update(server_game)
-        print('quick updated game_list')
+        # print('quick updated game_list')
         
       # local game_list is out of date. Clear and start over
       else:
@@ -75,7 +75,7 @@ class PlayScreen (PlayScreenTemplate):
         self.game_list = ['wall'] + server['order'] + ['bottom_contacts']
         
         self.game_views[self.active_view].expand()
-        print('made new game_list')
+        # print('made new game_list')
         
   def add_game(self, game):
     # game has been added at the server; just update from there as per usual
