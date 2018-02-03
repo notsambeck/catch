@@ -115,26 +115,34 @@ def start_session():
      'user': user row if success,
      'msg': status msg,}
   '''
+  if debug:
+    print('start_session()')
+  
   me = anvil.server.session.get('me', False)
+  if debug:
+    print('me stored for session: {}'.format(str(me)))
   if me:
-    if row_login(me, anvil.server.session['remember']):
-      return {'success': True,
-              'user': me,
-              'msg': 'already logged in',}
+    row_login(me, anvil.server.session['remember_me'])
+    if debug:
+      print('restarting current session')
+        
+    return {'success': True,
+            'user': me,
+            'msg': 'restart current session',}
   
   # not live session; is there a cookie?
   # if so log back in and remember.
-  
   my_id = anvil.server.cookies.local.get('user_id', False)
-  if my_id:
-    print('cookie exists for {}'.format(my_id))
+  if debug:
+    print('get cookie - user_id: {}'.format(str(my_id)))
     
+  if my_id:
     # clear cookie and make new one
     me = app_tables.users.get_by_id(my_id)
-    if row_login(me, True):
-      return {'success': True,
-              'user': me,
-              'msg': 'cookie found, logging in (WEIRD!)'}
+    row_login(me, True)
+    return {'success': True,
+            'user': me,
+            'msg': 'cookie found, logging in'}
   
   # in case of bad cookie:
   anvil.server.cookies.local.clear()  
@@ -142,28 +150,37 @@ def start_session():
           'msg': 'no login information found, please log in',}
 
 
-def row_login(user_row, remember):
+def row_login(user_row, remember_me):
   '''
   does the actions to start new session for a user row
   '''
   if debug:
-    print('row_login: user={} remember={}'.format(user_row['handle'], str(remember)))
-  anvil.users.force_login(user_row, remember=False)
+    print('row_login: user={} remember_me={}'.format(user_row['handle'], str(remember_me)))
+    
+  # forget user (we are only using cookie at this time)
+  anvil.users.force_login(user_row, remember=False)  
+  
   anvil.server.session['me'] = user_row
-  anvil.server.session['remember'] = remember
+  anvil.server.session['remember_me'] = remember_me
 
-  if remember:
+  if remember_me:
     anvil.server.cookies.local.set(365, user_id=user_row.get_id())
-
+    if debug:
+      print('wrote cookie: {}'.format(anvil.server.cookies.local.get('user_id', False)))
+  
   return True
 
 
 @anvil.server.callable
-def delete_cookie():
+def do_logout():
   if debug:
-    print('cookie deleted')
+    print('deleting cookie, NOT deleting session vars, logging out, resetting session')
   anvil.server.cookies.local.clear()
+  # anvil.server.session['me'] = None
+  # anvil.server.session['remember_me']
   anvil.users.logout()
+  if debug:
+    print('session vars after logout(): {}'.format(anvil.server.session['me']))
 
   
 @anvil.server.callable

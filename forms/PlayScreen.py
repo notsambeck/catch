@@ -82,10 +82,9 @@ class PlayScreen (PlayScreenTemplate):
     self.timer_1_tick()
     
   def logout_button_click (self, **event_args):
-    # This method is called when the button is clicked    
-    anvil.server.call('delete_cookie')
-    anvil.users.logout()
-    anvil.server.reset_session()
+    # This method is called when the button is clicked   
+    print('logout')
+    anvil.server.call('do_logout')
     open_form('LoginScreen')
 
   def button_1_click (self, **event_args):
