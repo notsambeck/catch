@@ -5,7 +5,7 @@ import tables
 from tables import app_tables
 
 from utils import ErrorHandler
-error_handler = ErrorHandler(alert, open_form)
+error_handler = ErrorHandler(False, open_form)
 
 
 class NewSessionHandler (NewSessionHandlerTemplate):

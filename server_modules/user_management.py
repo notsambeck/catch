@@ -168,6 +168,14 @@ def row_login(user_row, remember_me):
     if debug:
       print('wrote cookie: {}'.format(anvil.server.cookies.local.get('user_id', False)))
   
+  if debug:
+    start_time = datetime.utcnow()
+    print('ranking...')
+  generate_game_ranks()
+  generate_wall_ranks()
+  if debug:
+    print('done. time={}'.format(datetime.utcnow() - start_time))
+  
   return True
 
 
@@ -402,7 +410,7 @@ def get_user_id_status_by_phone(phone):
             'msg': 'user does not exist',}
 
 
-@ anvil.server.callable
+@anvil.server.callable
 def confirm_account(code, phone):
   '''
   confirm a user has their twilio code
@@ -451,3 +459,13 @@ def confirm_account(code, phone):
     return {'success': False,
             'goto_login': False,
             'msg': 'code incorrect',}
+
+  
+def generate_game_ranks():
+  for i, game in enumerate(app_tables.games.search(tables.order_by('throws', ascending=False))):
+    game['game_rank'] = i+1
+
+
+def generate_wall_ranks():
+  for i, user in enumerate(app_tables.users.search(tables.order_by('wall_throws', ascending=False))):
+    user['wall_rank'] = i+1

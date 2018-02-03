@@ -118,9 +118,11 @@ class GameListElement(GameListElementTemplate):
       self.status_label.foreground = colors.gray
    
   def update(self, updated_game):
-    if self.game['throws'] != updated_game['throws'] or self.game['p1_enabled'] != updated_game['p1_enabled']:
+    if self.game['throws'] != updated_game['throws']:
       self.game = updated_game
-    self.set_labels()
+      self.set_labels()
+      if self.child:
+        self.child.update(updated_game)
 
   def expand(self, **event_args):
     if not self.game['p1_enabled']:
@@ -129,10 +131,12 @@ class GameListElement(GameListElementTemplate):
     # with Notification('Loading game...'):
     # self.parent.raise_event_on_children('x-collapse')
     get_open_form().collapse_except_id(self.game.get_id())
-    self.game_view.add_component(PlayCatch(self.game, self.me, self))
+    self.child = PlayCatch(self.game, self.me, self)
+    self.game_view.add_component(self.child)
     self.game_summary.visible = False
     self.background = colors.white
     
   def collapse(self, **kwargs):
     self.game_view.clear()
+    self.child = None
     self.game_summary.visible = True

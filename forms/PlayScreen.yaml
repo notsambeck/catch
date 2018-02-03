@@ -54,7 +54,7 @@ components:
   layout_properties: {slot: sidebar}
   event_bindings: {click: account_click}
 - type: Timer
-  properties: {interval: 5}
+  properties: {interval: 3}
   name: timer_1
   event_bindings: {tick: timer_1_tick}
 container:

@@ -177,7 +177,7 @@ class BigTree(CanvasObject):
     
     self.trunk = Rectangle(x + .03, y, .04, .53, colors.darkred)
     self.apple1 = Circle(.015, .35, self.apple_r, colors.apple)
-    self.apple2 = Circle(.04, .15, self.apple_r, colors.apple)
+    self.apple2 = Circle(.04, .19, self.apple_r, colors.apple)
     self.apple = Circle(self.apple_x, self.apple_y, self.apple_r, colors.apple)
     for part in range(size):
       delta_x = rando(-0.3, 0.1)
@@ -204,7 +204,7 @@ class BigTree(CanvasObject):
       self.bonk = True
       self.apple_vx = .02
       self.apple_vy = -.06
-    elif self.apple_y > .8:
+    elif self.apple_y > .7:
       self.apple_vy = 0
       self.apple_vx *= .85
       if self.apple_vx < .01:

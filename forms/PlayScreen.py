@@ -33,10 +33,14 @@ class PlayScreen (PlayScreenTemplate):
     self.top_contacts.add_component(GameListContacts())
     
   def update_connections(self):
-    quick = bool(self.update_loop % 12)
+    quick = bool(self.update_loop % 20)
     self.update_loop += 1
 
-    server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
+    try:
+      server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
+    except anvil.server.SessionExpiredError:
+      error_handler('session expired error from get_games')  
+    
     self.wall_throws = server['wall_throws']
 
     print(server['msg'])    # retrieved n games

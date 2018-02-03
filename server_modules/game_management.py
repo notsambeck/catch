@@ -35,7 +35,7 @@ def get_games(wall_throws=0, server=False, quick=False):
       'msg': 'not logged in',
     }
    
-  me['wall_throws'] = max(wall_throws, me['wall_throws'])
+  app_tables.users.get_by_id(me.get_id())['wall_throws'] = max(wall_throws, app_tables.users.get_by_id(me.get_id())['wall_throws'])
   games = {}
   order = []
   waiting = []
@@ -71,7 +71,7 @@ def get_games(wall_throws=0, server=False, quick=False):
   return {'success': True,
           'msg': msg,
           'order': order,
-          'wall_throws': me['wall_throws'],
+          'wall_throws': app_tables.users.get_by_id(me.get_id())['wall_throws'],
           'games': games,}
 
 
@@ -163,6 +163,8 @@ def throw(game_id):
 @anvil.server.callable
 def get_game(game_id):
   '''
+  DEPRECATED all game updates come through get_games()
+  
   if user has permissions:
   returns game with id game_id 
   

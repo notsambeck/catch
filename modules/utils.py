@@ -19,7 +19,8 @@ class ErrorHandler:
     self.route_function = route_function
   
   def __call__(self, err):
-    self.display_function('DEBUG: Bumped from server, refreshing. {}'.format(str(err)))
+    if self.display_function:
+      self.display_function('DEBUG: Bumped from server, refreshing. {}'.format(str(err)))
     self.route_function('NewSessionHandler')
 
 

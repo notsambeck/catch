@@ -208,21 +208,15 @@ class PlayCatch (PlayCatchTemplate):
       c.text_align = 'left'
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(throws), pad, pad)
-      c.fill_text('RANK: {}'.format(1000 // (throws + 1)), pad, pad + self.h // 14)
+      c.fill_text('RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 14)
+      c.text_align = 'center'
+      c.text_baseline = 'bottom'
       if throws < 3 and self.counter % 5:
-        c.text_align = 'center'
-        c.text_baseline = 'bottom'
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
       if 6 > self.apple_counter >= 4:
-        c.text_align = 'center'
-        c.text_baseline = 'middle'
-        c.fill_style = colors.cloud3
-        c.fill_text('Maybe I should invest in BallCoin.', c.get_width() // 2, self.h // 2)
+        c.fill_text('Maybe I should invest in BallCoin.', c.get_width() // 2, self.h - pad)
       if self.apple_counter == 7:
-        c.text_align = 'center'
-        c.text_baseline = 'middle'
-        c.fill_style = colors.cloud3
-        c.fill_text('Nah.', c.get_width() // 2, self.h // 2)
+        c.fill_text('Nah.', c.get_width() // 2, self.h - pad)
     else:
       c.text_align = 'right'
       c.text_baseline = 'bottom'
@@ -231,7 +225,7 @@ class PlayCatch (PlayCatchTemplate):
       c.fill_text('Me', pad, self.h - pad)
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(self.game['throws']), pad, pad)
-      c.fill_text('RANK: {}'.format(1000 // (self.game['throws'] + 1)), pad, pad + self.h // 14)
+      c.fill_text('RANK: {}'.format(self.game['game_rank']), pad, pad + self.h // 14)
       if self.i_have_ball and self.game['throws'] <= 4 and not self.ball_moving and self.counter % 5:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
@@ -267,15 +261,12 @@ class PlayCatch (PlayCatchTemplate):
       elif self.game == 'wall' and self.ball_steps == 19:
         self.ball_arrived()
 
-    # update from server
-    if self.game != 'wall' and self.counter % 20 == 19 and not self.ball_moving and not self.i_have_ball:
-      game_live = anvil.server.call_s('get_game', self.game.get_id())
-      if not game_live['success']:
-        print(game_live['msg'])
-        
-      if game_live['success'] and game_live['game']['has_ball'] != self.game['has_ball']:
+  def update(self, updated_game):
+    # update from server fed by game_list_element
+    if self.game != 'wall' and not self.ball_moving:
+      if updated_game['has_ball'] != self.game['has_ball']:
         # print('updating from server...')
-        self.game = game_live['game']
+        self.game = updated_game
         self.ball_moving = True
         self.ball_steps = 0
         self.ball_vy = .06
