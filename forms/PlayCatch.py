@@ -213,11 +213,16 @@ class PlayCatch (PlayCatchTemplate):
         c.text_align = 'center'
         c.text_baseline = 'bottom'
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
-      if self.apple_counter == 4:
+      if 6 > self.apple_counter >= 4:
         c.text_align = 'center'
         c.text_baseline = 'middle'
-        c.fill_style = ''
-        c.fill_text('Maybe I should invest in TossCoin', c.get_width() // 2, self.h // 2)
+        c.fill_style = colors.cloud3
+        c.fill_text('Maybe I should invest in BallCoin.', c.get_width() // 2, self.h // 2)
+      if self.apple_counter == 7:
+        c.text_align = 'center'
+        c.text_baseline = 'middle'
+        c.fill_style = colors.cloud3
+        c.fill_text('Nah.', c.get_width() // 2, self.h // 2)
     else:
       c.text_align = 'right'
       c.text_baseline = 'bottom'
