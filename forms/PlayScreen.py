@@ -16,7 +16,8 @@ class PlayScreen (PlayScreenTemplate):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
 
-    set_default_error_handling(ErrorHandler(alert, open_form, user.get_id()))
+    self.error_handler = ErrorHandler(alert, open_form, user.get_id())
+    set_default_error_handling(self.error_handler)
     self.top_contacts.visible = False
     
     self.me = user
@@ -39,7 +40,7 @@ class PlayScreen (PlayScreenTemplate):
       server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
     except:
       print('starting EXCEPT on line 40, PlayScreen:')
-      error_handler('error: get_games()')
+      self.error_handler('error: get_games()')
       self.timer_1.interval = 100
       return
     
