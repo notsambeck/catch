@@ -9,7 +9,6 @@ from GameListWall import GameListWall
 
 import colors
 from utils import ErrorHandler
-error_handler = ErrorHandler(alert, open_form)
 
 
 class PlayScreen (PlayScreenTemplate):
@@ -17,7 +16,7 @@ class PlayScreen (PlayScreenTemplate):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
 
-    set_default_error_handling(error_handler)
+    set_default_error_handling(ErrorHandler(alert, open_form, user.get_id()))
     self.top_contacts.visible = False
     
     self.me = user
