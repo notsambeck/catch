@@ -21,6 +21,8 @@ class ErrorHandler:
     self.debug = True
   
   def __call__(self, err):
+    if self.debug:
+      print('ERROR HANDLER:')
     if self.display_function and self.debug:
       self.display_function('DEBUG MSG: Bumped from server. {}'.format(str(err)))
     if self.debug:

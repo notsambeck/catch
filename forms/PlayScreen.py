@@ -37,8 +37,9 @@ class PlayScreen (PlayScreenTemplate):
 
     try:
       server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
-    except anvil.server.SessionExpiredError:
-      error_handler('session expired error: get_games()')
+    except:
+      print('starting EXCEPT on line 40, PlayScreen:')
+      error_handler('error: get_games()')
       self.timer_1.interval = 100
       return
     

@@ -116,7 +116,7 @@ def start_session(my_id=None):
      'msg': status msg,}
   '''
   if debug:
-    print('start_session()')
+    print('start_session({})'.format(my_id))
   
   me = anvil.server.session.get('me', False)
   if debug:
@@ -157,6 +157,8 @@ def start_session(my_id=None):
             'msg': 'cookie found, logging in'}
   
   # in case of bad cookie:
+  if debug:
+    print('login failed; clearing cookie')
   anvil.server.cookies.local.clear()  
   return {'success': False,
           'msg': 'no login information found, please log in',}
@@ -165,6 +167,9 @@ def start_session(my_id=None):
 def row_login(user_row, remember_me):
   '''
   does the actions to start new session for a user row
+  
+  sets new 
+  
   '''
   if debug:
     print('row_login: user={} remember_me={}'.format(user_row['handle'], str(remember_me)))
