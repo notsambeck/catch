@@ -174,12 +174,13 @@ def row_login(user_row, remember_me):
 @anvil.server.callable
 def do_logout():
   if debug:
-    print('deleting cookie, NOT deleting session vars, logging out, resetting session')
+    print('deleting cookie, session vars; logging out.')
   anvil.server.cookies.local.clear()
-  # anvil.server.session['me'] = None
-  # anvil.server.session['remember_me']
   anvil.users.logout()
+  anvil.server.session['me'] = None
+  anvil.server.session['remember_me'] = False
   if debug:
+    print('cookie after logout(): {}'.format(anvil.server.cookies.local.get('user_id', False)))
     print('session vars after logout(): {}'.format(anvil.server.session['me']))
 
   

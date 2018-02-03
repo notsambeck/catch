@@ -35,15 +35,9 @@ class PlayScreen (PlayScreenTemplate):
   def update_connections(self):
     quick = bool(self.update_loop % 12)
     self.update_loop += 1
-    try:
-      server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
-      self.wall_throws = server['wall_throws']
-    except anvil.server.SessionExpiredError:
-      print('WARNING: session expired; resetting...')
-      anvil.server.reset_session()
-      anvil.server.call('start_session')
-      server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
-      self.wall_throws = server['wall_throws']
+
+    server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
+    self.wall_throws = server['wall_throws']
 
     print(server['msg'])    # retrieved n games
     if not server['success']:
@@ -83,6 +77,7 @@ class PlayScreen (PlayScreenTemplate):
     
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked   
+    self.timer_1.remove_from_parent()
     print('logout')
     anvil.server.call('do_logout')
     open_form('LoginScreen')
