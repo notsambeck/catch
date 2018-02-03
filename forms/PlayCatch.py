@@ -118,9 +118,6 @@ class PlayCatch (PlayCatchTemplate):
     self.ball_steps = 0
     
     self.apple_counter += 1
-    if self.game == 'wall' and self.apple_counter == 2:
-      print('launch apple')
-      self.tree.apple_falling = True
 
   def ball_arrived(self):
     self.ball_steps = 0
@@ -181,11 +178,14 @@ class PlayCatch (PlayCatchTemplate):
     if self.game == 'wall':
       # wall
       for delta in [.01 * i for i in range(8)]:
-        drawing.Rectangle(.48 + delta, .33 + delta, .03, .5, colors.red).draw()
-        
+        drawing.Rectangle(.48 + delta, .36 + delta / 2, .03, .46 + delta / 2, colors.red).draw()   
       # end of wall
-      drawing.Rectangle(.56, .41, .03, .5, colors.darkred).draw()
+      drawing.Rectangle(.56, .4, .03, .5, colors.darkred).draw()
       
+      if self.apple_counter == 2 and self.counter == 6:
+        print('launch apple')
+        self.tree.apple_falling = True
+
       self.tree.draw()
     
     c.fill_style = colors.white
@@ -213,9 +213,9 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'bottom'
       if throws < 3 and self.counter % 5:
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
-      if 6 > self.apple_counter >= 4:
+      if self.apple_counter == 4:
         c.fill_text('Maybe I should invest in BallCoin.', c.get_width() // 2, self.h - pad)
-      if self.apple_counter == 7:
+      if self.apple_counter == 6:
         c.fill_text('Nah.', c.get_width() // 2, self.h - pad)
     else:
       c.text_align = 'right'

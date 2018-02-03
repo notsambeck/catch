@@ -205,6 +205,7 @@ class BigTree(CanvasObject):
       self.apple_vx = .02
       self.apple_vy = -.06
     elif self.apple_y > .7:
+      self.apple_y = .82
       self.apple_vy = 0
       self.apple_vx *= .85
       if self.apple_vx < .01:
