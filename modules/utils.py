@@ -32,10 +32,10 @@ class ErrorHandler:
     if sess['success']:
       if self.debug:
         print(sess['msg'])
-      open_form('PlayScreen', user=sess['user'])
+      self.route_function('PlayScreen', user=sess['user'])
     else:
       print('fail: {}'.format(sess['msg']))
-      open_form('LoginScreen')
+      self.route_function('LoginScreen')
 
 
 def is_valid_number(number):
