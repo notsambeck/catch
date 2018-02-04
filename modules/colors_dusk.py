@@ -25,5 +25,5 @@ leaf3 = "rgba(100,130,70,.7)"
 leaf4 = "rgba(40,150,60,.8)"
 leaf5 = "rgba(70,120,30,.7)"
 
-sun = '#FFFFCC'
+sun = '#FA9'
 sky = '#E9A'

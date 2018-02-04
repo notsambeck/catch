@@ -9,7 +9,7 @@ import datetime
 hr = datetime.datetime.now().hour
 # print('hour:', hr)
 
-if hr < 5 or hr > 19:
+if hr < 6 or hr > 18:
   import colors_night as colors
 elif 7 < hr < 17:
   import colors_day as colors
@@ -93,19 +93,10 @@ class PlayCatch (PlayCatchTemplate):
   def throw_button_click(self, **event_args):
     if self.game == 'wall':
       return self.throw_wall()
-    
+        
     if not self.i_have_ball or self.ball_moving:
       return False
-    # tell server that ball has been thrown immediately
-    throw_status = anvil.server.call_s('throw', self.game.get_id())
     
-    if not throw_status['success']:
-      print('Throw failed:', throw_status['msg'])
-      return False
-    else:
-      self.game = throw_status['game']
-      self.wrapper.update(throw_status['game'])
-
     # reset y velocity
     self.ball_y = .78
     self.ball_vy = .06
@@ -113,6 +104,18 @@ class PlayCatch (PlayCatchTemplate):
     # change ball status so it starts moving
     self.ball_moving = True
     self.ball_steps = 0
+
+    # tell server that ball has been thrown
+    throw_status = anvil.server.call_s('throw', self.game.get_id())
+    
+    if not throw_status['success']:
+      print('Throw failed:', throw_status['msg'])
+      return False
+    
+    else:
+      self.game = throw_status['game']
+      self.wrapper.update(throw_status['game'])
+
     
   def throw_wall(self):
     if self.ball_moving:
@@ -153,16 +156,16 @@ class PlayCatch (PlayCatchTemplate):
     self.counter += 1
     self.counter = self.counter % 500
     
-    # clear the sky
+    # clear the sky i.e. old clouds
     c.clear_rect(0, 0, self.w * 1.5, self.h * .65)
+    
+    # sun
+    sun_height = (((hr % 12)-6)**2 - 10) * -.02
+    # print(sun_height)
+    drawing.Circle(0.8, sun_height, 0.02, colors.sun).draw()
     
     for cloud in self.clouds:
       cloud.draw()
-        
-    # sun
-    sun_height = (((hr % 12)-6)**2 - 36) * -.01
-    # print(sun_height)
-    drawing.Circle(0.8, sun_height, 0.03, colors.sun).draw()
     
     for bld in self.buildings:
       bld.draw()
@@ -230,9 +233,11 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'bottom'
       if throws < 3 and self.counter % 5:
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
-      if self.apple_counter == 4:
+      elif self.apple_counter == 3:
+        c.fill_text('Hmmmm...', c.get_width() // 2, self.h - pad) 
+      elif self.apple_counter == 4:
         c.fill_text('Maybe I should invest in BallCoin.', c.get_width() // 2, self.h - pad)
-      if self.apple_counter == 6:
+      elif self.apple_counter == 6:
         c.fill_text('Nah.', c.get_width() // 2, self.h - pad)
     else:
       c.text_align = 'right'
