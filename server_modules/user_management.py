@@ -137,7 +137,7 @@ def start_session(my_id=None):
     if debug:
       print('new session from browser')
       print('would cookie have worked?')
-      print(anvil.server.cookies.local.get('user_id', False))
+      print(anvil.server.cookies.local.get("user_id", False))
       try:
         cookie_id = anvil.server.cookies.local['user_id']
         print('method2: {}'.format(cookie_id))
@@ -190,7 +190,7 @@ def row_login(user_row, remember_me):
   if remember_me:
     anvil.server.cookies.local.set(365, user_id=user_row.get_id())
     if debug:
-      print('wrote cookie: {}'.format(anvil.server.cookies.local.get('user_id', False)))
+      print('wrote cookie, now reading: {}'.format(anvil.server.cookies.local.get("user_id", False)))
   
   if debug:
     start_time = datetime.utcnow()
@@ -212,7 +212,7 @@ def do_logout():
   anvil.server.session['me'] = None
   anvil.server.session['remember_me'] = False
   if debug:
-    print('cookie after logout(): {}'.format(anvil.server.cookies.local.get('user_id', False)))
+    print('cookie after logout(): {}'.format(anvil.server.cookies.local.get("user_id", False)))
     print('session vars after logout(): {}'.format(anvil.server.session['me']))
 
   

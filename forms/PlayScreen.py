@@ -39,7 +39,7 @@ class PlayScreen (PlayScreenTemplate):
     try:
       server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
     except:
-      print('starting EXCEPT on line 40, PlayScreen:')
+      print('starting EXCEPT on PlayScreen:')
       self.error_handler('error: get_games()')
       self.timer_1.interval = 100
       return
