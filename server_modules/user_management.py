@@ -137,6 +137,13 @@ def start_session(my_id=None):
     row_login(me, False)
     if debug:
       print('new session from browser')
+      print('would cookie have worked?')
+      print(anvil.server.cookies.local.get('user_id', False))
+      try:
+        cookie_id = anvil.server.cookies.local['user_id']
+        print('method2: {}'.format(cookie_id))
+      except:
+        print('user_id not found (errored)')
         
     return {'success': True,
             'user': me,
@@ -158,8 +165,8 @@ def start_session(my_id=None):
   
   # in case of bad cookie:
   if debug:
-    print('login failed; clearing cookie')
-  anvil.server.cookies.local.clear()  
+    print('login failed but NOT clearing cookie!')
+  # anvil.server.cookies.local.clear()  
   return {'success': False,
           'msg': 'no login information found, please log in',}
 
