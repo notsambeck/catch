@@ -143,7 +143,7 @@ def start_session(my_id=None):
         print('method2: {}'.format(cookie_id))
       except:
         print('user_id not found (errored)')
-    row_login(me, False)
+    row_login(me, True)
         
     return {'success': True,
             'user': me,
