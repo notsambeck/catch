@@ -134,7 +134,6 @@ def start_session(my_id=None):
     print('my_id passed by browser: {}'.format(str(my_id)))
   if my_id:
     me = app_tables.users.get_by_id(my_id)
-    row_login(me, False)
     if debug:
       print('new session from browser')
       print('would cookie have worked?')
@@ -144,6 +143,7 @@ def start_session(my_id=None):
         print('method2: {}'.format(cookie_id))
       except:
         print('user_id not found (errored)')
+    row_login(me, False)
         
     return {'success': True,
             'user': me,
