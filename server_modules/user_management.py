@@ -165,7 +165,7 @@ def start_session(my_id=None):
   
   # in case of bad cookie:
   if debug:
-    print('login failed but NOT clearing cookie!')
+    print('login failed')
   # anvil.server.cookies.local.clear()  
   return {'success': False,
           'msg': 'no login information found, please log in',}
