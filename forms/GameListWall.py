@@ -5,7 +5,7 @@ import tables
 from tables import app_tables
 from PlayCatch import PlayCatch
 
-import colors
+import colors_day as colors
     
 class GameListWall(GameListWallTemplate):
   '''

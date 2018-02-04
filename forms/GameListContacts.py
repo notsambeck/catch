@@ -5,7 +5,7 @@ import tables
 from tables import app_tables
 from AddContacts import AddContacts
 
-import colors
+import colors_day as colors
     
 class GameListContacts (GameListContactsTemplate):
   '''

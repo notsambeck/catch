@@ -4,7 +4,7 @@ import anvil.users
 import tables
 from tables import app_tables
 from utils import is_valid_color
-import colors
+import colors_day as colors
 
 from utils import ErrorHandler
 error_handler = ErrorHandler(alert, open_form)

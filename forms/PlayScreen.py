@@ -7,9 +7,9 @@ from GameListContacts import GameListContacts
 from GameListElement import GameListElement
 from GameListWall import GameListWall
 
-import colors
 from utils import ErrorHandler
 
+import colors_day as colors
 
 class PlayScreen (PlayScreenTemplate):
   def __init__(self, user, game=None, **properties):

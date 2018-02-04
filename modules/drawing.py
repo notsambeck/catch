@@ -1,5 +1,5 @@
 import random
-import colors
+import colors_day as colors
 from utils import rando
 
 '''

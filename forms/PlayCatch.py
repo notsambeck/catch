@@ -3,8 +3,19 @@ import anvil.server
 import anvil.users
 import random
 import drawing
-import colors
 from utils import rando
+import datetime
+
+hr = datetime.datetime.now().hour
+# print('hour:', hr)
+
+if hr < 5 or hr > 19:
+  import colors_night as colors
+elif 7 < hr < 17:
+  import colors_day as colors
+else:
+  import colors_dusk as colors
+
 
 from utils import ErrorHandler
 error_handler = ErrorHandler(alert, open_form)
@@ -137,6 +148,7 @@ class PlayCatch (PlayCatchTemplate):
 
     # alias
     c = self.canvas_1
+    c.background = colors.sky
     
     self.counter += 1
     self.counter = self.counter % 500
@@ -146,6 +158,11 @@ class PlayCatch (PlayCatchTemplate):
     
     for cloud in self.clouds:
       cloud.draw()
+        
+    # sun
+    sun_height = (((hr % 12)-6)**2 - 36) * -.01
+    # print(sun_height)
+    drawing.Circle(0.8, sun_height, 0.03, colors.sun).draw()
     
     for bld in self.buildings:
       bld.draw()

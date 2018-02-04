@@ -4,7 +4,7 @@ import anvil.users
 import tables
 from tables import app_tables
 from utils import is_valid_number, hash_phone
-import colors
+import colors_day as colors
 
 
 class AddContacts (AddContactsTemplate):

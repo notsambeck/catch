@@ -6,7 +6,7 @@ from tables import app_tables
 from PlayCatch import PlayCatch
 
 from datetime import datetime
-import colors
+import colors_day as colors
     
 class GameListElement(GameListElementTemplate):
   '''
