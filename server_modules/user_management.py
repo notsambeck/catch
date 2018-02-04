@@ -128,7 +128,7 @@ def start_session(my_id=None):
         
     return {'success': True,
             'user': me,
-            'msg': 'restart current session',}
+            'msg': 'restart existing session',}
   
   if debug:
     print('my_id passed by browser: {}'.format(str(my_id)))
@@ -163,9 +163,8 @@ def start_session(my_id=None):
             'user': me,
             'msg': 'cookie found, logging in'}
   
-  # in case of bad cookie:
   if debug:
-    print('login failed')
+    print('automatic login failed')
   # anvil.server.cookies.local.clear()  
   return {'success': False,
           'msg': 'no login information found, please log in',}
