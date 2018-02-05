@@ -20,6 +20,7 @@ class GameListElement(GameListElementTemplate):
     
     # self.game is ENTIRE ROW!
     self.game = game
+    self.child = None
     
     # set self.me, self.you, self.am0
     self.me = user
