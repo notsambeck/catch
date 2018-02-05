@@ -191,7 +191,7 @@ def row_login(user_row, remember_me):
     if debug:
       print('wrote cookie, now reading: {}'.format(anvil.server.cookies.local.get("user_id", False)))
   
-  if user_row['phone_hash'] == '5035053813':
+  if user_row['phone_hash'] == '5555555555':
     if debug:
       start_time = datetime.utcnow()
       print('Sam logged in. ranking...')
