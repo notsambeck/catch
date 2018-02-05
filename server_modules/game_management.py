@@ -12,7 +12,7 @@ debug = False
 
 
 @anvil.server.callable
-def get_games(wall_throws=0, server=False, quick=False):
+def get_games(wall_throws=0, robot_throws=0, server=False, quick=False):
   '''
   get all the connections for current user
   
@@ -36,6 +36,8 @@ def get_games(wall_throws=0, server=False, quick=False):
     }
    
   app_tables.users.get_by_id(me.get_id())['wall_throws'] = max(wall_throws, app_tables.users.get_by_id(me.get_id())['wall_throws'])
+  app_tables.users.get_by_id(me.get_id())['robot_throws'] = max(robot_throws, app_tables.users.get_by_id(me.get_id())['robot_throws'])
+
   games = {}
   order = []
   waiting = []
@@ -71,6 +73,7 @@ def get_games(wall_throws=0, server=False, quick=False):
   return {'success': True,
           'msg': msg,
           'order': order,
+          'robot_throws': app_tables.users.get_by_id(me.get_id())['robot_throws'],
           'wall_throws': app_tables.users.get_by_id(me.get_id())['wall_throws'],
           'games': games,}
 

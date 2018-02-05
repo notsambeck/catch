@@ -321,7 +321,8 @@ def create_user(phone, password, handle):
         password_hash=bhash(password),
         twilio_code=generate_code(),
         confirmations_sent=0,
-        wall_throws=0,)
+        wall_throws=0,
+        robot_throws=0,)
   
   # OR:
   # account does not exist
@@ -335,6 +336,7 @@ def create_user(phone, password, handle):
       account_created=datetime.utcnow(),
       confirmations_sent=0,
       wall_throws=0,
+      robot_throws=0, 
       twilio_code=generate_code(),
     )
     

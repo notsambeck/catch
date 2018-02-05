@@ -6,6 +6,7 @@ from tables import app_tables
 from GameListContacts import GameListContacts
 from GameListElement import GameListElement
 from GameListWall import GameListWall
+from GameListRobot import GameListRobot
 
 from utils import ErrorHandler
 
@@ -23,6 +24,7 @@ class PlayScreen (PlayScreenTemplate):
     self.me = user
     name = self.me['handle']
     self.wall_throws = self.me['wall_throws']
+    self.robot_throws = self.me['robot_throws']
     self.handle.text = 'user: {}'.format(name)   # for menu bar
     self.active_view = 'wall'
     
@@ -37,8 +39,11 @@ class PlayScreen (PlayScreenTemplate):
     self.update_loop += 1
 
     try:
-      server = anvil.server.call_s('get_games', wall_throws=self.wall_throws, quick=quick)
-    except:
+      server = anvil.server.call_s('get_games',
+                                   robot_throws=self.robot_throws,
+                                   wall_throws=self.wall_throws,
+                                   quick=quick)
+    except anvil.server.SessionExpiredError:
       print('starting EXCEPT on PlayScreen:')
       self.error_handler('error: get_games()')
       self.timer_1.interval = 100
@@ -53,7 +58,7 @@ class PlayScreen (PlayScreenTemplate):
     
     else:
       # successfully got games from server + there are already games
-      if server['order'] == self.game_list[1:-1]:  # game_list includes wall and bottom_contacts
+      if server['order'] == self.game_list[2:-1]:  # game_list includes wall and bottom_contacts
         for _id in server['order']:
           server_game = server['games'][_id]
           self.game_views[_id].update(server_game)
@@ -64,6 +69,8 @@ class PlayScreen (PlayScreenTemplate):
         self.content_panel.clear()
         self.game_views['wall'] = GameListWall(self.me)
         self.content_panel.add_component(self.game_views['wall'])
+        self.game_views['robot'] = GameListRobot(self.me)
+        self.content_panel.add_component(self.game_views['robot'])
         
         for _id in server['order']:
           self.game_views[_id] = GameListElement(self.me, server['games'][_id])  # make the panel
@@ -72,7 +79,7 @@ class PlayScreen (PlayScreenTemplate):
         self.game_views['bottom_contacts'] = GameListContacts()
         self.content_panel.add_component(self.game_views['bottom_contacts'])
         
-        self.game_list = ['wall'] + server['order'] + ['bottom_contacts']
+        self.game_list = ['wall', 'robot'] + server['order'] + ['bottom_contacts']
         
         self.game_views[self.active_view].expand()
         # print('made new game_list')

@@ -37,13 +37,18 @@ class PlayCatch (PlayCatchTemplate):
     self.game = game         # Game (dictionary-like)
     self.wrapper = wrapper   # GameListElement that holds this game
     
-    if game != 'wall':
+    if game != 'wall' and game != 'robot':
       if not self.game['is_active']:
         activate = anvil.server.call_s('make_game_active', self.game.get_id())
         assert activate['success']
         self.game = activate['game']
 
       self.am0 = self.game['player_0'] == self.me
+      
+    if game == 'robot':
+      self.am0 = True
+      self.i_have_ball = True
+      self.robot_counter = 0
     
     # motion loop counter
     self.counter = 0
@@ -65,11 +70,11 @@ class PlayCatch (PlayCatchTemplate):
       self.ball_vx = .04
   
     else:
-      
-      if self.am0:
-        self.i_have_ball = self.game['has_ball'] == 0
-      else:
-        self.i_have_ball = self.game['has_ball'] == 1
+      if self.game != 'robot':
+        if self.am0:
+          self.i_have_ball = self.game['has_ball'] == 0
+        else:
+          self.i_have_ball = self.game['has_ball'] == 1
       
       if self.i_have_ball:
         self.ball_x = .12
@@ -86,6 +91,12 @@ class PlayCatch (PlayCatchTemplate):
     if self.game == 'wall':
       return True
     
+    if self.game == 'robot':
+      self.p1_name = 'Robot'
+      self.opp_color_1 = colors.building1
+      self.opp_color_2 = colors.building2
+      return True
+    
     self.p1_name = self.wrapper.you
     self.opp_color_1 = self.wrapper.opp_color_1
     self.opp_color_2 = self.wrapper.opp_color_2
@@ -93,9 +104,12 @@ class PlayCatch (PlayCatchTemplate):
   def throw_button_click(self, **event_args):
     if self.game == 'wall':
       return self.throw_wall()
-        
+
     if not self.i_have_ball or self.ball_moving:
       return False
+    
+    if self.game == 'robot':
+      return self.throw_robot()    
     
     # reset y velocity
     self.ball_y = .78
@@ -116,6 +130,23 @@ class PlayCatch (PlayCatchTemplate):
       self.game = throw_status['game']
       self.wrapper.update(throw_status['game'])
 
+  def throw_robot(self):
+    if self.ball_moving:
+      return False
+    
+    self.i_have_ball = not self.i_have_ball
+    
+    get_open_form().robot_throws += 1    # PlayScreen.wall_throws stays updated
+    
+    # reset y velocity
+    self.ball_y = .78
+    self.ball_vy = .06
+    
+    # change ball status so it starts moving
+    self.ball_moving = True
+    self.ball_steps = 0
+    
+    self.robot_counter += 1
     
   def throw_wall(self):
     if self.ball_moving:
@@ -138,6 +169,9 @@ class PlayCatch (PlayCatchTemplate):
     self.counter = 0
     self.ball_moving = False
     self.set_directions()
+    
+    if self.game == 'robot' and not self.i_have_ball:
+      self.throw_robot()
       
   def draw(self, **event_args):
     '''
@@ -190,9 +224,14 @@ class PlayCatch (PlayCatchTemplate):
     
     # player1
     if self.game != 'wall':
-      drawing.Rectangle(.9, .57, .04, .3, self.opp_color_1).draw()
-      drawing.Circle(.88, .79, .025, self.opp_color_2).draw()
-      drawing.Circle(.88, .57, .035, self.opp_color_2).draw()
+      if self.game == 'robot':
+        drawing.Rectangle(.9, .57, .08, .3, self.opp_color_1).draw()
+        drawing.Rectangle(.9, .57, .08, .06, self.opp_color_2).draw()
+        drawing.Rectangle(.9, .79, .03, .05, self.opp_color_2).draw()
+      else:
+        drawing.Rectangle(.9, .57, .04, .3, self.opp_color_1).draw()
+        drawing.Circle(.88, .57, .035, self.opp_color_2).draw()
+        drawing.Circle(.88, .79, .025, self.opp_color_2).draw()
     
     # wall: 
     if self.game == 'wall':
@@ -239,6 +278,20 @@ class PlayCatch (PlayCatchTemplate):
         c.fill_text('Maybe I should invest in BallCoin.', c.get_width() // 2, self.h - pad)
       elif self.apple_counter == 6:
         c.fill_text('Nah.', c.get_width() // 2, self.h - pad)
+        
+    elif self.game == 'robot':
+      throws = get_open_form().robot_throws
+      c.text_align = 'left'
+      c.text_baseline = 'top'
+      c.fill_text('THROWS: {}'.format(throws), pad, pad)
+      c.fill_text('RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 14)
+      c.text_align = 'center'
+      c.text_baseline = 'bottom'
+      if throws < 2 and self.counter % 5:
+        c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
+      elif not self.robot_counter % 2:
+        c.fill_text('I AM INTERESTED IN CRYPTOCURRENCIES.', c.get_width() // 2, self.h - pad)
+        
     else:
       c.text_align = 'right'
       c.text_baseline = 'bottom'
