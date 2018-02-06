@@ -14,7 +14,7 @@ class GameListRobot (GameListRobotTemplate):
   
   1 game per gameListElement instance
   '''
-  def __init__(self, user, **properties):
+  def __init__(self, user, startup=False, **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
     
@@ -35,15 +35,18 @@ class GameListRobot (GameListRobotTemplate):
     else:
       self.my_color_2 = colors.skin
 
-    self.set_labels()
     self.set_event_handler('x-collapse', self.collapse)
-    
+    if startup:
+      self.status_label.text = 'CATCHBOT     Throws: {}'.format(me['robot_throws'])
+    else:
+      self.status_label.text = 'CATCHBOT     Throws: {}'.format(get_open_form().robot_throws)
+    self.status_label.foreground = colors.grass
+      
   def set_labels(self):
     # clear
     self.background = colors.white
     self.status_label.text = 'CATCHBOT     Throws: {}'.format(get_open_form().robot_throws)
-    self.status_label.foreground = colors.grass
-
+    
   def expand(self, **event_args):
     # This method is called when the link is clicked
     # with Notification('Loading game...'):
