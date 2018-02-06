@@ -45,8 +45,8 @@ class PlayScreen (PlayScreenTemplate):
                                    quick=quick)
     except anvil.server.SessionExpiredError:
       print('starting EXCEPT on PlayScreen:')
-      self.error_handler('error: get_games()')
       self.timer_1.interval = 100
+      open_form('PleaseRefresh')
       return
     
     self.wall_throws = max(self.wall_throws, server['wall_throws'])
