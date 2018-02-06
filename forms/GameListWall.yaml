@@ -15,7 +15,7 @@ components:
     components:
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
-        visible: true, text: '', font_size: 16, font: '', spacing_above: none, icon_align: left_edge,
+        visible: true, text: '', font_size: 16, font: '', spacing_above: none, icon_align: left,
         spacing_below: none, italic: false, background: '', bold: false, underline: false,
         icon: ''}
       name: num_throws
