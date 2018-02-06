@@ -37,15 +37,15 @@ class GameListRobot (GameListRobotTemplate):
 
     self.set_event_handler('x-collapse', self.collapse)
     if startup:
-      self.status_label.text = 'CATCHBOT     Throws: {}'.format(self.me['robot_throws'])
+      self.status_label.text = 'CATCHBOT   Throws: {}'.format(self.me['robot_throws'])
     else:
-      self.status_label.text = 'CATCHBOT     Throws: {}'.format(get_open_form().robot_throws)
+      self.status_label.text = 'CATCHBOT   Throws: {}'.format(get_open_form().robot_throws)
     self.status_label.foreground = colors.grass
       
   def set_labels(self):
     # clear
     self.background = colors.white
-    self.status_label.text = 'CATCHBOT     Throws: {}'.format(get_open_form().robot_throws)
+    self.status_label.text = 'CATCHBOT   Throws: {}'.format(get_open_form().robot_throws)
     
   def expand(self, **event_args):
     # This method is called when the link is clicked
