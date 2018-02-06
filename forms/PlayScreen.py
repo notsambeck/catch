@@ -25,14 +25,9 @@ class PlayScreen (PlayScreenTemplate):
     name = self.me['handle']
     self.wall_throws = self.me['wall_throws']
     self.robot_throws = self.me['robot_throws']
+    print('robot throws on __init__: {}'.format(self.robot_throws))
     self.handle.text = 'user: {}'.format(name)   # for menu bar
     self.active_view = 'wall'
-    
-    self.game_list = ['wall', 'robot']   # list of game_ids IN DISPLAY ORDER
-    self.game_views = {'wall': GameListWall(self.me, startup=True),
-                       'robot': GameListRobot(self.me)}
-    self.content_panel.add_component(self.game_views['wall'])
-    self.content_panel.add_component(self.game_views['robot'])
     
     self.update_loop = 0   # quick update counter
     
@@ -52,6 +47,7 @@ class PlayScreen (PlayScreenTemplate):
       return
     
     self.wall_throws = max(self.wall_throws, server['wall_throws'])
+    self.robot_throws = max(self.robot_throws, server['robot_throws'])
 
     # print(server['msg'])    # retrieved n games
     if not server['success']:
@@ -80,7 +76,6 @@ class PlayScreen (PlayScreenTemplate):
           startup = False
         else:
           startup = True
-
         
         for _id in server['order']:
           self.game_views[_id] = GameListElement(self.me, server['games'][_id])  # make the panel
@@ -117,6 +112,12 @@ class PlayScreen (PlayScreenTemplate):
 
   def content_panel_show (self, **event_args):
     # This method is called when the column panel is shown on the screen
+    self.game_list = ['wall', 'robot']   # list of game_ids IN DISPLAY ORDER
+    self.game_views = {'wall': GameListWall(self.me, startup=True),
+                       'robot': GameListRobot(self.me)}
+    self.content_panel.add_component(self.game_views['wall'])
+    self.content_panel.add_component(self.game_views['robot'])
+    
     self.update_connections()
     
   def collapse_except_id(self, game_id):
