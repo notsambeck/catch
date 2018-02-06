@@ -300,7 +300,7 @@ class PlayCatch (PlayCatchTemplate):
       if self.i_have_ball and self.game['throws'] <= 4 and not self.ball_moving and self.counter % 5:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
-        c.fill_text('TAP TO THROW', self.w // 2, self.h - pad)
+        c.fill_text('TAP TO THROW', self.w // 2, self.h // 2)
     
     # move ball: not wall
     if self.ball_moving and not self.game == 'wall':

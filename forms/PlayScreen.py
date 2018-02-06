@@ -54,13 +54,13 @@ class PlayScreen (PlayScreenTemplate):
       self.wall_throws = max(self.wall_throws, server['wall_throws'])
       self.robot_throws = max(self.robot_throws, server['robot_throws'])
    
-      if not server['order'] and self.game_list == ['wall', 'robot']:
+      if self.game_list == ['wall', 'robot']:
         self.game_list.append('bottom_contacts')
         self.game_views['bottom_contacts'] = GameListContacts()
         self.content_panel.add_component(self.game_views['bottom_contacts'])
       
       # successfully got games from server + there are already games
-      elif server['order'] == self.game_list[2:-1]:  # game_list includes wall and bottom_contacts
+      if server['order'] == self.game_list[2:-1]:  # game_list includes wall and bottom_contacts
         for _id in server['order']:
           server_game = server['games'][_id]
           self.game_views[_id].update(server_game)
@@ -69,7 +69,6 @@ class PlayScreen (PlayScreenTemplate):
       # local game_list is out of date. Clear and start over
       else:
         # do the following except for initial load with only wall
-
         if self.game_list != ['wall', 'robot']:
           self.content_panel.clear()
           self.game_views['wall'] = GameListWall(self.me)
