@@ -44,6 +44,7 @@ class PlayCatch (PlayCatchTemplate):
         self.game = activate['game']
 
       self.am0 = self.game['player_0'] == self.me
+      self.has_ball = self.game['has_ball']
       
     if game == 'robot':
       self.am0 = True
@@ -72,9 +73,9 @@ class PlayCatch (PlayCatchTemplate):
     else:
       if self.game != 'robot':
         if self.am0:
-          self.i_have_ball = self.game['has_ball'] == 0
+          self.i_have_ball = self.has_ball == 0
         else:
-          self.i_have_ball = self.game['has_ball'] == 1
+          self.i_have_ball = self.has_ball == 1
       
       if self.i_have_ball:
         self.ball_x = .12
@@ -112,7 +113,7 @@ class PlayCatch (PlayCatchTemplate):
       return self.throw_robot()    
     
     # update local game state so slow server doesn't break this
-    self.game['has_ball'] = 1 - self.game['has_ball']
+    self.has_ball = not self.has_ball
     
     # reset y velocity
     self.ball_y = .78
@@ -334,12 +335,12 @@ class PlayCatch (PlayCatchTemplate):
   def update(self, updated_game):
     # update from server fed by game_list_element
     if self.game != 'wall' and not self.ball_moving:
-      if updated_game['has_ball'] != self.game['has_ball']:
-        # print('updating from server...')
-        self.game = updated_game
-        self.ball_moving = True
-        self.ball_steps = 0
-        self.ball_vy = .06
+      # print('updating from server...')
+      self.game = updated_game
+      self.ball_moving = True
+      self.ball_steps = 0
+      self.ball_vy = .06
+      self.set_directions()
 
   def canvas_1_show (self, **event_args):
     # This method is called when the Canvas is shown on the screen
