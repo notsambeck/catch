@@ -69,7 +69,7 @@ class Login(LoginTemplate):
         if user_created['success']:
           Notification('account created').show()
           get_open_form().content_panel.clear()
-          get_open_form().content_panel.add_component(ConfirmAccount(number))
+          get_open_form().content_panel.add_component(ConfirmAccount(number, self.persist.checked))
         else:
           alert(user_created['msg'])
 
@@ -88,7 +88,7 @@ class Login(LoginTemplate):
       elif status['success'] and not status['enabled']:
         Notification("Unverified account...").show()
         get_open_form().content_panel.clear()
-        get_open_form().content_panel.add_component(ConfirmAccount(number))
+        get_open_form().content_panel.add_component(ConfirmAccount(number, remember_me=self.persist.checked))
 
       # else: fail
       else:

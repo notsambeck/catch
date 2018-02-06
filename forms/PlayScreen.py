@@ -44,23 +44,27 @@ class PlayScreen (PlayScreenTemplate):
       self.timer_1.interval = 100
       open_form('PleaseRefresh')
       return
-    
-    self.wall_throws = max(self.wall_throws, server['wall_throws'])
-    self.robot_throws = max(self.robot_throws, server['robot_throws'])
-
+ 
     # print(server['msg'])    # retrieved n games
     if not server['success']:
       print('update failed', server['msg'])
       return None
     
     else:
-       
+      self.wall_throws = max(self.wall_throws, server['wall_throws'])
+      self.robot_throws = max(self.robot_throws, server['robot_throws'])
+   
+      if self.game_list == ['wall', 'robot']:
+        self.game_list.append('bottom_contacts')
+        self.game_views['bottom_contacts'] = GameListContacts()
+        self.content_panel.add_component(self.game_views['bottom_contacts'])
+      
       # successfully got games from server + there are already games
-      if server['order'] == self.game_list[2:-1]:  # game_list includes wall and bottom_contacts
+      elif server['order'] == self.game_list[2:-1]:  # game_list includes wall and bottom_contacts
         for _id in server['order']:
           server_game = server['games'][_id]
           self.game_views[_id].update(server_game)
-        # print('quick updated game_list')
+        # print('quick updated game_list')     
         
       # local game_list is out of date. Clear and start over
       else:

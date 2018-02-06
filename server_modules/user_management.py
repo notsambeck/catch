@@ -447,7 +447,7 @@ def get_user_id_status_by_phone(phone):
 
 
 @anvil.server.callable
-def confirm_account(code, phone):
+def confirm_account(code, phone, remember_me):
   '''
   confirm a user has their twilio code
 
@@ -475,9 +475,7 @@ def confirm_account(code, phone):
   
   if code == me['twilio_code']:
     me['enabled'] = True
-    anvil.users.force_login(me)
-    start_session()
-    
+    row_login(me, remember_me=remember_me)
     
     # pre-activate games that dummy was in already
     existing_games = app_tables.games.search(player_1=me)

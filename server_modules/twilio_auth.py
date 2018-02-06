@@ -49,11 +49,11 @@ def send_authorization_message(phone):
     try:
       message = client.api.account.messages.create(
         # to="+1{}".format(phone),     # TODO
-        to="+1{}".format(sendto),
+        to="+1{}".format(phone),
         from_="+15035582695",
         body="Your Catch authentication code is: {}. Sent by: https://playcatch.anvilapp.net".format(user['twilio_code'])
       )
-      
+ 
       user['confirmations_sent'] += 1
       return {'success': True,
               'msg': 'message sent'}
