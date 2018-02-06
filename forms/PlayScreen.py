@@ -114,7 +114,7 @@ class PlayScreen (PlayScreenTemplate):
     # This method is called when the column panel is shown on the screen
     self.game_list = ['wall', 'robot']   # list of game_ids IN DISPLAY ORDER
     self.game_views = {'wall': GameListWall(self.me, startup=True),
-                       'robot': GameListRobot(self.me)}
+                       'robot': GameListRobot(self.me, startup=True)}
     self.content_panel.add_component(self.game_views['wall'])
     self.content_panel.add_component(self.game_views['robot'])
     

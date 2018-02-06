@@ -37,7 +37,7 @@ class GameListRobot (GameListRobotTemplate):
 
     self.set_event_handler('x-collapse', self.collapse)
     if startup:
-      self.status_label.text = 'CATCHBOT     Throws: {}'.format(me['robot_throws'])
+      self.status_label.text = 'CATCHBOT     Throws: {}'.format(self.me['robot_throws'])
     else:
       self.status_label.text = 'CATCHBOT     Throws: {}'.format(get_open_form().robot_throws)
     self.status_label.foreground = colors.grass
