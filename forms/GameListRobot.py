@@ -41,7 +41,7 @@ class GameListRobot (GameListRobotTemplate):
   def set_labels(self):
     # clear
     self.background = colors.white
-    self.status_label.text = 'CATCHBOT.   Throws: {}'.format(get_open_form().robot_throws)
+    self.status_label.text = 'CATCHBOT     Throws: {}'.format(get_open_form().robot_throws)
 
   def expand(self, **event_args):
     # This method is called when the link is clicked
