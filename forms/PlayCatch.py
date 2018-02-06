@@ -337,7 +337,7 @@ class PlayCatch (PlayCatchTemplate):
     if self.game != 'wall' and not self.ball_moving:
       # print('updating from server...')
       self.game = updated_game
-      self.has_ball = bool(self.game[self.has_ball])
+      self.has_ball = bool(self.game['has_ball'])
       self.ball_moving = True
       self.ball_steps = 0
       self.ball_vy = .06
