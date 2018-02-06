@@ -111,6 +111,9 @@ class PlayCatch (PlayCatchTemplate):
     if self.game == 'robot':
       return self.throw_robot()    
     
+    # update local game state so slow server doesn't break this
+    self.game['has_ball'] = 1 - self.game['has_ball']
+    
     # reset y velocity
     self.ball_y = .78
     self.ball_vy = .06
