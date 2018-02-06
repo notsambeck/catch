@@ -7,6 +7,7 @@ from GameListContacts import GameListContacts
 from GameListElement import GameListElement
 from GameListWall import GameListWall
 from GameListRobot import GameListRobot
+from AddContacts import AddContacts
 
 from utils import ErrorHandler
 
@@ -32,7 +33,7 @@ class PlayScreen (PlayScreenTemplate):
     self.game_list = []   # list of game_ids IN DISPLAY ORDER
 
     self.update_loop = 0   # quick update counter
-    self.top_contacts.add_component(GameListContacts())
+    self.top_contacts.add_component(AddContacts())
     
   def update_connections(self):
     quick = bool(self.update_loop % 20)
@@ -103,8 +104,6 @@ class PlayScreen (PlayScreenTemplate):
       self.button_1.background = colors.gray
     else:
       self.button_1.background = colors.highlight
-    
-    self.top_contacts.get_components()[0].expand()
 
   def account_click (self, **event_args):
     # This method is called when the button is clicked

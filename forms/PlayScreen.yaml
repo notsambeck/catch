@@ -25,14 +25,6 @@ components:
   properties: {}
   name: handle
   layout_properties: {slot: nav-right}
-- type: Button
-  properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: Add Contacts, font_size: 18, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '#92bf89',
-    bold: true, underline: false, icon: ''}
-  name: button_1
-  layout_properties: {slot: sidebar}
-  event_bindings: {click: button_1_click}
 - type: Spacer
   properties: {height: 32}
   name: spacer_1
