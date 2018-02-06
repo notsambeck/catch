@@ -342,7 +342,6 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_moving = True
       self.ball_steps = 0
       self.ball_vy = .06
-      self.set_directions()
 
   def canvas_1_show (self, **event_args):
     # This method is called when the Canvas is shown on the screen
