@@ -24,7 +24,7 @@ class ErrorHandler:
     if self.debug:
       print('ERROR HANDLER:')
     if self.display_function and self.debug:
-      self.display_function('DEBUG MSG: Bumped from server. {}'.format(str(err)))
+      self.display_function('DEBUG ONLY: If this was a timeout, you must refresh browser. {}'.format(str(err)))
     if self.debug:
       print('reset_session()')
     anvil.server.reset_session()

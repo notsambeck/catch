@@ -8,7 +8,7 @@ accent = '#9999DD'
 off = '#AA3300'
 cloud1 = "rgba(220,220,210,.2)"
 cloud2 = "rgba(190,190,190,.25)"
-cloud3 = "rgba(230,220,210,.8)"
+cloud3 = "rgba(230,220,210,.3)"
 
 building1 = '#988'
 building2 = '#667'

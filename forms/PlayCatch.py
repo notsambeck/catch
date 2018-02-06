@@ -194,7 +194,7 @@ class PlayCatch (PlayCatchTemplate):
     c.clear_rect(0, 0, self.w * 1.5, self.h * .65)
     
     # sun
-    sun_height = (((hr % 12)-6)**2 - 10) * -.02
+    sun_height = (((hr % 12)-6)**2 - 15) * -.02
     # print(sun_height)
     drawing.Circle(0.8, sun_height, 0.02, colors.sun).draw()
     
@@ -272,12 +272,6 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'bottom'
       if throws < 3 and self.counter % 5:
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
-      elif self.apple_counter == 3:
-        c.fill_text('Hmmmm...', c.get_width() // 2, self.h - pad) 
-      elif self.apple_counter == 4:
-        c.fill_text('Maybe I should invest in BallCoin.', c.get_width() // 2, self.h - pad)
-      elif self.apple_counter == 6:
-        c.fill_text('Nah.', c.get_width() // 2, self.h - pad)
         
     elif self.game == 'robot':
       throws = get_open_form().robot_throws
@@ -289,9 +283,7 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'bottom'
       if throws < 2 and self.counter % 5:
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
-      elif not self.robot_counter % 2:
-        c.fill_text('I AM INTERESTED IN CRYPTOCURRENCIES.', c.get_width() // 2, self.h - pad)
-        
+
     else:
       c.text_align = 'right'
       c.text_baseline = 'bottom'

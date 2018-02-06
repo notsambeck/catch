@@ -123,7 +123,8 @@ class RandomCloud(CanvasObject):
       self.parts.append(Rectangle(x + delta_x, y - delta_y, 
                                   w, h, 
                                   color=random.choice([colors.cloud1,
-                                                       colors.cloud2])))
+                                                       colors.cloud2,
+                                                      colors.cloud3])))
     
   def draw(self):
     for part in self.parts:
