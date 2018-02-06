@@ -125,12 +125,17 @@ class GameListElement(GameListElementTemplate):
         self.child.update(updated_game)
 
   def expand(self, **event_args):
+    start = datetime.utcnow()
+    print('TIMING...')
     if not self.game['p1_enabled']:
       return False
     # This method is called when the link is clicked
     # with Notification('Loading game...'):
     # self.parent.raise_event_on_children('x-collapse')
-    get_open_form().collapse_except_id(self.game.get_id())
+    top = get_open_form()
+    print('TIME: {}'.format(str(datetime.utcnow() - start)))
+    top.collapse_except_id(self.game.get_id())
+    
     self.child = PlayCatch(self.game, self.me, self)
     self.game_view.add_component(self.child)
     self.game_summary.visible = False

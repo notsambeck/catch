@@ -20,11 +20,15 @@ class ErrorHandler:
     self.my_id = my_id
     self.debug = True
   
-  def __call__(self, err):
+  def restart_session(self, err):
+    # TODO:
+    # this function was __call__();
+    # but reset_session() is causing trouble with cookies
+    # if that bug is fixed, change back?
     if self.debug:
-      print('ERROR HANDLER:')
+      print('ERROR HANDLER 1:')
     if self.display_function and self.debug:
-      self.display_function('DEBUG ONLY: If this was a timeout, you must refresh browser. {}'.format(str(err)))
+      self.display_function('Uncaught error; if behavior is strange, refresh. {}'.format(str(err)))
     if self.debug:
       print('reset_session()')
     anvil.server.reset_session()
@@ -38,8 +42,14 @@ class ErrorHandler:
     else:
       print('fail: {}'.format(sess['msg']))
       self.route_function('LoginScreen')
-
-
+      
+  def __call__(self, err):
+    if self.debug:
+      print('ERROR HANDLER 0:')
+    if self.display_function and self.debug:
+      self.display_function('Uncaught error; if behavior is strange, refresh. No action was taken. {}'.format(str(err)))
+ 
+    
 def is_valid_number(number):
   '''
   Args:
