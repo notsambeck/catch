@@ -10,8 +10,8 @@ cloud1 = "rgba(220,150,180,.2)"
 cloud2 = "rgba(250,220,140,.15)"
 cloud3 = "rgba(250,250,230,.3)"
 
-building1 = '#A88'
-building2 = '#967'
+building1 = '#988'
+building2 = '#667'
 skin = '#AA9900'
 
 apple = '#CCEE00'

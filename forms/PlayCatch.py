@@ -226,8 +226,8 @@ class PlayCatch (PlayCatchTemplate):
     if self.game != 'wall':
       if self.game == 'robot':
         drawing.Rectangle(.9, .57, .08, .3, self.opp_color_1).draw()
-        drawing.Rectangle(.9, .57, .08, .06, self.opp_color_2).draw()
-        drawing.Rectangle(.9, .79, .03, .05, self.opp_color_2).draw()
+        drawing.Rectangle(.9, .57, .08, .1, self.opp_color_2).draw()
+        drawing.Rectangle(.88, .79, .04, .05, self.opp_color_2).draw()
       else:
         drawing.Rectangle(.9, .57, .04, .3, self.opp_color_1).draw()
         drawing.Circle(.88, .57, .035, self.opp_color_2).draw()
