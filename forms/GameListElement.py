@@ -20,6 +20,7 @@ class GameListElement(GameListElementTemplate):
     
     # self.game is ENTIRE ROW!
     self.game = game
+    self.child = None
     
     # set self.me, self.you, self.am0
     self.me = user
@@ -96,15 +97,13 @@ class GameListElement(GameListElementTemplate):
           timestring = '{} minutes ago'.format(delta.seconds // 60)
 
       if (self.am0 and self.game['has_ball'] == 0) or (not self.am0 and self.game['has_ball'] == 1):
-        self.status_label.text = '{} threw you ball #{} {}'.format(self.you,
-                                                                      self.game['throws'],
-                                                                      timestring,)
+        self.status_label.text = '{} threw you ball {}'.format(self.you,
+                                                                timestring,)
         self.status_label.foreground = colors.grass
       else:
-        self.status_label.text = 'You threw ball #{} to {} {}'.format(self.game['throws'],
-                                                                         self.you,
-                                                                         timestring,)
-        self.status_label.foreground = colors.building2
+        self.status_label.text = 'You threw ball to {} {}'.format(self.you,
+                                                                  timestring,)
+        self.status_label.foreground = colors.building1
 
     # game inactive but both ready
     elif self.game['p1_enabled']:  

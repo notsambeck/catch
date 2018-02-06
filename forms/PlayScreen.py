@@ -25,7 +25,6 @@ class PlayScreen (PlayScreenTemplate):
     name = self.me['handle']
     self.wall_throws = self.me['wall_throws']
     self.robot_throws = self.me['robot_throws']
-    print('robot throws on __init__: {}'.format(self.robot_throws))
     self.handle.text = 'user: {}'.format(name)   # for menu bar
     self.active_view = 'wall'
     

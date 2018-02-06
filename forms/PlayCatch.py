@@ -259,7 +259,7 @@ class PlayCatch (PlayCatchTemplate):
 
     # text:
     c.font = '{}px sans-serif'.format(self.h//12)
-    pad = 7
+    pad = 9
 
     # wall text
     if self.game == 'wall':
@@ -287,7 +287,7 @@ class PlayCatch (PlayCatchTemplate):
     else:
       c.text_align = 'right'
       c.text_baseline = 'bottom'
-      c.fill_text(self.p1_name, self.w - pad, self.h - pad)
+      c.fill_text(self.p1_name, self.w - pad * 4, self.h - pad)
       c.text_align = 'left'
       c.fill_text('Me', pad, self.h - pad)
       c.text_baseline = 'top'
@@ -341,6 +341,8 @@ class PlayCatch (PlayCatchTemplate):
   def canvas_1_show (self, **event_args):
     # This method is called when the Canvas is shown on the screen
     self.w, self.h = drawing.CanvasObject.set_canvas(self.canvas_1)
+    if self.game == 'wall':
+      print('canvas for wall: {} x {}'.format(self.w, self.h))
     # print('canvas: w={} h={}'.format(self.w, self.h))
     self.canvas_1.height = '{}px'.format(self.h)
     self.canvas_1.reset_context()

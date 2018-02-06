@@ -90,9 +90,30 @@ def add_connection(phone):
             'msg': 'new game created',
             'game': game,}
 
+# insecure login from stored user id:
+  '''
+  if debug:
+    print('my_id passed by browser: {}'.format(str(my_id)))
+  if my_id:
+    me = app_tables.users.get_by_id(my_id)
+    if debug:
+      print('new session from browser')
+      print('would cookie have worked?')
+      print(anvil.server.cookies.local.get("user_id", False))
+      try:
+        cookie_id = anvil.server.cookies.local['user_id']
+        print('method2: {}'.format(cookie_id))
+      except:
+        print('user_id not found (errored)')
+    row_login(me, True)
+        
+    return {'success': True,
+            'user': me,
+            'msg': 'new session - browser remembered id',}
+  '''
 
 @anvil.server.callable
-def start_session(my_id=None):
+def start_session():
   '''
   start a new session for returning user.
   
@@ -116,7 +137,7 @@ def start_session(my_id=None):
      'msg': status msg,}
   '''
   if debug:
-    print('start_session({})'.format(my_id))
+    print('start_session...')
   
   me = anvil.server.session.get('me', False)
   if debug:
@@ -129,28 +150,7 @@ def start_session(my_id=None):
     return {'success': True,
             'user': me,
             'msg': 'restart existing session',}
-  
-  '''
-  if debug:
-    print('my_id passed by browser: {}'.format(str(my_id)))
-  if my_id:
-    me = app_tables.users.get_by_id(my_id)
-    if debug:
-      print('new session from browser')
-      print('would cookie have worked?')
-      print(anvil.server.cookies.local.get("user_id", False))
-      try:
-        cookie_id = anvil.server.cookies.local['user_id']
-        print('method2: {}'.format(cookie_id))
-      except:
-        print('user_id not found (errored)')
-    row_login(me, True)
-        
-    return {'success': True,
-            'user': me,
-            'msg': 'new session - browser remembered id',}
-  '''
-  
+ 
   # not live session; is there a cookie?
   # if so log back in and remember.
   my_id = anvil.server.cookies.local.get('user_id', False)
@@ -180,7 +180,7 @@ def row_login(user_row, remember_me, cookie_supplied=False):
   
   '''
   if debug:
-    print('row_login: user={} remember_me={}'.format(user_row['handle'], str(remember_me)))
+    print('{}:\nrow_login(remember_me={})'.format(user_row['handle'], str(remember_me)))
     
   # forget user (we are only using cookie at this time)
   anvil.users.force_login(user_row, remember=False,)  

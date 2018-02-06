@@ -20,7 +20,7 @@ class CanvasObject:
     cls._w = min(int(canvas.get_width()), 900)
     cls._canvas.height = '{}px'.format(cls._w // 1.4)
     cls._h = canvas.get_height()
-    print('drawing: canvas set:', cls._canvas, cls._w, cls._h)
+    # print('drawing: canvas set to: {} x {}'.format(cls._w, cls._h))
     return cls._w, cls._h
   
   def draw(self):
