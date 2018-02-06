@@ -267,7 +267,7 @@ class PlayCatch (PlayCatchTemplate):
       c.text_align = 'left'
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(throws), pad, pad)
-      c.fill_text('MY RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 11)
+      c.fill_text('WALL RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 11)
       c.text_align = 'center'
       c.text_baseline = 'bottom'
       if throws < 3 and self.counter % 5:
@@ -278,7 +278,7 @@ class PlayCatch (PlayCatchTemplate):
       c.text_align = 'left'
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(throws), pad, pad)
-      c.fill_text('MY RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 11)
+      c.fill_text('ROBOT RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 11)
       c.text_align = 'center'
       c.text_baseline = 'bottom'
       if throws < 2 and self.counter % 5:

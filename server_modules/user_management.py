@@ -192,6 +192,8 @@ def row_login(user_row, remember_me, cookie_supplied=False):
     anvil.server.cookies.local.set(365, user_id=user_row.get_id())
     if False:
       print('wrote cookie, now reading: {}'.format(anvil.server.cookies.local.get("user_id", False)))
+      
+  app_tables.user_actions.add_row(user=user_row, action_type='login', time=datetime.utcnow())
   
   ### RANKING ###
   # TODO: fix this hack
@@ -369,6 +371,9 @@ def create_dummy(phone):
       'msg': 'not logged in',
     }
   
+  # USER ACTIONS LOG
+  app_tables.user_actions.add_row(user=me, action_type='create_dummy', time=datetime.utcnow())
+  
   phone = is_valid_number(phone)
   if not phone:                    # invalid number
     return {
@@ -395,6 +400,7 @@ def create_dummy(phone):
     if user:
       return add_connection(phone)
     
+
     else:
       return {'success': False,
               'msg': 'unknown failure in create_dummy'}
@@ -479,6 +485,9 @@ def confirm_account(code, phone):
     for game in existing_games:
       game['p1_enabled'] = True
       game['throws'] = -1
+      
+    # USER ACTIONS LOG
+    app_tables.user_actions.add_row(user=me, action_type='confirm_account', time=datetime.utcnow())
   
     return {'success': True, 
             'msg': 'confirmed',
@@ -494,7 +503,6 @@ def confirm_account(code, phone):
 def generate_game_ranks():
   for i, game in enumerate(app_tables.games.search(tables.order_by('throws', ascending=False))):
     game['game_rank'] = i+1
-
 
 def generate_wall_ranks():
   for i, user in enumerate(app_tables.users.search(tables.order_by('wall_throws', ascending=False))):

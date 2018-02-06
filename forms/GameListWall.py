@@ -41,9 +41,9 @@ class GameListWall(GameListWallTemplate):
       self.game_summary.visible = False
       self.child = PlayCatch('wall', self.me, self)
       self.game_view.add_component(self.child)
-      self.num_throws.text = 'WALL     Throws: {}'.format(self.me['wall_throws'])
+      self.num_throws.text = 'WALL      Throws: {}'.format(self.me['wall_throws'])
     else:
-      self.num_throws.text = 'WALL     Throws: {}'.format(get_open_form().wall_throws)
+      self.num_throws.text = 'WALL      Throws: {}'.format(get_open_form().wall_throws)
 
     # print('GameListWall', self.my_color_1)
 
@@ -62,7 +62,7 @@ class GameListWall(GameListWallTemplate):
     if x == 'wall':
       # print('Collapse: not collapsing self')
       return
-    self.num_throws.text = 'WALL     Throws: {}'.format(get_open_form().wall_throws)
+    self.num_throws.text = 'WALL      Throws: {}'.format(get_open_form().wall_throws)
     self.game_view.clear()
     self.game_summary.visible = True
     self.wall_active = False

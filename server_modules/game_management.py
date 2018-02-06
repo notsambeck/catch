@@ -112,6 +112,9 @@ def make_game_active(game_id):
             'msg': 'make_game_active: game is already active'}
       
   with tables.Transaction() as txn:
+    # USER ACTIONS LOG
+    app_tables.user_actions.add_row(user=me, action_type='activate_game', time=datetime.utcnow())
+    
     game['is_active'] = True
     game['has_ball'] = has_ball
     game['game_start_time'] = datetime.utcnow()
@@ -158,7 +161,8 @@ def throw(game_id):
     game['throws'] += 1
     game['last_throw_time'] = datetime.utcnow()
 
-  # print('set')
+  # USER ACTIONS LOG
+  app_tables.user_actions.add_row(user=me, action_type='throw', time=datetime.utcnow())
   return {'success': True,
           'game': game}
 
