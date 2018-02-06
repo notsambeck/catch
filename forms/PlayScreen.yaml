@@ -5,14 +5,7 @@ components:
     background: ''}
   name: content_panel
   layout_properties: {slot: default}
-  components:
-  - type: ColumnPanel
-    properties: {role: null, width: default, border: '', foreground: '', visible: true,
-      row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '', spacing_below: small,
-      background: ''}
-    name: top_contacts
-    layout_properties: {grid_position: 'WTMRGI,VMPLHM', full_width_row: true}
-    event_bindings: {show: top_contacts_show}
+  components: []
   event_bindings: {show: content_panel_show}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',

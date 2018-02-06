@@ -20,7 +20,6 @@ class PlayScreen (PlayScreenTemplate):
 
     self.error_handler = ErrorHandler(alert, open_form, user.get_id())
     set_default_error_handling(self.error_handler)
-    self.top_contacts.visible = False
     
     self.me = user
     name = self.me['handle']
@@ -29,11 +28,13 @@ class PlayScreen (PlayScreenTemplate):
     self.handle.text = 'user: {}'.format(name)   # for menu bar
     self.active_view = 'wall'
     
-    self.game_views = {}  # {game_id: GameListElement(games row)) 
-    self.game_list = []   # list of game_ids IN DISPLAY ORDER
-
+    self.game_list = ['wall', 'robot']   # list of game_ids IN DISPLAY ORDER
+    self.game_views = {'wall': GameListWall(self.me, startup=True),
+                       'robot': GameListRobot(self.me)}
+    self.content_panel.add_component(self.game_views['wall'])
+    self.content_panel.add_component(self.game_views['robot'])
+    
     self.update_loop = 0   # quick update counter
-    self.top_contacts.add_component(AddContacts())
     
   def update_connections(self):
     quick = bool(self.update_loop % 20)
@@ -58,6 +59,7 @@ class PlayScreen (PlayScreenTemplate):
       return None
     
     else:
+       
       # successfully got games from server + there are already games
       if server['order'] == self.game_list[2:-1]:  # game_list includes wall and bottom_contacts
         for _id in server['order']:
@@ -67,11 +69,18 @@ class PlayScreen (PlayScreenTemplate):
         
       # local game_list is out of date. Clear and start over
       else:
-        self.content_panel.clear()
-        self.game_views['wall'] = GameListWall(self.me)
-        self.content_panel.add_component(self.game_views['wall'])
-        self.game_views['robot'] = GameListRobot(self.me)
-        self.content_panel.add_component(self.game_views['robot'])
+        # do the following except for initial load with only wall
+
+        if self.game_list != ['wall', 'robot']:
+          self.content_panel.clear()
+          self.game_views['wall'] = GameListWall(self.me)
+          self.content_panel.add_component(self.game_views['wall'])                
+          self.game_views['robot'] = GameListRobot(self.me)
+          self.content_panel.add_component(self.game_views['robot'])
+          startup = False
+        else:
+          startup = True
+
         
         for _id in server['order']:
           self.game_views[_id] = GameListElement(self.me, server['games'][_id])  # make the panel
@@ -82,7 +91,8 @@ class PlayScreen (PlayScreenTemplate):
         
         self.game_list = ['wall', 'robot'] + server['order'] + ['bottom_contacts']
         
-        self.game_views[self.active_view].expand()
+        if not startup:
+          self.game_views[self.active_view].expand()
         # print('made new game_list')
         
   def add_game(self, game):
@@ -96,14 +106,6 @@ class PlayScreen (PlayScreenTemplate):
     print('calling do_logout')
     anvil.server.call('do_logout')
     open_form('LoginScreen')
-
-  def button_1_click (self, **event_args):
-    # This method is called when the ADD CONTACTS button is clicked
-    self.top_contacts.visible = not self.top_contacts.visible
-    if self.top_contacts.visible:
-      self.button_1.background = colors.gray
-    else:
-      self.button_1.background = colors.highlight
 
   def account_click (self, **event_args):
     # This method is called when the button is clicked

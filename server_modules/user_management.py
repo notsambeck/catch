@@ -160,7 +160,7 @@ def start_session(my_id=None):
   if my_id:
     # clear cookie and make new one
     me = app_tables.users.get_by_id(my_id)
-    row_login(me, True)
+    row_login(me, remember_me=True, cookie_supplied=True)
     return {'success': True,
             'user': me,
             'msg': 'cookie found, logging in'}
@@ -172,7 +172,7 @@ def start_session(my_id=None):
           'msg': 'no login information found, please log in',}
 
 
-def row_login(user_row, remember_me):
+def row_login(user_row, remember_me, cookie_supplied=False):
   '''
   does the actions to start new session for a user row
   
@@ -183,24 +183,22 @@ def row_login(user_row, remember_me):
     print('row_login: user={} remember_me={}'.format(user_row['handle'], str(remember_me)))
     
   # forget user (we are only using cookie at this time)
-  anvil.users.force_login(user_row, remember=False)  
+  anvil.users.force_login(user_row, remember=False,)  
   
   anvil.server.session['me'] = user_row
   anvil.server.session['remember_me'] = remember_me
 
-  if remember_me:
+  if remember_me and not cookie_supplied:
     anvil.server.cookies.local.set(365, user_id=user_row.get_id())
-    if debug:
+    if False:
       print('wrote cookie, now reading: {}'.format(anvil.server.cookies.local.get("user_id", False)))
   
   if user_row['phone_hash'] == '5555555555':
-    if debug:
-      start_time = datetime.utcnow()
-      print('Fake User logged in. ranking...')
+    start_time = datetime.utcnow()
+    print('Fake User logged in. ranking...')
     generate_game_ranks()
     generate_wall_ranks()
-    if debug:
-      print('done. time={}'.format(datetime.utcnow() - start_time))
+    print('done. time={}'.format(datetime.utcnow() - start_time))
   
   return True
 

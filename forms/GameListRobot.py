@@ -41,7 +41,10 @@ class GameListRobot (GameListRobotTemplate):
   def set_labels(self):
     # clear
     self.background = colors.white
-    self.status_label.text = 'CATCHBOT     Throws: {}'.format(get_open_form().robot_throws)
+    try:
+      self.status_label.text = 'CATCHBOT     Throws: {}'.format(get_open_form().robot_throws)
+    except AttributeError:
+      self.status_label.text = 'CATCHBOT     Throws: {}'.format(self.me['robot_throws'])
     self.status_label.foreground = colors.grass
 
   def expand(self, **event_args):
@@ -61,3 +64,4 @@ class GameListRobot (GameListRobotTemplate):
     self.game_view.clear()
     self.child = None
     self.game_summary.visible = True
+    self.set_labels()
