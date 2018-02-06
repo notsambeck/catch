@@ -54,7 +54,7 @@ class PlayScreen (PlayScreenTemplate):
       self.wall_throws = max(self.wall_throws, server['wall_throws'])
       self.robot_throws = max(self.robot_throws, server['robot_throws'])
    
-      if self.game_list == ['wall', 'robot']:
+      if not server['order'] and self.game_list == ['wall', 'robot']:
         self.game_list.append('bottom_contacts')
         self.game_views['bottom_contacts'] = GameListContacts()
         self.content_panel.add_component(self.game_views['bottom_contacts'])
