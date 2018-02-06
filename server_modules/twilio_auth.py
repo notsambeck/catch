@@ -44,20 +44,21 @@ def send_authorization_message(phone):
     
     # use this to change recipient for demo:
     # sendto = "+15037569645"
-    sendto = "+15035053813"
+    sendto = "5035053813"
      
     try:
       message = client.api.account.messages.create(
         # to="+1{}".format(phone),     # TODO
-        to=sendto,
+        to="+1{}".format(sendto),
         from_="+15035582695",
-        body="{}: Your CATCH authentication code is: {}".format(phone, user['twilio_code'])
+        body="Your Catch authentication code is: {}. Sent by: https://playcatch.anvilapp.net".format(user['twilio_code'])
       )
+      
       user['confirmations_sent'] += 1
       return {'success': True,
               'msg': 'message sent'}
     
-    except TwilioError:
+    except:
       return {'success': False,
               'msg': 'conf message attempted, but failed to send'}
       
