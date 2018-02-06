@@ -23,6 +23,7 @@ class GameListWall(GameListWallTemplate):
     self.game_view.visible = False
     self.wall_active = True
     self.num_throws.text = 'WALL     Throws: {}'.format(get_open_form().wall_throws)
+    self.num_throws.foreground = colors.grass
  
     if self.me['color_1']:
       self.my_color_1 = self.me['color_1']

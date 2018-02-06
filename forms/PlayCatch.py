@@ -258,7 +258,7 @@ class PlayCatch (PlayCatchTemplate):
         ball = drawing.Circle(self.ball_x - .002 * i, self.ball_y - .001 * i, ball_r + i * .002, filled=False).draw()
 
     # text:
-    c.font = '{}px sans-serif'.format(self.h//16)
+    c.font = '{}px sans-serif'.format(self.h//12)
     pad = 7
 
     # wall text
@@ -267,7 +267,7 @@ class PlayCatch (PlayCatchTemplate):
       c.text_align = 'left'
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(throws), pad, pad)
-      c.fill_text('RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 14)
+      c.fill_text('MY RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 11)
       c.text_align = 'center'
       c.text_baseline = 'bottom'
       if throws < 3 and self.counter % 5:
@@ -278,7 +278,7 @@ class PlayCatch (PlayCatchTemplate):
       c.text_align = 'left'
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(throws), pad, pad)
-      c.fill_text('RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 14)
+      c.fill_text('MY RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 11)
       c.text_align = 'center'
       c.text_baseline = 'bottom'
       if throws < 2 and self.counter % 5:
@@ -292,7 +292,7 @@ class PlayCatch (PlayCatchTemplate):
       c.fill_text('Me', pad, self.h - pad)
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(self.game['throws']), pad, pad)
-      c.fill_text('RANK: {}'.format(self.game['game_rank']), pad, pad + self.h // 14)
+      c.fill_text('GAME RANK: {}'.format(self.game['game_rank']), pad, pad + self.h // 11)
       if self.i_have_ball and self.game['throws'] <= 4 and not self.ball_moving and self.counter % 5:
         c.text_align = 'center'
         c.text_baseline = 'bottom'

@@ -99,12 +99,12 @@ class GameListElement(GameListElementTemplate):
         self.status_label.text = '{} threw you ball #{} {}'.format(self.you,
                                                                       self.game['throws'],
                                                                       timestring,)
-        self.status_label.foreground = colors.highlight
+        self.status_label.foreground = colors.grass
       else:
         self.status_label.text = 'You threw ball #{} to {} {}'.format(self.game['throws'],
                                                                          self.you,
                                                                          timestring,)
-        self.status_label.foreground = colors.off
+        self.status_label.foreground = colors.building2
 
     # game inactive but both ready
     elif self.game['p1_enabled']:  

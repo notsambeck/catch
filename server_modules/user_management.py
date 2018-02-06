@@ -130,6 +130,7 @@ def start_session(my_id=None):
             'user': me,
             'msg': 'restart existing session',}
   
+  '''
   if debug:
     print('my_id passed by browser: {}'.format(str(my_id)))
   if my_id:
@@ -148,6 +149,7 @@ def start_session(my_id=None):
     return {'success': True,
             'user': me,
             'msg': 'new session - browser remembered id',}
+  '''
   
   # not live session; is there a cookie?
   # if so log back in and remember.
