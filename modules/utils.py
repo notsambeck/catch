@@ -18,7 +18,7 @@ class ErrorHandler:
     self.display_function = display_function
     self.route_function = route_function
     self.my_id = my_id
-    self.debug = True
+    self.debug = False
   
   def restart_session(self, err):
     # TODO:
@@ -45,7 +45,7 @@ class ErrorHandler:
       
   def __call__(self, err):
     if self.debug:
-      print('ERROR HANDLER 0:')
+      print('ERROR HANDLER 0: {}'.format(err))
     if self.display_function and self.debug:
       self.display_function('Uncaught error; if behavior is strange, refresh. No action was taken. {}'.format(str(err)))
  
