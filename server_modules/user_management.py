@@ -193,11 +193,15 @@ def row_login(user_row, remember_me, cookie_supplied=False):
     if False:
       print('wrote cookie, now reading: {}'.format(anvil.server.cookies.local.get("user_id", False)))
   
+  ### RANKING ###
+  # TODO: fix this hack
+  
   if user_row['phone_hash'] == '5555555555':
     start_time = datetime.utcnow()
     print('Fake User logged in. ranking...')
     generate_game_ranks()
     generate_wall_ranks()
+    generate_robot_ranks()
     print('done. time={}'.format(datetime.utcnow() - start_time))
   
   return True
@@ -495,3 +499,7 @@ def generate_game_ranks():
 def generate_wall_ranks():
   for i, user in enumerate(app_tables.users.search(tables.order_by('wall_throws', ascending=False))):
     user['wall_rank'] = i+1
+    
+def generate_robot_ranks():
+  for i, user in enumerate(app_tables.users.search(tables.order_by('robot_throws', ascending=False))):
+    user['robot_rank'] = i+1
