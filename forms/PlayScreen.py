@@ -92,7 +92,7 @@ class PlayScreen (PlayScreenTemplate):
   def logout_button_click (self, **event_args):
     # This method is called when the button is clicked   
     self.timer_1.remove_from_parent()
-    print('logout')
+    print('calling do_logout')
     anvil.server.call('do_logout')
     open_form('LoginScreen')
 
@@ -119,8 +119,8 @@ class PlayScreen (PlayScreenTemplate):
     self.update_connections()
     
   def collapse_except_id(self, game_id):
+    # this is ~40x faster than iterating through children
+    
     # formerly: self.parent.raise_event_on_children('x-collapse')
-    self.active_view = game_id
-    for _id in self.game_list:
-      if _id != game_id:
-        self.game_views[_id].collapse()
+    # print('collapse_except_id({})'.format(game_id))
+    self.content_panel.raise_event_on_children('x-collapse', x=game_id)

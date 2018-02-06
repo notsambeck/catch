@@ -53,7 +53,10 @@ class GameListRobot (GameListRobotTemplate):
     self.game_summary.visible = False
     self.background = colors.white
     
-  def collapse(self, **kwargs):
+  def collapse(self, x, **kwargs):
+    if x == 'robot':
+      # print('Collapse: not collapsing self')
+      return
     self.game_view.clear()
     self.child = None
     self.game_summary.visible = True

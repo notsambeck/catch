@@ -45,8 +45,11 @@ class GameListWall(GameListWallTemplate):
     self.game_view.add_component(self.child)
     self.wall_active = True
     
-  def collapse(self, **kwargs):
-    self.num_throws.text = 'WALL!      Throws: {}'.format(get_open_form().wall_throws)
+  def collapse(self, x, **kwargs):
+    if x == 'wall':
+      # print('Collapse: not collapsing self')
+      return
+    self.num_throws.text = 'WALL     Throws: {}'.format(get_open_form().wall_throws)
     self.game_view.clear()
     self.game_summary.visible = True
     self.wall_active = False
