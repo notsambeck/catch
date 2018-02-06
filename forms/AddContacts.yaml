@@ -1,7 +1,7 @@
 components:
 - type: Label
   properties: {role: null, width: default, align: center, border: '', foreground: '',
-    visible: true, text: Add a friend!, font_size: 22, font: '', spacing_above: small,
+    visible: true, text: Add a friend!, font_size: 22, font: '', spacing_above: none,
     icon_align: top, spacing_below: small, italic: false, background: '', bold: true,
     underline: false, icon: 'fa:arrow-circle-down'}
   name: label_get_contacts
