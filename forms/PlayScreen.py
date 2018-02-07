@@ -72,37 +72,43 @@ class PlayScreen (PlayScreenTemplate):
       return True
     
     # local game_list is out of date. 
-    # print('full PlayScreen update starting')
-
+    print('full PlayScreen update starting')
     position = 0   # position in rendered game views
     popped = set()
     
     for game_id in server['order']:
-      if position >= len(self.game_list):   # we're past known games (including startup)
-        self.game_views[game_id] = GameListElement(self.me, server['games'][game_id])
-        self.main_panel.add_component(self.game_views[game_id])
-
-      elif game_id == self.game_list[position]:
+      if position < len(self.game_list) and game_id == self.game_list[position]:
+        print('already ordered')
         self.game_views[game_id].update(server['games'][game_id])
         position += 1
       
       else:
         if game_id in popped:
+          print('push game: {}'.format(game_id))
           self.main_panel.add_component(self.game_views[game_id])
           popped.remove(game_id)
           self.game_views[game_id].update(server['games'][game_id])
 
-        elif self.game_views.get(game_id, False):   # server order calls for a game that is rendered out of order
+        elif self.game_views.get(game_id, False):
+          # server order calls for a game that is rendered out of order
+          print('game {} exists, digging for it...'.format(game_id))
           while game_id != self.game_list[position]:
-            self.game_views[self.game_list[position]].remove_from_parent()
-            popped.add(self.game_list[position])
+            out_of_order = self.game_list[position]
+            print('popping game: {}'.format(out_of_order))
+            self.game_views[out_of_order].remove_from_parent()
+            popped.add(out_of_order)
             position += 1
+          print('dig complete; updating')
+          self.game_views[game_id].update(server['games'][game_id])
+          position += 1
 
         else:  # build new game
+          print('add new game {}'.format(game_id))
           self.game_views[game_id] = GameListElement(self.me, server['games'][game_id])
           self.main_panel.add_component(self.game_views[game_id])
           
-    assert not len(popped)
+    if len(popped):
+      print(popped)
     self.game_list = server['order']
 
     # print('made new game_list')
