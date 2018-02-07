@@ -39,9 +39,10 @@ class PlayCatch (PlayCatchTemplate):
     
     if game != 'wall' and game != 'robot':
       if not self.game['is_active']:
-        activate = anvil.server.call_s('make_game_active', self.game.get_id())
-        assert activate['success']
-        self.game = activate['game']
+        with Notification('Starting game...'):
+          activate = anvil.server.call_s('make_game_active', self.game.get_id())
+          assert activate['success']
+          self.game = activate['game']
 
       self.am0 = self.game['player_0'] == self.me
       self.has_ball = self.game['has_ball']
