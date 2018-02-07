@@ -127,8 +127,9 @@ class PlayCatch (PlayCatchTemplate):
     # tell server that ball has been thrown
     throw_status = anvil.server.call_s('throw', self.game.get_id())
     if throw_status['add_home']:
-      c = confirm('Have you added Catch to your home screen to see when {} throws the ball back?'.format(self.p1_name), title='Nice Throw!',)
-      if not c:
+      c = confirm('See when {} throws the ball back! Add Catch to your home screen. Want help?'
+                  .format(self.p1_name), title='Nice Throw!',)
+      if c:
         open_form('MyAccountScreen')
     
     if not throw_status['success']:
