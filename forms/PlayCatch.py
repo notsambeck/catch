@@ -126,6 +126,10 @@ class PlayCatch (PlayCatchTemplate):
 
     # tell server that ball has been thrown
     throw_status = anvil.server.call_s('throw', self.game.get_id())
+    if throw_status['add_home']:
+      c = confirm('Have you added Catch to your home screen to see when {} throws the ball back?'.format(self.p1_name), title='Nice Throw!',)
+      if not c:
+        open_form('MyAccountScreen')
     
     if not throw_status['success']:
       print('Throw failed:', throw_status['msg'])
@@ -275,7 +279,7 @@ class PlayCatch (PlayCatchTemplate):
       c.fill_text('WALL RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 11)
       c.text_align = 'center'
       c.text_baseline = 'bottom'
-      if throws < 3 and self.counter % 5:
+      if throws < 2 and self.counter % 5:
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
         
     elif self.game == 'robot':
@@ -286,10 +290,11 @@ class PlayCatch (PlayCatchTemplate):
       c.fill_text('ROBOT RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 11)
       c.text_align = 'center'
       c.text_baseline = 'bottom'
-      if throws < 2 and self.counter % 5:
+      if throws < 1 and self.counter % 5:
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
 
     else:
+      # PvP game
       c.text_align = 'right'
       c.text_baseline = 'bottom'
       c.fill_text(self.p1_name, self.w - pad * 4, self.h - pad)
@@ -298,7 +303,7 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(self.game['throws']), pad, pad)
       c.fill_text('GAME RANK: {}'.format(self.game['game_rank']), pad, pad + self.h // 11)
-      if self.i_have_ball and self.game['throws'] <= 4 and not self.ball_moving and self.counter % 5:
+      if self.i_have_ball and self.me['is_new'] and not self.ball_moving and self.counter % 5:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
         c.fill_text('TAP TO THROW', self.w // 2, self.h // 2)

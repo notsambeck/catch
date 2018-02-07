@@ -154,16 +154,21 @@ def throw(game_id):
     return {'success': False,
             'msg': 'you did not have the ball'}
 
+  # send notification to add game to home screen
+  add_home = me['is_new']
+
   # print('setting:')
   with tables.Transaction() as txn:
 
     game['has_ball'] = abs(1 - game['has_ball'])  # flip who has ball
     game['throws'] += 1
     game['last_throw_time'] = datetime.utcnow()
-
+    me['is_new'] = False
+    
   # USER ACTIONS LOG
   app_tables.user_actions.add_row(user=me, action_type='throw', time=datetime.utcnow())
   return {'success': True,
+          'add_home': add_home,
           'game': game}
 
 

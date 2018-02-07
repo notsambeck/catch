@@ -323,6 +323,7 @@ def create_user(phone, password, handle):
       existing.update(
         dummy=False,
         enabled=False,
+        is_new=True,
         handle=handle,
         password_hash=bhash(password),
         twilio_code=generate_code(),
@@ -335,6 +336,7 @@ def create_user(phone, password, handle):
   else:
     user = app_tables.users.add_row(
       enabled=False,
+      is_new=True,
       dummy=False,
       password_hash=bhash(password),
       phone_hash=hash_phone(phone),
