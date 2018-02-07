@@ -1,6 +1,6 @@
 components:
 - type: ColumnPanel
-  properties: {role: null, width: default, border: '', foreground: '', visible: true,
+  properties: {role: dialog, width: default, border: '', foreground: '', visible: true,
     row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{}', spacing_below: small,
     background: '#FFF'}
   name: content_panel

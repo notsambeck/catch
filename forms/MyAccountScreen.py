@@ -58,6 +58,7 @@ class MyAccountScreen (MyAccountScreenTemplate):
 
   def back_to_games_button_click (self, **event_args):
     # This method is called when the button is clicked
+    self.content_panel.clear()
     open_form('PlayScreen', self.me)
 
   def content_panel_show (self, **event_args):
