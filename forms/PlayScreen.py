@@ -127,7 +127,7 @@ class PlayScreen (PlayScreenTemplate):
 
   def account_click (self, **event_args):
     # This method is called when the button is clicked
-    open_form('MyAccountScreen')
+    open_form('MyAccountScreen', view='account')
 
   def timer_1_tick(self, **event_args):
     # This method is called Every [interval] seconds
@@ -152,4 +152,8 @@ class PlayScreen (PlayScreenTemplate):
     self.main_panel.raise_event_on_children('x-collapse', x=game_id)
     self.header_panel.raise_event_on_children('x-collapse', x=game_id)
     self.footer_panel.raise_event_on_children('x-collapse', x=game_id)
+
+  def button_1_click (self, **event_args):
+    open_form('MyAccountScreen', view='help')
+
     

@@ -89,9 +89,17 @@ class MyAccountScreen (MyAccountScreenTemplate):
       self.color2.background = self.enter_color_2.text
       
       self.account_panel.visible = True
+      return
       
-    else:
+    if self.view == 'help':
       self.help_panel.visible = True
-      
-  
 
+  def my_account_button_click (self, **event_args):
+    # This method is called when the button is clicked
+    self.account_panel.visible = True
+    self.help_panel.visible = False
+
+  def add_home_button_click (self, **event_args):
+    # This method is called when the button is clicked
+    self.account_panel.visible = False
+    self.help_panel.visible = True

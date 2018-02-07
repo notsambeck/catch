@@ -57,6 +57,14 @@ components:
   properties: {interval: 3}
   name: timer_1
   event_bindings: {tick: timer_1_tick}
+- type: Button
+  properties: {role: null, width: default, align: center, border: '', enabled: true,
+    foreground: '', visible: true, text: Help, font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '#929191',
+    bold: false, underline: false, icon: ''}
+  name: button_1
+  layout_properties: {slot: sidebar}
+  event_bindings: {click: button_1_click}
 container:
   type: HtmlTemplate
   properties: {html: '@theme:standard-page.html'}
