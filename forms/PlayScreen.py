@@ -34,7 +34,7 @@ class PlayScreen (PlayScreenTemplate):
     self.update_loop = 0   # quick update counter
     
   def update_connections(self):
-    quick = bool(self.update_loop % 20)
+    quick = bool(self.update_loop % 10)
     self.update_loop += 1
 
     try:
@@ -68,12 +68,11 @@ class PlayScreen (PlayScreenTemplate):
       for _id in server['order']:
         server_game = server['games'][_id]
         self.game_views[_id].update(server_game)
-      print('quick updated game_list') 
+      # print('quick updated game_list') 
       return True
     
     # local game_list is out of date. 
-    else:
-      print('full PlayScreen update starting')
+    # print('full PlayScreen update starting')
 
     position = 0   # position in rendered game views
     popped = set()
@@ -93,18 +92,17 @@ class PlayScreen (PlayScreenTemplate):
           popped.remove(game_id)
           self.game_views[game_id].update(server['games'][game_id])
 
-        elif self.game_views.get(game_id, False):
-          while True:
+        elif self.game_views.get(game_id, False):   # server order calls for a game that is rendered out of order
+          while game_id != self.game_list[position]:
             self.game_views[self.game_list[position]].remove_from_parent()
             popped.add(self.game_list[position])
             position += 1
-            if game_id == self.game_list[position]:
-              break
-              
+
         else:  # build new game
           self.game_views[game_id] = GameListElement(self.me, server['games'][game_id])
           self.main_panel.add_component(self.game_views[game_id])
           
+    assert not len(popped)
     self.game_list = server['order']
 
     # print('made new game_list')
