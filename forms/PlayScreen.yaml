@@ -5,7 +5,22 @@ components:
     background: ''}
   name: content_panel
   layout_properties: {slot: default}
-  components: []
+  components:
+  - type: LinearPanel
+    properties: {role: game-container, width: default, border: '', foreground: '',
+      visible: false, row_spacing: 10, spacing_above: none, spacing_below: none, background: ''}
+    name: header_panel
+    layout_properties: {grid_position: 'DPSPFJ,HEOQVR'}
+  - type: LinearPanel
+    properties: {role: game-container, width: default, border: '', foreground: '',
+      visible: false, row_spacing: 10, spacing_above: none, spacing_below: none, background: ''}
+    name: main_panel
+    layout_properties: {grid_position: 'TSKWSY,WOADLE'}
+  - type: LinearPanel
+    properties: {role: game-container, width: default, border: '', foreground: '',
+      visible: false, row_spacing: 10, spacing_above: none, spacing_below: none, background: ''}
+    name: footer_panel
+    layout_properties: {grid_position: 'PMGTKP,TGIPMR'}
   event_bindings: {show: content_panel_show}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',

@@ -333,11 +333,11 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_arrived()
 
   def update(self, updated_game):
-    # update from server fed by game_list_element
+    # update from server fed by GameListElement
     if self.game != 'wall' and not self.ball_moving:
       # print('updating from server...')
       self.game = updated_game
-      if self.has_ball !=self.game['has_ball']:
+      if self.has_ball != self.game['has_ball']:
         self.has_ball = not self.has_ball
         self.ball_moving = True
       self.ball_steps = 0
@@ -348,7 +348,8 @@ class PlayCatch (PlayCatchTemplate):
     self.w, self.h = drawing.CanvasObject.set_canvas(self.canvas_1)
     if self.game == 'wall':
       print('canvas for wall: {} x {}'.format(self.w, self.h))
-    # print('canvas: w={} h={}'.format(self.w, self.h))
+    else:
+      print('canvas: w={} h={}'.format(self.w, self.h))
     self.canvas_1.height = '{}px'.format(self.h)
     self.canvas_1.reset_context()
 

@@ -107,9 +107,8 @@ class GameListElement(GameListElementTemplate):
 
     # game inactive but both ready
     elif self.game['p1_enabled']:  
-      self.status_label.text = '{} threw you the ball!'.format(self.you)
+      self.status_label.text = 'Start game with {}!'.format(self.you)
       self.status_label.foreground = colors.black
-      self.status_label.bold = True
       self.background = colors.highlight
 
     # player 2 not yet enabled      
@@ -119,9 +118,10 @@ class GameListElement(GameListElementTemplate):
    
   def update(self, updated_game):
     self.game = updated_game
-    self.set_labels()
     if self.child:
       self.child.update(updated_game)
+    else:
+      self.set_labels()
 
   def expand(self, **event_args):
     start = datetime.utcnow()

@@ -22,7 +22,8 @@ class GameListRobot (GameListRobotTemplate):
     self.me = user
     self.am0 = True
     self.you = 'CatchBot'
-             
+    self.background = colors.white
+           
     # me: colors
     # print(self.me['color_1'])
     if self.me['color_1']:

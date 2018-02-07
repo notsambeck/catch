@@ -28,6 +28,9 @@ class PlayScreen (PlayScreenTemplate):
     self.handle.text = 'user: {}'.format(name)   # for menu bar
     self.active_view = 'wall'
     
+    self.game_list = []
+    self.game_views = {}
+    
     self.update_loop = 0   # quick update counter
     
   def update_connections(self):
@@ -50,47 +53,61 @@ class PlayScreen (PlayScreenTemplate):
       print('update failed', server['msg'])
       return None
     
+    # update non-PvP games
+    self.wall_throws = max(self.wall_throws, server['wall_throws'])
+    self.robot_throws = max(self.robot_throws, server['robot_throws'])
+    
+    if not server['order']:   # if there are 0 PvP games
+      return None
+    
+    # successfully got games from server
+    if not self.main_panel.visible:
+      self.main_panel.visible = True
+    
+    if server['order'] == self.game_list:  # if they are unchanged: update each
+      for _id in server['order']:
+        server_game = server['games'][_id]
+        self.game_views[_id].update(server_game)
+      print('quick updated game_list') 
+      return True
+    
+    # local game_list is out of date. 
     else:
-      self.wall_throws = max(self.wall_throws, server['wall_throws'])
-      self.robot_throws = max(self.robot_throws, server['robot_throws'])
-   
-      if self.game_list == ['wall', 'robot']:
-        self.game_list.append('bottom_contacts')
-        self.game_views['bottom_contacts'] = GameListContacts()
-        self.content_panel.add_component(self.game_views['bottom_contacts'])
+      print('full PlayScreen update starting')
+
+    position = 0   # position in rendered game views
+    popped = set()
+    
+    for game_id in server['order']:
+      if position >= len(self.game_list):   # we're past known games (including startup)
+        self.game_views[game_id] = GameListElement(self.me, server['games'][game_id])
+        self.main_panel.add_component(self.game_views[game_id])
+
+      elif game_id == self.game_list[position]:
+        self.game_views[game_id].update(server['games'][game_id])
+        position += 1
       
-      # successfully got games from server + there are already games
-      if server['order'] == self.game_list[2:-1]:  # game_list includes wall and bottom_contacts
-        for _id in server['order']:
-          server_game = server['games'][_id]
-          self.game_views[_id].update(server_game)
-        # print('quick updated game_list')     
-        
-      # local game_list is out of date. Clear and start over
       else:
-        # do the following except for initial load with only wall
-        if self.game_list != ['wall', 'robot']:
-          self.content_panel.clear()
-          self.game_views['wall'] = GameListWall(self.me)
-          self.content_panel.add_component(self.game_views['wall'])                
-          self.game_views['robot'] = GameListRobot(self.me)
-          self.content_panel.add_component(self.game_views['robot'])
-          startup = False
-        else:
-          startup = True
-        
-        for _id in server['order']:
-          self.game_views[_id] = GameListElement(self.me, server['games'][_id])  # make the panel
-          self.content_panel.add_component(self.game_views[_id])            # attach to this form
-        
-        self.game_views['bottom_contacts'] = GameListContacts()
-        self.content_panel.add_component(self.game_views['bottom_contacts'])
-        
-        self.game_list = ['wall', 'robot'] + server['order'] + ['bottom_contacts']
-        
-        if not startup:
-          self.game_views[self.active_view].expand()
-        # print('made new game_list')
+        if game_id in popped:
+          self.main_panel.add_component(self.game_views[game_id])
+          popped.remove(game_id)
+          self.game_views[game_id].update(server['games'][game_id])
+
+        elif self.game_views.get(game_id, False):
+          while True:
+            self.game_views[self.game_list[position]].remove_from_parent()
+            popped.add(self.game_list[position])
+            position += 1
+            if game_id == self.game_list[position]:
+              break
+              
+        else:  # build new game
+          self.game_views[game_id] = GameListElement(self.me, server['games'][game_id])
+          self.main_panel.add_component(self.game_views[game_id])
+          
+    self.game_list = server['order']
+
+    # print('made new game_list')
         
   def add_game(self, game):
     # game has been added at the server; just update from there as per usual
@@ -114,17 +131,21 @@ class PlayScreen (PlayScreenTemplate):
 
   def content_panel_show (self, **event_args):
     # This method is called when the column panel is shown on the screen
-    self.game_list = ['wall', 'robot']   # list of game_ids IN DISPLAY ORDER
     self.game_views = {'wall': GameListWall(self.me, startup=True),
-                       'robot': GameListRobot(self.me, startup=True)}
-    self.content_panel.add_component(self.game_views['wall'])
-    self.content_panel.add_component(self.game_views['robot'])
+                       'robot': GameListRobot(self.me, startup=True),
+                       'contacts': GameListContacts()}
+    self.footer_panel.add_component(self.game_views['contacts'])
+    self.header_panel.add_component(self.game_views['wall'])
+    self.header_panel.add_component(self.game_views['robot'])
+    self.footer_panel.visible = True
+    self.header_panel.visible = True
     
     self.update_connections()
     
   def collapse_except_id(self, game_id):
     # this is ~40x faster than iterating through children
+
+    self.main_panel.raise_event_on_children('x-collapse', x=game_id)
+    self.header_panel.raise_event_on_children('x-collapse', x=game_id)
+    self.footer_panel.raise_event_on_children('x-collapse', x=game_id)
     
-    # formerly: self.parent.raise_event_on_children('x-collapse')
-    # print('collapse_except_id({})'.format(game_id))
-    self.content_panel.raise_event_on_children('x-collapse', x=game_id)

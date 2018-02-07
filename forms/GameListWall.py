@@ -21,7 +21,7 @@ class GameListWall(GameListWallTemplate):
     self.game_summary.visible = False
     self.game_view.visible = False
     self.wall_active = True
-    
+    self.background = colors.white
 
     self.num_throws.foreground = colors.grass
     
