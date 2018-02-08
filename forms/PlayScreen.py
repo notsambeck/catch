@@ -85,7 +85,7 @@ class PlayScreen (PlayScreenTemplate):
           self.main_panel.add_component(self.game_views[game_id], index=position)
           popped.remove(game_id)
           self.game_views[game_id].update(server['games'][game_id])
-          game_view_position += 1
+          position += 1
 
         elif self.game_views.get(game_id, False):
           # server order calls for a game that is rendered out of order
