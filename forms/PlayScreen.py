@@ -108,8 +108,10 @@ class PlayScreen (PlayScreenTemplate):
           self.main_panel.add_component(self.game_views[game_id])
           
     if len(popped):
-      print(popped)
+      print('WARNGING lost pop game {}'.format(popped))
+      
     self.game_list = server['order']
+    print('updated game_list from server')
 
     # print('made new game_list')
         

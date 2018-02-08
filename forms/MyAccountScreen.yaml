@@ -92,6 +92,14 @@ components:
         spacing_below: small, background: ''}
       name: image_4
       layout_properties: {grid_position: 'EJWTTV,JWPVNR'}
+    - type: Button
+      properties: {role: null, width: default, align: center, border: '', enabled: true,
+        foreground: '', visible: true, text: Back to games, font_size: 22, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
+      name: back_to_games_2
+      layout_properties: {grid_position: 'GYRQUL,TYQBDO'}
+      event_bindings: {click: back_to_games_button_click}
   - type: ColumnPanel
     properties: {role: null, width: default, border: '', foreground: '', visible: false,
       row_spacing: 10, wrap_on: mobile, spacing_above: small, col_widths: '{}', spacing_below: small,
@@ -177,14 +185,14 @@ components:
       properties: {height: 32}
       name: spacer_4
       layout_properties: {grid_position: 'EGMKAO,VTZDAB'}
-  - type: Button
-    properties: {role: null, width: default, align: center, border: '', enabled: true,
-      foreground: '', visible: true, text: Back to games, font_size: 22, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    name: back_to_games_button
-    layout_properties: {grid_position: 'BCCETJ,EDBDGC'}
-    event_bindings: {click: back_to_games_button_click}
+    - type: Button
+      properties: {role: null, width: default, align: center, border: '', enabled: true,
+        foreground: '', visible: true, text: Back to games, font_size: 22, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
+      name: back_to_games_button
+      layout_properties: {grid_position: 'IQXHSO,OSALNS'}
+      event_bindings: {click: back_to_games_button_click}
   event_bindings: {show: content_panel_show}
 - type: Label
   properties: {role: null, width: default, align: left, border: '', foreground: '',

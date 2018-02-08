@@ -56,7 +56,7 @@ class MyAccountScreen (MyAccountScreenTemplate):
     if update['success']:
       self.me = update['user']
 
-  def back_to_games_button_click (self, **event_args):
+  def back_to_games_button_click(self, **event_args):
     # This method is called when the button is clicked
     self.content_panel.clear()
     open_form('PlayScreen', self.me)
@@ -104,3 +104,5 @@ class MyAccountScreen (MyAccountScreenTemplate):
     # This method is called when the button is clicked
     self.account_panel.visible = False
     self.help_panel.visible = True
+
+
