@@ -6,12 +6,12 @@ white = '#FFFFFF'
 black = '#000000'
 accent = '#9999DD'
 off = '#AA3300'
-cloud1 = "rgba(150,150,140,.2)"
-cloud2 = "rgba(160,160,160,.25)"
-cloud3 = "rgba(130,120,110,.5)"
+cloud1 = "rgba(150,150,140,.1)"
+cloud2 = "rgba(160,160,160,.15)"
+cloud3 = "rgba(130,120,110,.05)"
 
-building1 = '#752'
-building2 = '#432'
+building1 = '#988'
+building2 = '#667'
 skin = '#AA9900'
 
 apple = '#9A0'

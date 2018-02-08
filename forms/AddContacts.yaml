@@ -1,41 +1,56 @@
 components:
 - type: Label
   properties: {role: null, width: default, align: center, border: '', foreground: '',
-    visible: true, text: 'Add a friend with their phone number:', font_size: 18, font: '',
-    spacing_above: medium, icon_align: left, spacing_below: large, italic: false,
-    background: '', bold: true, underline: false, icon: ''}
+    visible: true, text: Add a friend!, font_size: 22, font: '', spacing_above: none,
+    icon_align: top, spacing_below: small, italic: false, background: '', bold: true,
+    underline: false, icon: 'fa:arrow-circle-down'}
   name: label_get_contacts
-  layout_properties: {grid_position: 'OROBJO,DMOCEV'}
+  layout_properties: {grid_position: 'OROBJO,HEIMXZ'}
+- type: Label
+  properties: {role: null, width: default, align: left, border: '', foreground: '',
+    visible: true, text: Enter a phone number to connect on Catch. We'll generate a text message with a link for you to customize and send!,
+    font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+    italic: false, background: '', bold: false, underline: false, icon: ''}
+  name: label_1
+  layout_properties: {grid_position: 'WUNIIX,JFDBEL'}
 - type: Label
   properties: {role: null, width: default, align: center, border: '', foreground: '',
-    visible: true, text: 'Phone number:', font_size: 18, font: '', spacing_above: none,
-    icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+    visible: true, text: 'Phone number:', font_size: 22, font: '', spacing_above: none,
+    icon_align: left, spacing_below: none, italic: false, background: '', bold: true,
     underline: false, icon: ''}
   name: label_phone
-  layout_properties: {grid_position: 'SJFJRO,LYGERS'}
+  layout_properties: {grid_position: 'TVWPNT,WPKKON'}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
     foreground: '', visible: true, text: 'Why do we need this?', font_size: 10, font: '',
     spacing_above: small, icon_align: left, spacing_below: medium, italic: true, background: '',
     bold: false, underline: false, icon: ''}
   name: why_phone
-  layout_properties: {grid_position: 'SJFJRO,SJEDHR'}
+  layout_properties: {grid_position: 'GWNHOF,SUVINE'}
   event_bindings: {click: why_phone_click}
+- type: Spacer
+  properties: {height: 32}
+  name: spacer_2
+  layout_properties: {grid_position: 'PZVHKZ,GDHWTC'}
 - type: TextBox
-  properties: {role: null, width: default, align: center, hide_text: false, placeholder: '1234567890',
-    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 18,
+  properties: {role: null, width: default, align: center, hide_text: false, placeholder: (123) 456-7890,
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 22,
     font: '', spacing_above: none, type: telephone, spacing_below: medium, italic: false,
     background: '', bold: false, underline: false}
   name: phone
-  layout_properties: {grid_position: 'NWTPQF,EDARRZ'}
+  layout_properties: {grid_position: 'PZVHKZ,PRPRNK'}
   event_bindings: {pressed_enter: phone_pressed_enter}
+- type: Spacer
+  properties: {height: 32}
+  name: spacer_1
+  layout_properties: {grid_position: 'PZVHKZ,WMKAKM'}
 - type: Button
   properties: {role: null, width: default, align: center, border: '', enabled: true,
-    foreground: '', visible: true, text: Add Contact, font_size: 18, font: '', spacing_above: none,
+    foreground: '', visible: true, text: Add Contact, font_size: 22, font: '', spacing_above: none,
     icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
     underline: false, icon: ''}
   name: go_button
-  layout_properties: {grid_position: 'VYLWEW,USIQIL', row_background: ''}
+  layout_properties: {grid_position: 'MDOSBY,AKXZGT', row_background: ''}
   event_bindings: {click: add_connection}
 - type: Timer
   properties: {interval: 10}
@@ -43,6 +58,6 @@ components:
   event_bindings: {tick: timer_1_tick}
 container:
   type: ColumnPanel
-  properties: {role: null, width: default, border: '', foreground: '', visible: true,
-    row_spacing: 10, wrap_on: never, spacing_above: medium, col_widths: '{}', spacing_below: small,
-    background: ''}
+  properties: {role: dialog, width: default, border: '', foreground: '', visible: true,
+    row_spacing: 10, wrap_on: never, spacing_above: small, col_widths: '{"GDHWTC":15,"PRPRNK":30,"WMKAKM":15}',
+    spacing_below: small, background: ''}

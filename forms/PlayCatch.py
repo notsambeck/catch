@@ -39,11 +39,13 @@ class PlayCatch (PlayCatchTemplate):
     
     if game != 'wall' and game != 'robot':
       if not self.game['is_active']:
-        activate = anvil.server.call_s('make_game_active', self.game.get_id())
-        assert activate['success']
-        self.game = activate['game']
+        with Notification('Starting game...'):
+          activate = anvil.server.call_s('make_game_active', self.game.get_id())
+          assert activate['success']
+          self.game = activate['game']
 
       self.am0 = self.game['player_0'] == self.me
+      self.has_ball = self.game['has_ball']
       
     if game == 'robot':
       self.am0 = True
@@ -72,9 +74,9 @@ class PlayCatch (PlayCatchTemplate):
     else:
       if self.game != 'robot':
         if self.am0:
-          self.i_have_ball = self.game['has_ball'] == 0
+          self.i_have_ball = self.has_ball == 0
         else:
-          self.i_have_ball = self.game['has_ball'] == 1
+          self.i_have_ball = self.has_ball == 1
       
       if self.i_have_ball:
         self.ball_x = .12
@@ -111,6 +113,9 @@ class PlayCatch (PlayCatchTemplate):
     if self.game == 'robot':
       return self.throw_robot()    
     
+    # update local game state so slow server doesn't break this
+    self.has_ball = not self.has_ball
+    
     # reset y velocity
     self.ball_y = .78
     self.ball_vy = .06
@@ -121,6 +126,11 @@ class PlayCatch (PlayCatchTemplate):
 
     # tell server that ball has been thrown
     throw_status = anvil.server.call_s('throw', self.game.get_id())
+    if throw_status['add_home']:
+      c = confirm('See when {} throws the ball back! Add Catch to your home screen. Want help?'
+                  .format(self.p1_name), title='Nice Throw!',)
+      if c:
+        open_form('MyAccountScreen')
     
     if not throw_status['success']:
       print('Throw failed:', throw_status['msg'])
@@ -194,7 +204,7 @@ class PlayCatch (PlayCatchTemplate):
     c.clear_rect(0, 0, self.w * 1.5, self.h * .65)
     
     # sun
-    sun_height = (((hr % 12)-6)**2 - 10) * -.02
+    sun_height = (((hr % 12)-6)**2 - 15) * -.02
     # print(sun_height)
     drawing.Circle(0.8, sun_height, 0.02, colors.sun).draw()
     
@@ -226,8 +236,8 @@ class PlayCatch (PlayCatchTemplate):
     if self.game != 'wall':
       if self.game == 'robot':
         drawing.Rectangle(.9, .57, .08, .3, self.opp_color_1).draw()
-        drawing.Rectangle(.9, .57, .08, .06, self.opp_color_2).draw()
-        drawing.Rectangle(.9, .79, .03, .05, self.opp_color_2).draw()
+        drawing.Rectangle(.9, .57, .08, .1, self.opp_color_2).draw()
+        drawing.Rectangle(.87, .79, .04, .06, self.opp_color_2).draw()
       else:
         drawing.Rectangle(.9, .57, .04, .3, self.opp_color_1).draw()
         drawing.Circle(.88, .57, .035, self.opp_color_2).draw()
@@ -258,8 +268,8 @@ class PlayCatch (PlayCatchTemplate):
         ball = drawing.Circle(self.ball_x - .002 * i, self.ball_y - .001 * i, ball_r + i * .002, filled=False).draw()
 
     # text:
-    c.font = '{}px sans-serif'.format(self.h//16)
-    pad = 7
+    c.font = '{}px sans-serif'.format(self.h//12)
+    pad = 9
 
     # wall text
     if self.game == 'wall':
@@ -267,44 +277,37 @@ class PlayCatch (PlayCatchTemplate):
       c.text_align = 'left'
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(throws), pad, pad)
-      c.fill_text('RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 14)
+      c.fill_text('WALL RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 11)
       c.text_align = 'center'
       c.text_baseline = 'bottom'
-      if throws < 3 and self.counter % 5:
+      if throws < 2 and self.counter % 5:
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
-      elif self.apple_counter == 3:
-        c.fill_text('Hmmmm...', c.get_width() // 2, self.h - pad) 
-      elif self.apple_counter == 4:
-        c.fill_text('Maybe I should invest in BallCoin.', c.get_width() // 2, self.h - pad)
-      elif self.apple_counter == 6:
-        c.fill_text('Nah.', c.get_width() // 2, self.h - pad)
         
     elif self.game == 'robot':
       throws = get_open_form().robot_throws
       c.text_align = 'left'
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(throws), pad, pad)
-      c.fill_text('RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 14)
+      c.fill_text('ROBOT RANK: {}'.format(self.me['wall_rank']), pad, pad + self.h // 11)
       c.text_align = 'center'
       c.text_baseline = 'bottom'
-      if throws < 2 and self.counter % 5:
+      if throws < 1 and self.counter % 5:
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
-      elif not self.robot_counter % 2:
-        c.fill_text('I AM INTERESTED IN CRYPTOCURRENCIES.', c.get_width() // 2, self.h - pad)
-        
+
     else:
+      # PvP game
       c.text_align = 'right'
       c.text_baseline = 'bottom'
-      c.fill_text(self.p1_name, self.w - pad, self.h - pad)
+      c.fill_text(self.p1_name, self.w - pad * 4, self.h - pad)
       c.text_align = 'left'
       c.fill_text('Me', pad, self.h - pad)
       c.text_baseline = 'top'
       c.fill_text('THROWS: {}'.format(self.game['throws']), pad, pad)
-      c.fill_text('RANK: {}'.format(self.game['game_rank']), pad, pad + self.h // 14)
-      if self.i_have_ball and self.game['throws'] <= 4 and not self.ball_moving and self.counter % 5:
+      c.fill_text('GAME RANK: {}'.format(self.game['game_rank']), pad, pad + self.h // 11)
+      if self.i_have_ball and self.me['is_new'] and not self.ball_moving and self.counter % 5:
         c.text_align = 'center'
         c.text_baseline = 'bottom'
-        c.fill_text('TAP TO THROW', self.w // 2, self.h - pad)
+        c.fill_text('TAP TO THROW', self.w // 2, self.h // 2)
     
     # move ball: not wall
     if self.ball_moving and not self.game == 'wall':
@@ -337,19 +340,23 @@ class PlayCatch (PlayCatchTemplate):
         self.ball_arrived()
 
   def update(self, updated_game):
-    # update from server fed by game_list_element
+    # update from server fed by GameListElement
     if self.game != 'wall' and not self.ball_moving:
-      if updated_game['has_ball'] != self.game['has_ball']:
-        # print('updating from server...')
-        self.game = updated_game
+      # print('updating from server...')
+      self.game = updated_game
+      if self.has_ball != self.game['has_ball']:
+        self.has_ball = not self.has_ball
         self.ball_moving = True
-        self.ball_steps = 0
-        self.ball_vy = .06
+      self.ball_steps = 0
+      self.ball_vy = .06
 
   def canvas_1_show (self, **event_args):
     # This method is called when the Canvas is shown on the screen
     self.w, self.h = drawing.CanvasObject.set_canvas(self.canvas_1)
-    # print('canvas: w={} h={}'.format(self.w, self.h))
+    if self.game == 'wall':
+      print('canvas for wall: {} x {}'.format(self.w, self.h))
+    else:
+      print('canvas: w={} h={}'.format(self.w, self.h))
     self.canvas_1.height = '{}px'.format(self.h)
     self.canvas_1.reset_context()
 

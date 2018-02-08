@@ -6,12 +6,12 @@ white = '#FFFFFF'
 black = '#000000'
 accent = '#9999DD'
 off = '#AA3300'
-cloud1 = "rgba(220,220,210,.2)"
-cloud2 = "rgba(190,190,190,.25)"
-cloud3 = "rgba(230,220,210,.8)"
+cloud1 = "rgba(220,150,180,.2)"
+cloud2 = "rgba(250,220,140,.15)"
+cloud3 = "rgba(250,250,230,.3)"
 
-building1 = '#A88'
-building2 = '#967'
+building1 = '#988'
+building2 = '#667'
 skin = '#AA9900'
 
 apple = '#CCEE00'
@@ -26,4 +26,4 @@ leaf4 = "rgba(40,150,60,.8)"
 leaf5 = "rgba(70,120,30,.7)"
 
 sun = '#FA9'
-sky = '#E9A'
+sky = '#D89'

@@ -1,0 +1,16 @@
+container:
+  type: ColumnPanel
+  properties: {role: null, width: default, border: '', foreground: '', visible: true,
+    row_spacing: 10, wrap_on: mobile, spacing_above: large, col_widths: '{}', spacing_below: small,
+    background: ''}
+components:
+- type: Label
+  properties: {role: dialog, width: default, align: center, border: '', foreground: '',
+    visible: true, text: 'Server dropped the ball.
+
+
+      Please refresh your browser!', font_size: 24, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+    underline: false, icon: ''}
+  name: label_1
+  layout_properties: {grid_position: 'APYCJB,IQZLEX'}

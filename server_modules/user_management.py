@@ -90,9 +90,30 @@ def add_connection(phone):
             'msg': 'new game created',
             'game': game,}
 
+# insecure login from stored user id:
+  '''
+  if debug:
+    print('my_id passed by browser: {}'.format(str(my_id)))
+  if my_id:
+    me = app_tables.users.get_by_id(my_id)
+    if debug:
+      print('new session from browser')
+      print('would cookie have worked?')
+      print(anvil.server.cookies.local.get("user_id", False))
+      try:
+        cookie_id = anvil.server.cookies.local['user_id']
+        print('method2: {}'.format(cookie_id))
+      except:
+        print('user_id not found (errored)')
+    row_login(me, True)
+        
+    return {'success': True,
+            'user': me,
+            'msg': 'new session - browser remembered id',}
+  '''
 
 @anvil.server.callable
-def start_session(my_id=None):
+def start_session():
   '''
   start a new session for returning user.
   
@@ -116,7 +137,7 @@ def start_session(my_id=None):
      'msg': status msg,}
   '''
   if debug:
-    print('start_session({})'.format(my_id))
+    print('start_session...')
   
   me = anvil.server.session.get('me', False)
   if debug:
@@ -129,26 +150,7 @@ def start_session(my_id=None):
     return {'success': True,
             'user': me,
             'msg': 'restart existing session',}
-  
-  if debug:
-    print('my_id passed by browser: {}'.format(str(my_id)))
-  if my_id:
-    me = app_tables.users.get_by_id(my_id)
-    if debug:
-      print('new session from browser')
-      print('would cookie have worked?')
-      print(anvil.server.cookies.local.get("user_id", False))
-      try:
-        cookie_id = anvil.server.cookies.local['user_id']
-        print('method2: {}'.format(cookie_id))
-      except:
-        print('user_id not found (errored)')
-    row_login(me, True)
-        
-    return {'success': True,
-            'user': me,
-            'msg': 'new session - browser remembered id',}
-  
+ 
   # not live session; is there a cookie?
   # if so log back in and remember.
   my_id = anvil.server.cookies.local.get('user_id', False)
@@ -158,7 +160,7 @@ def start_session(my_id=None):
   if my_id:
     # clear cookie and make new one
     me = app_tables.users.get_by_id(my_id)
-    row_login(me, True)
+    row_login(me, remember_me=True, cookie_supplied=True)
     return {'success': True,
             'user': me,
             'msg': 'cookie found, logging in'}
@@ -170,7 +172,7 @@ def start_session(my_id=None):
           'msg': 'no login information found, please log in',}
 
 
-def row_login(user_row, remember_me):
+def row_login(user_row, remember_me, cookie_supplied=False):
   '''
   does the actions to start new session for a user row
   
@@ -178,27 +180,30 @@ def row_login(user_row, remember_me):
   
   '''
   if debug:
-    print('row_login: user={} remember_me={}'.format(user_row['handle'], str(remember_me)))
+    print('{}:\nrow_login(remember_me={})'.format(user_row['handle'], str(remember_me)))
     
   # forget user (we are only using cookie at this time)
-  anvil.users.force_login(user_row, remember=False)  
+  anvil.users.force_login(user_row, remember=False,)  
   
   anvil.server.session['me'] = user_row
   anvil.server.session['remember_me'] = remember_me
 
-  if remember_me:
+  if remember_me and not cookie_supplied:
     anvil.server.cookies.local.set(365, user_id=user_row.get_id())
-    if debug:
+    if False:
       print('wrote cookie, now reading: {}'.format(anvil.server.cookies.local.get("user_id", False)))
+      
+  app_tables.user_actions.add_row(user=user_row, action_type='login', time=datetime.utcnow())
   
+
   if user_row['phone_hash'] == '5555555555':
     if debug:
       start_time = datetime.utcnow()
       print('Sam logged in. ranking...')
     generate_game_ranks()
     generate_wall_ranks()
-    if debug:
-      print('done. time={}'.format(datetime.utcnow() - start_time))
+    generate_robot_ranks()
+    print('done. time={}'.format(datetime.utcnow() - start_time))
   
   return True
 
@@ -317,6 +322,7 @@ def create_user(phone, password, handle):
       existing.update(
         dummy=False,
         enabled=False,
+        is_new=True,
         handle=handle,
         password_hash=bhash(password),
         twilio_code=generate_code(),
@@ -329,6 +335,7 @@ def create_user(phone, password, handle):
   else:
     user = app_tables.users.add_row(
       enabled=False,
+      is_new=True,
       dummy=False,
       password_hash=bhash(password),
       phone_hash=hash_phone(phone),
@@ -365,6 +372,9 @@ def create_dummy(phone):
       'msg': 'not logged in',
     }
   
+  # USER ACTIONS LOG
+  app_tables.user_actions.add_row(user=me, action_type='create_dummy', time=datetime.utcnow())
+  
   phone = is_valid_number(phone)
   if not phone:                    # invalid number
     return {
@@ -391,6 +401,7 @@ def create_dummy(phone):
     if user:
       return add_connection(phone)
     
+
     else:
       return {'success': False,
               'msg': 'unknown failure in create_dummy'}
@@ -437,7 +448,7 @@ def get_user_id_status_by_phone(phone):
 
 
 @anvil.server.callable
-def confirm_account(code, phone):
+def confirm_account(code, phone, remember_me):
   '''
   confirm a user has their twilio code
 
@@ -465,9 +476,7 @@ def confirm_account(code, phone):
   
   if code == me['twilio_code']:
     me['enabled'] = True
-    anvil.users.force_login(me)
-    start_session()
-    
+    row_login(me, remember_me=remember_me)
     
     # pre-activate games that dummy was in already
     existing_games = app_tables.games.search(player_1=me)
@@ -475,6 +484,9 @@ def confirm_account(code, phone):
     for game in existing_games:
       game['p1_enabled'] = True
       game['throws'] = -1
+      
+    # USER ACTIONS LOG
+    app_tables.user_actions.add_row(user=me, action_type='confirm_account', time=datetime.utcnow())
   
     return {'success': True, 
             'msg': 'confirmed',
@@ -491,7 +503,10 @@ def generate_game_ranks():
   for i, game in enumerate(app_tables.games.search(tables.order_by('throws', ascending=False))):
     game['game_rank'] = i+1
 
-
 def generate_wall_ranks():
   for i, user in enumerate(app_tables.users.search(tables.order_by('wall_throws', ascending=False))):
     user['wall_rank'] = i+1
+    
+def generate_robot_ranks():
+  for i, user in enumerate(app_tables.users.search(tables.order_by('robot_throws', ascending=False))):
+    user['robot_rank'] = i+1

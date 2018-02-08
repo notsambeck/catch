@@ -11,7 +11,7 @@ error_handler = ErrorHandler(alert, open_form)
 
 
 class MyAccountScreen (MyAccountScreenTemplate):
-  def __init__(self, **properties):
+  def __init__(self, view='account', **properties):
     # You must call self.init_components() before doing anything else in this function
     self.init_components(**properties)
 
@@ -22,36 +22,11 @@ class MyAccountScreen (MyAccountScreenTemplate):
     set_default_error_handling(error_handler)
     
     self.me = anvil.users.get_user()
+    self.view = view
     
     self.handle_label.text = self.me['handle']
     self.phone_number_label.text = self.me['phone_hash']
-    my_games = anvil.server.call_s('get_games')
-    
-    if not my_games['success']:
-      Notification(my_games['msg']).show()
-    
-    throws = 0
-    for game in my_games['order']:
-      throws += my_games['games'][game]['throws']
-    throws += self.me['wall_throws']
-   
-    self.throws_label.visible = True
-    self.throws_label.text = str(throws)
-    
-    if self.me['color_1']:
-      self.enter_color_1.text = self.me['color_1']
-    else:
-      self.enter_color_1.text = colors.black
-    if self.me['color_2']:
-      self.enter_color_2.text = self.me['color_2']
-    else:
-      self.enter_color_2.text = colors.skin 
-    
-    self.color1.background = self.enter_color_1.text
-    self.color2.background = self.enter_color_2.text
-    
-    self.reset_go_button.enabled = False
-      
+
     # print(name)
     self.handle_label_top.text = 'logged in as: {}'.format(self.me['handle'])
 
@@ -81,7 +56,53 @@ class MyAccountScreen (MyAccountScreenTemplate):
     if update['success']:
       self.me = update['user']
 
-  def back_to_games_button_click (self, **event_args):
+  def back_to_games_button_click(self, **event_args):
     # This method is called when the button is clicked
+    self.content_panel.clear()
     open_form('PlayScreen', self.me)
+
+  def content_panel_show (self, **event_args):
+    # This method is called when the column panel is shown on the screen
+    if self.view == 'account':
+      my_games = anvil.server.call_s('get_games')
+      
+      if not my_games['success']:
+        Notification(my_games['msg']).show()
+      
+      throws = 0
+      for game in my_games['order']:
+        throws += my_games['games'][game]['throws']
+      throws += self.me['wall_throws']
+    
+      self.throws_label.visible = True
+      self.throws_label.text = str(throws)
+      
+      if self.me['color_1']:
+        self.enter_color_1.text = self.me['color_1']
+      else:
+        self.enter_color_1.text = colors.black
+      if self.me['color_2']:
+        self.enter_color_2.text = self.me['color_2']
+      else:
+        self.enter_color_2.text = colors.skin 
+      
+      self.color1.background = self.enter_color_1.text
+      self.color2.background = self.enter_color_2.text
+      
+      self.account_panel.visible = True
+      return
+      
+    if self.view == 'help':
+      self.help_panel.visible = True
+
+  def my_account_button_click (self, **event_args):
+    # This method is called when the button is clicked
+    self.account_panel.visible = True
+    self.help_panel.visible = False
+
+  def add_home_button_click (self, **event_args):
+    # This method is called when the button is clicked
+    self.account_panel.visible = False
+    self.help_panel.visible = True
+
 

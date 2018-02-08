@@ -54,7 +54,7 @@ class AddContacts (AddContactsTemplate):
       if c:
         alert('''Let's play Catch. Hey... it's free.
             https://playcatch.anvilapp.net''',
-            title='Copy this message and text it!')  
+            title='Copy this message and send it!')
         dummy_connection = anvil.server.call('create_dummy', phone)
         Notification(dummy_connection['msg']).show()
         get_open_form().add_game(dummy_connection['game'])

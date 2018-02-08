@@ -25,6 +25,8 @@ class GameListElement(GameListElementTemplate):
     # set self.me, self.you, self.am0
     self.me = user
     self.am0 = self.game['player_0'] == self.me
+    self._id = game.get_id()
+    
     if self.am0:
       if self.game['p1_enabled']:
         self.you = self.game['player_1']['handle']
@@ -97,19 +99,17 @@ class GameListElement(GameListElementTemplate):
           timestring = '{} minutes ago'.format(delta.seconds // 60)
 
       if (self.am0 and self.game['has_ball'] == 0) or (not self.am0 and self.game['has_ball'] == 1):
-        self.status_label.text = '{} threw you ball #{} {}'.format(self.you,
-                                                                      self.game['throws'],
-                                                                      timestring,)
-        self.status_label.foreground = colors.highlight
+        self.status_label.text = '{} threw you ball {}'.format(self.you,
+                                                                timestring,)
+        self.status_label.foreground = colors.grass
       else:
-        self.status_label.text = 'You threw ball #{} to {} {}'.format(self.game['throws'],
-                                                                         self.you,
-                                                                         timestring,)
-        self.status_label.foreground = colors.off
+        self.status_label.text = 'You threw ball to {} {}'.format(self.you,
+                                                                  timestring,)
+        self.status_label.foreground = colors.building1
 
     # game inactive but both ready
     elif self.game['p1_enabled']:  
-      self.status_label.text = 'Start new game with {}!'.format(self.you)
+      self.status_label.text = 'Start game with {}!'.format(self.you)
       self.status_label.foreground = colors.black
       self.background = colors.highlight
 
@@ -119,25 +119,34 @@ class GameListElement(GameListElementTemplate):
       self.status_label.foreground = colors.gray
    
   def update(self, updated_game):
-    if self.game['throws'] != updated_game['throws']:
-      self.game = updated_game
+    self.game = updated_game
+    if self.child:
+      self.child.update(updated_game)
+    else:
       self.set_labels()
-      if self.child:
-        self.child.update(updated_game)
 
   def expand(self, **event_args):
+    start = datetime.utcnow()
     if not self.game['p1_enabled']:
       return False
     # This method is called when the link is clicked
     # with Notification('Loading game...'):
     # self.parent.raise_event_on_children('x-collapse')
-    get_open_form().collapse_except_id(self.game.get_id())
+    
+    # print('TIMING...')
+    top = get_open_form()
+    top.collapse_except_id(self.game)
+    #print('TIME: {}'.format(str(datetime.utcnow() - start)))
+    
     self.child = PlayCatch(self.game, self.me, self)
     self.game_view.add_component(self.child)
     self.game_summary.visible = False
     self.background = colors.white
     
-  def collapse(self, **kwargs):
+  def collapse(self, x, **kwargs):
+    if x == self.game:
+      # print('Collapse: not collapsing self')
+      return
     self.game_view.clear()
     self.child = None
     self.game_summary.visible = True
