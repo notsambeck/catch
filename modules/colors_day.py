@@ -17,7 +17,7 @@ skin = '#AA9900'
 apple = '#CCEE00'
 red = '#883300'
 darkred = '#602000'
-grass = "rgba(90,140,70,1)"
+grass = "rgba(60,130,50,1)"
 
 leaf1 = "rgba(110,160,90,.6)"
 leaf2 = "rgba(90,160,80,.9)"
