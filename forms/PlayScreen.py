@@ -64,41 +64,40 @@ class PlayScreen (PlayScreenTemplate):
     if not self.main_panel.visible:
       self.main_panel.visible = True
     
-    if server['order'] == self.game_list:  # if they are unchanged: update each
-      for _id in server['order']:
-        server_game = server['games'][_id]
-        self.game_views[_id].update(server_game)
-      # print('quick updated game_list') 
-      return True
-    
-    # local game_list is out of date. 
-    print('full PlayScreen update starting')
-    position = 0   # position in rendered game views
+    print('\nPlayScreen update starting...')
+    print('self.game_list:', self.game_list)
+    print('server:', server['order'])
+    game_views = self.main_panel.get_components()
+    position = 0
     popped = set()
     
     for game_id in server['order']:
+      print('game {} goes at position {}'.format(game_id, position))
+      
       if position < len(self.game_list) and game_id == self.game_list[position]:
-        print('already ordered')
+        print('{} already in order.'.format(game_id))
         self.game_views[game_id].update(server['games'][game_id])
         position += 1
       
       else:
         if game_id in popped:
-          print('push game: {}'.format(game_id))
-          self.main_panel.add_component(self.game_views[game_id])
+          print('pushing game {} from popped to position {} (more may follow).'.format(game_id, position))
+          self.main_panel.add_component(self.game_views[game_id], index=position)
           popped.remove(game_id)
           self.game_views[game_id].update(server['games'][game_id])
+          game_view_position += 1
 
         elif self.game_views.get(game_id, False):
           # server order calls for a game that is rendered out of order
           print('game {} exists, digging for it...'.format(game_id))
-          while game_id != self.game_list[position]:
+          while position < len(self.game_list) and game_id != self.game_list[position]: 
             out_of_order = self.game_list[position]
-            print('popping game: {}'.format(out_of_order))
+            print('pop game: {}'.format(out_of_order))
             self.game_views[out_of_order].remove_from_parent()
             popped.add(out_of_order)
             position += 1
-          print('dig complete; updating')
+            print('position now {}'.format(position))
+          print('dig complete; updating game {} (already placed)'.format(game_id))
           self.game_views[game_id].update(server['games'][game_id])
           position += 1
 
@@ -108,7 +107,7 @@ class PlayScreen (PlayScreenTemplate):
           self.main_panel.add_component(self.game_views[game_id])
           
     if len(popped):
-      print('WARNGING lost pop game {}'.format(popped))
+      print('WARNGING lost popped game {}'.format(popped))
       
     self.game_list = server['order']
     print('updated game_list from server')

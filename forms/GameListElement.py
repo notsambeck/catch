@@ -25,6 +25,8 @@ class GameListElement(GameListElementTemplate):
     # set self.me, self.you, self.am0
     self.me = user
     self.am0 = self.game['player_0'] == self.me
+    self._id = game.get_id()
+    
     if self.am0:
       if self.game['p1_enabled']:
         self.you = self.game['player_1']['handle']
