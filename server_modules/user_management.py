@@ -434,6 +434,8 @@ def get_user_id_status_by_phone(phone):
       'msg': 'not logged in',
     }
   
+  app_tables.user_actions.add_row(user=me, time=datetime.utcnow(), action_type='attempt_add')
+  
   u = app_tables.users.get(phone_hash=hash_phone(phone))  # needs to be called with keyword arg for table column name
   if u:
     return {'success': True,
