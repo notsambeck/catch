@@ -46,7 +46,7 @@ class MyAccountScreen (MyAccountScreenTemplate):
   def color_set_button_click (self, **event_args):
     # This method is called when the button is clicked
     if not is_valid_color(self.enter_color_1.text) or not is_valid_color(self.enter_color_2.text):
-      Notification('invalid color. 6 hex digits RRGGBB: 0-9/A-F').show()
+      Notification('Please enter TWO valid colors. 6 hex digits RRGGBB: 0-9/A-F').show()
       return False
 
     self.color1.background = self.enter_color_1.text
