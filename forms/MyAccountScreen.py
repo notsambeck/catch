@@ -45,12 +45,15 @@ class MyAccountScreen (MyAccountScreenTemplate):
 
   def color_set_button_click (self, **event_args):
     # This method is called when the button is clicked
-    if not is_valid_color(self.enter_color_1.text) or not is_valid_color(self.enter_color_2.text):
+    c1 = is_valid_color(self.enter_color_1.text)
+    c2 = is_valid_color(self.enter_color_2.text)
+    
+    if not c1 or not c2:
       Notification('Please enter TWO valid colors. 6 hex digits RRGGBB: 0-9/A-F').show()
       return False
 
-    self.color1.background = self.enter_color_1.text
-    self.color2.background = self.enter_color_2.text
+    self.color1.background = '#' + c1
+    self.color2.background = '#' + c2
     
     update = anvil.server.call('update_colors', self.enter_color_1.text, self.enter_color_2.text)
     if update['success']:

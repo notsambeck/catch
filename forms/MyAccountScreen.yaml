@@ -120,6 +120,13 @@ components:
     components:
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
+        visible: true, text: My Account, font_size: 18, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: label_12
+      layout_properties: {grid_position: 'YWLKFV,ZLZDWY'}
+    - type: Label
+      properties: {role: null, width: default, align: left, border: '', foreground: '',
         visible: true, text: 'Username:', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
         underline: false, icon: ''}
@@ -157,8 +164,15 @@ components:
       layout_properties: {grid_position: 'FRGUGF,YIMKLB'}
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
-        visible: true, text: "Hex colors are RRGGBB values written in hex - 0-9/A-F.\n\
-          \ F = 16, A=10, 9=9, 1=1. #FF0000 is red. Try it out! Or don't!", font_size: null,
+        visible: true, text: Change my appearance, font_size: 18, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: label_11
+      layout_properties: {grid_position: 'OUACZM,MUPKOX'}
+    - type: Label
+      properties: {role: null, width: default, align: left, border: '', foreground: '',
+        visible: true, text: "Hex colors are RGB values written in hexidecimal - 0-9/A-F.\n\
+          \ F = 16, A=10, 9=9, 1=1. #F00 is bright red. Try it out!", font_size: null,
         font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
         background: '', bold: false, underline: false, icon: ''}
       name: label_9
@@ -171,7 +185,7 @@ components:
       name: color1
       layout_properties: {grid_position: 'LARUSL,EWJGMS'}
     - type: TextBox
-      properties: {role: null, width: default, align: left, hide_text: false, placeholder: FFAAAA,
+      properties: {role: null, width: default, align: left, hide_text: false, placeholder: F09,
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
@@ -186,7 +200,7 @@ components:
       name: color2
       layout_properties: {grid_position: 'SFFOKA,ZUUNFZ'}
     - type: TextBox
-      properties: {role: null, width: default, align: left, hide_text: false, placeholder: AA3333,
+      properties: {role: null, width: default, align: left, hide_text: false, placeholder: 06A,
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
@@ -204,6 +218,14 @@ components:
       properties: {height: 32}
       name: spacer_4
       layout_properties: {grid_position: 'EGMKAO,VTZDAB'}
+    - type: Label
+      properties: {role: null, width: default, align: left, border: '', foreground: '',
+        visible: true, text: "Need help with your account? Text or email Chris (for\
+          \ now). \nflanaganchris11@gmail.com", font_size: 18, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_13
+      layout_properties: {grid_position: 'FVDXHB,IYBIOO'}
     - type: Button
       properties: {role: null, width: default, align: center, border: '', enabled: true,
         foreground: '', visible: true, text: Back to games, font_size: 22, font: '',
