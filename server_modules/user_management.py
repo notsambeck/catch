@@ -29,6 +29,8 @@ def add_connection(phone):
   adds a connection to graph from current logged in to user with phone number
   user ('me') is player 0, other_user is player 1
   
+  success = True if a new connection is added, else False
+  
   args:
     phone: other_user's phone number
     
