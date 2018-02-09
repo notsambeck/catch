@@ -35,6 +35,7 @@ class AddContacts (AddContactsTemplate):
       connection = anvil.server.call('add_connection', phone)
       if connection['success']:
         get_open_form().add_game(connection['game'])
+        # TODO: this should open that game if it's not open.
       Notification(connection['msg']).show()
     
     elif user_check['exists'] and not user_check['enabled']:
