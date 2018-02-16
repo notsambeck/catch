@@ -4,7 +4,7 @@ import tables
 from tables import app_tables
 import anvil.server
 
-from utils import is_valid_number, hash_phone, generate_code
+from utils import is_valid_number, is_valid_color, hash_phone, generate_code
 from twilio_auth import send_authorization_message
 
 from datetime import datetime
@@ -237,8 +237,8 @@ def update_colors(color1, color2):
       'msg': 'not logged in',
     }
 
-  me['color_1'] = color1
-  me['color_2'] = color2
+  me['color_1'] = '#' + is_valid_color(color1)
+  me['color_2'] = '#' + is_valid_color(color2)
   return {'success': True,
           'user': me,}
 

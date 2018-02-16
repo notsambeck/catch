@@ -6,6 +6,13 @@ components:
   name: content_panel
   layout_properties: {slot: default}
   components:
+  - type: Label
+    properties: {role: null, width: default, align: left, border: '', foreground: '',
+      visible: true, text: "Need help? Text or email Chris (for now). \nflanaganchris11@gmail.com",
+      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: false, background: '', bold: true, underline: false, icon: ''}
+    name: label_10
+    layout_properties: {grid_position: 'MYKFLH,RPULVJ'}
   - type: ColumnPanel
     properties: {role: null, width: default, border: '', foreground: '', visible: false,
       row_spacing: 10, wrap_on: mobile, spacing_above: small, col_widths: '{}', spacing_below: small,
@@ -92,6 +99,10 @@ components:
         spacing_below: small, background: ''}
       name: image_4
       layout_properties: {grid_position: 'EJWTTV,JWPVNR'}
+    - type: Spacer
+      properties: {height: 32}
+      name: spacer_5
+      layout_properties: {grid_position: 'WGIICW,VNEVZA'}
     - type: Button
       properties: {role: null, width: default, align: center, border: '', enabled: true,
         foreground: '', visible: true, text: Back to games, font_size: 22, font: '',
@@ -109,8 +120,15 @@ components:
     components:
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
+        visible: true, text: My Account, font_size: 18, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: label_12
+      layout_properties: {grid_position: 'YWLKFV,ZLZDWY'}
+    - type: Label
+      properties: {role: null, width: default, align: left, border: '', foreground: '',
         visible: true, text: 'Username:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
         underline: false, icon: ''}
       name: username
       layout_properties: {grid_position: 'EDAHQF,PLHLHE'}
@@ -121,7 +139,7 @@ components:
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
         visible: true, text: 'Phone number:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
         underline: false, icon: ''}
       name: label_2
       layout_properties: {grid_position: 'OVZUFB,JGQCPG'}
@@ -132,7 +150,7 @@ components:
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
         visible: true, text: 'Total throws:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
         underline: false, icon: ''}
       name: label_3
       layout_properties: {grid_position: 'AXPJOJ,VEZMQT'}
@@ -146,13 +164,28 @@ components:
       layout_properties: {grid_position: 'FRGUGF,YIMKLB'}
     - type: Label
       properties: {role: null, width: default, align: left, border: '', foreground: '',
+        visible: true, text: Change my appearance, font_size: 18, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: label_11
+      layout_properties: {grid_position: 'OUACZM,MUPKOX'}
+    - type: Label
+      properties: {role: null, width: default, align: left, border: '', foreground: '',
+        visible: true, text: "Hex colors are RGB values written in hexidecimal - 0-9/A-F.\n\
+          \ F = 16, A=10, 9=9, 1=1. #F00 is bright red. Try it out!", font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
+      name: label_9
+      layout_properties: {grid_position: 'BBWCFR,EMOLEK'}
+    - type: Label
+      properties: {role: null, width: default, align: left, border: '', foreground: '',
         visible: true, text: Hex color 1, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '#999',
         bold: false, underline: false, icon: ''}
       name: color1
       layout_properties: {grid_position: 'LARUSL,EWJGMS'}
     - type: TextBox
-      properties: {role: null, width: default, align: left, hide_text: false, placeholder: '',
+      properties: {role: null, width: default, align: left, hide_text: false, placeholder: F09,
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
@@ -167,7 +200,7 @@ components:
       name: color2
       layout_properties: {grid_position: 'SFFOKA,ZUUNFZ'}
     - type: TextBox
-      properties: {role: null, width: default, align: left, hide_text: false, placeholder: '',
+      properties: {role: null, width: default, align: left, hide_text: false, placeholder: 06A,
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
@@ -185,6 +218,14 @@ components:
       properties: {height: 32}
       name: spacer_4
       layout_properties: {grid_position: 'EGMKAO,VTZDAB'}
+    - type: Label
+      properties: {role: null, width: default, align: left, border: '', foreground: '',
+        visible: true, text: "Need help with your account? Text or email Chris (for\
+          \ now). \nflanaganchris11@gmail.com", font_size: 18, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_13
+      layout_properties: {grid_position: 'FVDXHB,IYBIOO'}
     - type: Button
       properties: {role: null, width: default, align: center, border: '', enabled: true,
         foreground: '', visible: true, text: Back to games, font_size: 22, font: '',

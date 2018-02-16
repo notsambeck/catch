@@ -130,7 +130,7 @@ class PlayCatch (PlayCatchTemplate):
       c = confirm('See when {} throws the ball back! Add Catch to your home screen. Want help?'
                   .format(self.p1_name), title='Nice Throw!',)
       if c:
-        open_form('MyAccountScreen')
+        open_form('MyAccountScreen', view='help')
     
     if not throw_status['success']:
       print('Throw failed:', throw_status['msg'])
@@ -282,7 +282,9 @@ class PlayCatch (PlayCatchTemplate):
       c.text_baseline = 'bottom'
       if throws < 2 and self.counter % 5:
         c.fill_text('TAP TO THROW', c.get_width() // 2, self.h - pad)
-        
+      if throws == 1:
+        c.fill_text('(scroll down for live games)', c.get_width() // 2, self.h // 2)
+
     elif self.game == 'robot':
       throws = get_open_form().robot_throws
       c.text_align = 'left'
@@ -355,8 +357,6 @@ class PlayCatch (PlayCatchTemplate):
     self.w, self.h = drawing.CanvasObject.set_canvas(self.canvas_1)
     if self.game == 'wall':
       print('canvas for wall: {} x {}'.format(self.w, self.h))
-    else:
-      print('canvas: w={} h={}'.format(self.w, self.h))
     self.canvas_1.height = '{}px'.format(self.h)
     self.canvas_1.reset_context()
 

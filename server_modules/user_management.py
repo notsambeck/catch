@@ -29,6 +29,8 @@ def add_connection(phone):
   adds a connection to graph from current logged in to user with phone number
   user ('me') is player 0, other_user is player 1
   
+  success = True if a new connection is added, else False
+  
   args:
     phone: other_user's phone number
     
@@ -432,6 +434,8 @@ def get_user_id_status_by_phone(phone):
       'success': False,
       'msg': 'not logged in',
     }
+  
+  app_tables.user_actions.add_row(user=me, time=datetime.utcnow(), action_type='attempt_add')
   
   u = app_tables.users.get(phone_hash=hash_phone(phone))  # needs to be called with keyword arg for table column name
   if u:
